@@ -38,32 +38,23 @@ Shared platform for neighbours who would like to meet your next door person shar
 
 
 
-| **Method** | **Route**                          | **Description**                                              | Request  - Body                                          |
-| ---------- | ---------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| `GET`      | `/`                                | Main page route.  Renders home `index` view.                 |                                                          |
-| `GET`      | `/login`                           | Renders `login` form view.                                   |                                                          |
-| `POST`     | `/login`                           | Sends Login form data to the server.   Redirects to the `meal-events` view.                      |                                     |
-| `GET`      | `/signup`                          | Renders `signup` form view.                                  |                                                          |
-| `POST`     | `/signup`                          | Sends Sign Up info to the server and creates user in the DB. Redirects to the `meal-events` view.| 
-                 |            
-| `GET`      | `/profile/:id`            | Private route. Renders `profile` view.             |                                     
-|
-| `GET`      | `/profile/:id/edit`            | Private route. Renders `edit-profile` form view.             |                                                          |
-| `PUT`      | `/profile/:id/edit`            | Private route. Sends edit-profile info to server and updates user in DB. Redirects to the `profile` view.| 
-|
-| `DELETE`      | `/profile/:id/delete`            | Private route. Deeletes the profile from the server and updates DB. Redirects to the `index` view.| 
-|
-| `GET`      | `/events`               | Private route. Render the `meal-events` view.                  |                                                          |
-| `GET`     | `/events/create`              | Private route. Renders a form to add a new event for the current user.     |                                |
-| `POST`     | `/events/create`              | Private route. Adds a new event for the current user.    Redirects to the `meal-events` view. |                                |
-|
-| `GET`   | `/events/:id` | Private route. Renders the `meal-events-details` view. |
-|
-| `PUT`   | `/events/:id/edit` | Private route. Edits the existing event from the current user. Redirects to the `meal-events` view.|  
-|
-| `DELETE`   | `/events/:id/delete` | Private route. Deletes the existing event from the current user. Redirects to the `meal-events` view.|                                                          |
-                                                     
-
+| **Method** | **Route**| **Description**|
+|---|---|---|                             
+| `GET`      | `/`  | Main page route.  Renders home `index` view. 
+| `GET`      | `/login`  | Renders `login` form view.              
+| `POST`     | `/login`  | Sends Login form data to the server. Redirects to the `meal-events` view.        
+| `GET`      | `/signup` | Renders `signup` form view.             
+| `POST`     | `/signup` | Sends Sign Up info to the server and creates user in the DB. Redirects to the `meal-events` view.       
+| `GET`      | `/profile/:id`| Private route. Renders `profile` view.                                  
+| `GET`      | `/profile/:id/edit`| Private route. Renders `edit-profile` form view. 
+| `PUT`      | `/profile/:id/edit`| Private route. Sends edit-profile info to server and updates user in DB. Redirects to the `profile` view.
+| `DELETE`   | `/profile/:id/delete`          | Private route. Deeletes the profile from the server and updates DB. Redirects to the `index` view.
+| `GET`      | `/events`   | Private route. Render the `meal-events` view.
+| `GET`     | `/events/create` | Private route. Renders a form to add a new event for the current user. 
+| `POST`     | `/events/create`  | Private route. Adds a new event for the current user.    Redirects to the `meal-events` view.  
+| `GET`   | `/events/:id` | Private route. Renders the `meal-events-details` view. 
+| `PUT`   | `/events/:id/edit` | Private route. Edits the existing event from the current user. Redirects to the `meal-events` view.
+| `DELETE`   | `/events/:id/delete` | Private route. Deletes the existing event from the current user. Redirects to the `meal-events` view.                                   
 
 
 
@@ -85,8 +76,8 @@ User model
   description: {type: String, required: true} ,
   profileImg: {type: String, required: true} ,
   score: {type: Number} ,
-  hostedEvents: {  type: mongoose.Schema.Types.ObjectId,
-              ref: "MealEvent"},
+  hostedEvents: [{  type: mongoose.Schema.Types.ObjectId,
+              ref: "MealEvent"}],
   attendedEvents: {  type: mongoose.Schema.Types.ObjectId,
               ref: "MealEvent"},
   reviews: {type: Array} ,
@@ -109,13 +100,11 @@ Event model
   eventImg: {type: String} ,
   host: {  type: mongoose.Schema.Types.ObjectId,
               ref: "User"},
-  guest: {  type: mongoose.Schema.Types.ObjectId,
-              ref: "User"},
+  guest: [{  type: mongoose.Schema.Types.ObjectId,
+              ref: "User"}],
   eventDescription:{type: String, required: true} ,
   numberAttend: {type: Number, required: true} ,
-  costScore: {type: Number} ,
-  adressEvent: {  type: mongoose.Schema.Types.ObjectId,
-              ref: "User"},
+  costScore: {type: Number} 
 }
 
 ```
