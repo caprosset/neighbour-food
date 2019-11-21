@@ -48,7 +48,7 @@ Shared platform for neighbours who would like to meet your next door person shar
 | `GET`      | `/profile/:id`| Private route. Renders `profile` view.                                  
 | `GET`      | `/profile/:id/edit`| Private route. Renders `edit-profile` form view. 
 | `PUT`      | `/profile/:id/edit`| Private route. Sends edit-profile info to server and updates user in DB. Redirects to the `profile` view.
-| `DELETE`   | `/profile/:id/delete`          | Private route. Deeletes the profile from the server and updates DB. Redirects to the `index` view.
+| `DELETE`   | `/profile/:id/delete`          | Private route. Deletes the profile from the server and updates DB. Redirects to the `index` view.
 | `GET`      | `/events`   | Private route. Render the `meal-events` view.
 | `GET`     | `/events/create` | Private route. Renders a form to add a new event for the current user. 
 | `POST`     | `/events/create`  | Private route. Adds a new event for the current user.    Redirects to the `meal-events` view.  
@@ -153,4 +153,4 @@ The url to your repository and to your deployed project
 
 The url to your presentation slides
 
-[Slides Link]
+[Slides Link]()
