@@ -144,7 +144,7 @@ Event model
 
 ## Links
 
-[See the Trello board.]
+[See the Trello board.](https://trello.com/invite/b/OBlApTPe/52825291d577d19ce2660b9daef60c74/neighbourfood)
 
 ### Git
 
