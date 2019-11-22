@@ -15,7 +15,7 @@ const UserSchema = Schema({
   profileImg: {type: String, required: true} ,
   score: {type: Number} ,
   hostedEvents: [{  type: mongoose.Schema.Types.ObjectId, ref: "MealEvent"}],
-  attendedEvents: {  type: mongoose.Schema.Types.ObjectId, ref: "MealEvent"},
+  attendedEvents: [{  type: mongoose.Schema.Types.ObjectId, ref: "MealEvent"}],
   reviews: {type: Array} ,
   requests: { type: String, enum: ['pending','confirmed','rejected' ],
 }
