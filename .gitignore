@@ -13,14 +13,19 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.bak
+*.swp
+*~
+*#
 
 # System Files
 .DS_Store
+.DS_Store?
 .AppleDouble
 .LSOverride
 Icon
 Thumbs.db
-*~
+desktop.ini
 ._*
 *.swp
 .Spotlight*
