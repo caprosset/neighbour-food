@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-// GET '/signup' -- renders the sign up form
+
+// GET '/meal-events' -- renders all the events
 router.get('/', (req, res, next) => {
-  res.render('auth-views/signup');
-});
+    res.render('meal-views/show-all');
+  });
+  
+
 
 module.exports = router;
