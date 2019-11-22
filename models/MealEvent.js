@@ -7,7 +7,7 @@ const MealEventSchema = Schema({
   dish: {type: String, required: true} ,
   date: {type: Date, required: true} ,
   eventImg: {type: String} ,
-  host: {  type: mongoose.Schema.Types.ObjectId, ref: "User"},
+  host: {  type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
   guest: [{  type: mongoose.Schema.Types.ObjectId, ref: "User"}],
   eventDescription:{type: String, required: true} ,
   numberAttend: {type: Number, required: true} ,
