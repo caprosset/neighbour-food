@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+// const axios = require('axios');
 const hbs = require('hbs');
 
 const app = express();
@@ -17,15 +18,21 @@ const indexRouter = require('./routes/index');
 const siteRouter = require('./routes/site-routes');
 
 // Mongoose configuration
-mongoose.connect('mongodb://localhost/neighbourfood', {
+mongoose.connect(process.env.MONGODB_URI, {
+  useCreateIndex: true,
+  keepAlive: true,
   useNewUrlParser: true,
+  reconnectTries: Number.MAX_VALUE,
   useUnifiedTopology: true,
 });
 
 // Middleware configuration
 app.use(logger('dev'));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+
+// needed with axios?
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
