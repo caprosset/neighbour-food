@@ -1,5 +1,7 @@
 <div id="form-container">
+
   <h1>Signup</h1>
+
   <form action='/auth/signup' method='POST'>
     <label for=''>Username</label>
     <input type='text' name='username' required>
@@ -13,8 +15,10 @@
         Already have an account? <a href="/login">Login</a>
     </p>
   </form>
+
   {{!-- error message display --}}
   {{#if errorMessage}}
-  <div class="error-message">{{ errorMessage }}</div>
+    <div class="error-message">{{ errorMessage }}</div>
   {{/if}}
+
 </div>
