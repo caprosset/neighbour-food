@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const hbs = require('hbs');
 // const axios = require('axios');
 
@@ -30,8 +31,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use(logger('dev'));
 
 // needed with axios?
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // view engine setup
