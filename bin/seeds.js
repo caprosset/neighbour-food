@@ -230,7 +230,11 @@ const users = [
         const num = Math.floor(Math.random() * (users.length));
         const id = users[num]._id;
         console.log('RANDOM ID', id);
-        return MealEvent.updateOne({ _id: event._id}, {$set: { host: "ObjectId(`${id}`)" }})
+        console.log('EVENT ID', event._id);
+        // MealEvent.find({ _id: event._id}).then((res) => {
+        //   console.log(res);
+    
+        MealEvent.findByIdAndUpdate(event._id, {$set: { host: id }}, {new: true})
       })
     })
     .catch( (err) => console.log(err));
