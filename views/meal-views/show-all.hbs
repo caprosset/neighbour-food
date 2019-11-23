@@ -1,4 +1,27 @@
 <h1>ALL THE EVENTS</h1>
 
+    <ul>
+      {{#each mealEvents}}
+        <li>
+          <a href="/meal-events/{{ this._id }}"></a>
+            {{ this.eventName }}
+          </a>
+          - {{ this.cuisine }}
+          <a href="/meal-events/{{ this._id }}/edit">
+            Edit
+          </a>
+          <form action='/meal-events/delete/{{this._id}}' method="GET">
+            <button> Delete </button>
+          </form>
+
+        </li>
+      {{/each}}
+    </ul>
+
+    <a href="/meal-events/create">
+      Click here to add a new event
+    </a>
+
+
 {{!-- id needs to be changed --}}
 <p><a href="/profile/id">View my profile</a></p>

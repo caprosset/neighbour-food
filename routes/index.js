@@ -8,6 +8,7 @@ const signoutRouter = require('./auth/signout');
 const signupRouter = require('./auth/signup');
 
 
+
 // * '/auth'
 router.use('/auth', authRouter);
 
@@ -19,7 +20,6 @@ router.use('/signout', signoutRouter);
 
 // * '/signup'
 router.use('/signup', signupRouter);
-
 
 
 /* GET home page */
