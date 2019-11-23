@@ -4,7 +4,9 @@ const router = express.Router();
 
 // GET '/meal-events' -- renders all the events
 router.get('/', (req, res, next) => {
-    res.render('meal-views/show-all');
+    console.log(req.session.currentUser);
+    
+    res.render('meal-views/show-all', { userInfo: req.session.currentUser});
   });
   
 
