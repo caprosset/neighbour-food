@@ -1,1 +1,26 @@
 <h1>EDIT USER PROFILE</h1>
+
+<form action='/profile/{{oneUser._id}}/edit' method='POST'>
+    <label for=''>Name</label>
+    <input type='text' name='name' value='{{oneUser.name}}'>
+    <br>
+    <label for=''>Email</label>
+    <input type='email' name='email'  value='{{oneUser.email}}'>
+    <br>
+    <label for=''>Password</label>
+    <input type='password' name='password' value='{{oneUser.password}}'>
+    <br>
+    <label for=''>Adress</label>
+    <input type='text' name='street' value='{{oneUser.address.street}}'>
+    <input type='number' name='houseNumber' value='{{oneUser.address.houseNumber}}'>
+    <input type='number' name='zipcode' value='{{oneUser.address.zipcode}}'>
+    <input type='text' name='city' value='{{oneUser.address.city}}'>
+    <br>
+    <label for=''>Description</label>
+    <input type='textarea' name='description' value='{{oneUser.description}}'>
+    <br>
+    <label for=''>Image</label>
+    <input type='text' name='profileImg' value='{{oneUser.profileImg}}'>
+    <br>
+    <button type='submit'>Save changes</button>
+</form>

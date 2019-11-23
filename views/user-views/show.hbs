@@ -1,1 +1,21 @@
 <h1>USER PROFILE</h1>
+
+<p>Name: {{oneUser.name}}</p>
+<p>Image: <img src="{{oneUser.profileImg}}" alt="Profile picture"></p>
+<p>Address: <br>
+{{oneUser.address.houseNumber}} {{oneUser.address.street}}<br>
+{{oneUser.address.zipcode}} {{oneUser.address.city}}</p>
+<p>Description: {{oneUser.description}}</p>
+<div>
+    <p>Reviews:</p>
+    <ul>
+        {{#each oneUser.reviews}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="user-actions">
+<p><a href="./{{oneUser._id}}/edit">Edit</a></p>
+<p id="delete-button"><a href="./{{oneUser._id}}/delete">Delete</a></p>
+</div>

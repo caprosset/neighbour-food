@@ -51,7 +51,7 @@ router.post('/signup', (req, res, next) => {
         console.log('OBJECT SENT TO DBBBBBBBBBB', newUserObj);
         
         // > Once the user is created , redirect to private home
-        res.redirect('/');
+        res.redirect('/meal-events');
       })
       .catch(err => {
         res.render('auth-views/signup', {

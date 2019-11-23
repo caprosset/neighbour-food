@@ -8,13 +8,15 @@ const MealEvent = require('../../models/MealEvent');
 
 // GET '/meal-events' -- renders all the events
 router.get('/', (req, res, next) => {
+
   MealEvent.find()
   .then( (allMealEventsFromDB) => {
       console.log(allMealEventsFromDB)
-      res.render('meal-views/show-all', { allMealEventsFromDB });
+      res.render('meal-views/show-all', { allMealEventsFromDB , userInfo: req.session.currentUser});
   })
   .catch( (err) => console.log(err));
 });
+
   
 
 //   GET	/meal-events/create	Private route. Renders the meal-views/create form view to add a new event for the current user.
