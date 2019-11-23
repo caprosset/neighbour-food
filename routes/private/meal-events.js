@@ -30,14 +30,16 @@ router.post('/create', (req, res, next) => {
   dish: req.body.dish ,
   date: req.body.date ,
   eventImg: req.body.eventImg ,
-  // host: {  type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
-  // guest: [{  type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+  host: req.session.currentUser._id,
+  guest: [],
   eventDescription:req.body.eventDescription ,
   numberAttend: req.body.numberAttend,
-  // costScore: req.body.
+  costScore: 10
   });
+  console.log('HEREEEEEE', theMealEvent);
   theMealEvent.save(err => {
     if (err) {
+      console.log(err);
       res.render('meal-views/create', {
         title: "Build Your New event",
       });
@@ -55,7 +57,7 @@ router.get('/:id', (req, res, next) => {
     }
 
     res.render('meal-views/show', {
-      mealEvent: theMealEvent,
+      mealEvent: theMealEvent
     });
   });
 });
