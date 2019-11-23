@@ -30,9 +30,16 @@ router.get('/:id/events', (req, res, next) => {
     .then( (oneUser) => {
         // console.log(oneUser);
         MealEvent.find( {_id: oneUser.hostedEvents} )
-        .then( (mealEvent) => {
-            console.log('EVENTS INFO', mealEvent);
-            res.render('user-views/myevents', { mealEvent});
+        .then( (mealEventIhost) => {
+            console.log('EVENTS INFO', mealEventIhost);
+            res.render('user-views/myevents', { mealEventHost: mealEventIhost});
+        })
+        .catch( (err) => console.log(err));
+
+        MealEvent.find( {_id: oneUser.attendedEvents} )
+        .then( (mealEventIattend) => {
+            console.log('EVENTS INFO', mealEventIattend);
+            res.render('user-views/myevents', { mealEvent: mealEventIattend});
         })
         .catch( (err) => console.log(err));
     })

@@ -1,7 +1,15 @@
 <h1>MY EVENTS</h1>
 
+<h2>EVENTS I HOST</h2>
 <ul>
-{{#each mealEvent}}
+{{#each mealEventHost}}
+    <li>{{this.eventName}}</li>
+{{/each}}
+</ul>
+
+<h2>EVENTS I ATTEND</h2>
+<ul>
+{{#each mealEventGuest}}
     <li>{{this.eventName}}</li>
 {{/each}}
 </ul>

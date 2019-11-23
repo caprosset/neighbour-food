@@ -68,10 +68,10 @@ router.get('/:id', (req, res, next) => {
     if (err) {
       return next(err);
     }
-
-    res.render('meal-views/show', {
-      mealEvent: theMealEvent
-    });
+    User.find({_id: theMealEvent.host})
+    .then( hostInfo => {
+      res.render('meal-views/show', {mealEvent: theMealEvent, hostInfo});
+    })
   });
 });
 
@@ -115,6 +115,20 @@ router.post('/:id', function(req, res, next) {
   );
 });
 
+router.post('/:id/addguest', function(req, res, next) {
+  const updatedEvent = { guest: req.session.currentUser._id };
+  MealEvent.update(
+    { _id: req.params.id },
+    updatedEvent,
+    (err, theMealEvent) => {
+      if (err) {
+        return next(err);
+      }
+
+      res.redirect('/meal-events');
+    },
+  );
+});
 
 // // DELETE	/meal-events/:id/delete
 router.get('/:id/delete', (req, res, next) => {

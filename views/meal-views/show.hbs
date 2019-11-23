@@ -15,6 +15,12 @@
   
   
         <li> Number of guests: {{ mealEvent.numberAttend }} </label>
-        
-      </ul>
-      </div>
+    
+  </ul>
+
+  {{#if "mealEvent.host !== hostInfo._id"}}
+    <form action="/meal-events/{{mealEvent._id}}/addguest" method="POST">
+      <button type="submit">Attend</button>
+    </form>
+  {{/if}}
+</div>
