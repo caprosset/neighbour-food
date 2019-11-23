@@ -29,17 +29,18 @@ router.get('/:id/events', (req, res, next) => {
     User.findById(req.params.id)
     .then( (oneUser) => {
         // console.log(oneUser);
-        MealEvent.find( {_id: oneUser.hostedEvents} )
-        .then( (mealEventIhost) => {
-            console.log('EVENTS INFO', mealEventIhost);
-            res.render('user-views/myevents', { mealEventHost: mealEventIhost});
-        })
-        .catch( (err) => console.log(err));
+        const pr1 = MealEvent.find( {_id: oneUser.hostedEvents} );
+        const pr2 = MealEvent.find( {_id: oneUser.attendedEvents} );
 
-        MealEvent.find( {_id: oneUser.attendedEvents} )
-        .then( (mealEventIattend) => {
-            console.log('EVENTS INFO', mealEventIattend);
-            res.render('user-views/myevents', { mealEvent: mealEventIattend});
+        Promise.all([pr1, pr2])
+        .then( (mealEvents) => {
+            console.log('EVENTS I HOST', mealEvents[0]);
+            console.log('EVENTS I ATTEND', mealEvents[1]);
+            
+            const mealEventIhost = mealEvents[0];
+            const mealEventIattend = mealEvents[1];
+
+            res.render('user-views/myevents', { mealEventHost: mealEventIhost, mealEventGuest: mealEventIattend});
         })
         .catch( (err) => console.log(err));
     })
@@ -90,6 +91,7 @@ router.post('/:id/edit', (req, res, next) => {
         res.redirect(`/profile/${id}`); 
     });
 })
+
 
 // DELETE	/profile/:id/delete
 router.get('/:id/delete', function(req, res, next) {

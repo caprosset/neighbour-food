@@ -116,18 +116,24 @@ router.post('/:id', function(req, res, next) {
 });
 
 router.post('/:id/addguest', function(req, res, next) {
+  const id = req.params.id;
   const updatedEvent = { guest: req.session.currentUser._id };
-  MealEvent.update(
+
+  const pr1 = MealEvent.update(
     { _id: req.params.id },
     updatedEvent,
-    (err, theMealEvent) => {
-      if (err) {
-        return next(err);
-      }
-
-      res.redirect('/meal-events');
-    },
+    (err) => { if (err) { return next(err); }},
   );
+
+  const pr2 = User.update(
+    { _id: req.session.currentUser._id},
+    { $addToSet: { attendedEvents: id} },
+    (err) => { if (err) { return next(err); }},
+  )
+
+  Promise.all([pr1, pr2])
+  .then( () => res.redirect('/meal-events'))
+  .catch( (err) => console.log(err));    
 });
 
 // // DELETE	/meal-events/:id/delete
