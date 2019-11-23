@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-
-
 const MealEvent = require('../../models/MealEvent');
+const User = require('../../models/User');
 
 
 // GET '/meal-events' -- renders all the events
@@ -38,17 +37,29 @@ router.post('/create', (req, res, next) => {
   numberAttend: req.body.numberAttend,
   costScore: 10
   });
+
   console.log('HEREEEEEE', theMealEvent);
-  theMealEvent.save(err => {
-    if (err) {
-      console.log(err);
-      res.render('meal-views/create', {
-        title: "Build Your New event",
-      });
-    } else {
-      res.redirect('/meal-events');
-    }
+
+  theMealEvent.save()
+  .then( mealevent => {
+    console.log('MEAL EVENT', mealevent);
+    console.log('SAVE HOSTED EVENT IN USER')
+    console.log('MEAL EVENT ID', mealevent._id);
+    console.log('USER ID', req.session.currentUser._id);
+
+    User.updateOne({ _id: req.session.currentUser._id }, { $addToSet: { hostedEvents: mealevent._id} }, {new: true})
+    // User.find({ email: 'capcap@cap'})
+    .then( (data) => console.log('USER FOUND', data))
+    .catch( (err) => console.log(err))
   })
+  .then( () => { 
+    res.redirect('/meal-events'); 
+  })
+  .catch( (err) => {
+    console.log(err);
+    res.render('meal-views/create');
+  });
+  
 });
 
 // GET	/meal-events/:id	Private route. Renders the meal-views/show view.

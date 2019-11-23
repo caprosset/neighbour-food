@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('./../../models/User');
+const MealEvent = require('./../../models/MealEvent');
 // const axios = require('axios');
 
 
@@ -22,6 +23,25 @@ router.get('/:id', (req, res, next) => {
         next();
     });
 })
+
+// GET /profile/:id/events Private route. Renders user-views/myevent view.
+router.get('/:id/events', (req, res, next) => {
+    User.findById(req.params.id)
+    .then( (oneUser) => {
+        // console.log(oneUser);
+        MealEvent.find( {_id: oneUser.hostedEvents} )
+        .then( (mealEvent) => {
+            console.log('EVENTS INFO', mealEvent);
+            res.render('user-views/myevents', { mealEvent});
+        })
+        .catch( (err) => console.log(err));
+    })
+    .catch( (err) => {
+        console.log(err);
+        next();
+    });
+})
+
 
 // GET	/profile/:id/edit	Private route. Renders user-views/edit form view.
 router.get('/:id/edit', (req, res, next) => {

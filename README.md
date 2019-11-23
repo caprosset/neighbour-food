@@ -45,7 +45,8 @@ Shared platform for neighbours who would like to meet your next door person shar
 | `POST`     | `/login`  | Sends Login form data to the server. Redirects to the `show-all` view (url: /meal-events).        
 | `GET`      | `/signup` | Renders `auth-views/signup` form view.             
 | `POST`     | `/signup` | Sends Sign Up info to the server and creates user in the DB. Redirects to the `meal-views/show-all` view (url: /meal-events).       
-| `GET`      | `/profile/:id`| Private route. Renders `user-views/show` view.         
+| `GET`      | `/profile/:id`| Private route. Renders `user-views/show` view.
+| `GET`      | `/profile/:id/events`| Private route. Renders `user-views/myevents` view (url: /profile/:id/events).
 | `GET`      | `/profile/:id/edit`| Private route. Renders `user-views/edit` form view. 
 | `PUT`      | `/profile/:id/edit`| Private route. Sends edit-profile info to server and updates user in DB. Redirects to the `user-views/show` view (url: /profile/:id).
 | `DELETE`   | `/profile/:id/delete`| Private route. Deletes the profile from the server and updates DB. Redirects to the `index` view (url: /).
