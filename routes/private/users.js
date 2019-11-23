@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('./../../models/User');
-
-// const deleteButton = document.querySelector('#delete-button');
+// const axios = require('axios');
 
 
 // GET	/profile
@@ -66,7 +65,35 @@ router.post('/:id/edit', (req, res, next) => {
 })
 
 // DELETE	/profile/:id/delete
+router.get('/:id/delete', function(req, res, next) {
+    console.log('ID TO DELETE', req.params);
+    const id = req.params.id;
+
+    User.findOne({ _id: id }, (err, theUser) => {
+        if (err) {
+            return next(err);
+        }
+
+        theUser.remove(err => {
+            if (err) {
+                return next(err);
+            }
+
+            res.redirect('/');
+        });
+    });
+});
 
 
+// deleteButton.addEventListener('onclick', (e) => {
+// e.preventDefault();
+
+// axios.delete('/:id/delete')
+//     .then( () => {
+//         console.log('DELETED');
+
+//     })
+//     .catch( (err) => console.log(err));
+// });
 
 module.exports = router;
