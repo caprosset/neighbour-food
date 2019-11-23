@@ -1,2 +1,51 @@
 <h1>CREATE MEAL EVENT</h1>
 
+   <form action = "/meal-events" method = "POST" >
+      <div>
+        <label for = "eventName"> EventName </label>
+        <input type = "text" name = "eventName" id = "eventName" >
+      </div>
+      <div>
+        <label for = "cuisine"> Cuisine </label>
+        <input type = "text" name = "cuisine" id = "cuisine" >
+      </div>
+      <div>
+        <label for = "dish"> Dish </label>
+        <input type = "text" name = "dish" id = "dish" >
+      </div>
+
+      <div>
+        <label for = "date"> Date </label>
+        <input type = "text" name = "date" id = "date" >
+      </div>
+            <div>
+        <label for = "eventImg"> Event Photo </label>
+        <input type = "text" name = "eventImg" id = "eventImg" >
+      </div>
+            <div>
+        <label for = "eventDescription"> Description </label>
+        <input type = "text" name = "eventDescription" id = "eventDescription" >
+      </div>
+      <div>
+        <label for = "numberAttend"> Number of guests </label>
+        <input type = "number" name = "numberAttend" id = "numberAttend">
+      </div>
+
+      <button> Submit </button>
+    </form>
+
+
+  {{!-- eventName: req.body.eventName,
+  cuisine: req.body.cuisine ,
+  dish: req.body.dish ,
+  date: req.body.date ,
+  eventImg: req.body.eventImg ,
+  // host: {  type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
+  // guest: [{  type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+  eventDescription:req.body.eventDescription ,
+  numberAttend: req.body.numberAttend, --}}
+
+
+    <a href = "/meal-events">
+      Back to Events
+    </a>

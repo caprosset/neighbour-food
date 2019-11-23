@@ -1,16 +1,14 @@
 <h1>ALL THE EVENTS</h1>
 
     <ul>
-      {{#each mealEvents}}
+      {{#each allMealEventsFromDB}}
         <li>
-          <a href="/meal-events/{{ this._id }}"></a>
-            {{ this.eventName }}
-          </a>
+          <a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a>
           - {{ this.cuisine }}
           <a href="/meal-events/{{ this._id }}/edit">
             Edit
           </a>
-          <form action='/meal-events/delete/{{this._id}}' method="GET">
+          <form action='/meal-events/{{this._id}}/delete' method="GET">
             <button> Delete </button>
           </form>
 

@@ -8,16 +8,13 @@ const MealEvent = require('../../models/MealEvent');
 
 // GET '/meal-events' -- renders all the events
 router.get('/', (req, res, next) => {
-  MealEvent.find({}, (err, mealEventsArray) => {
-    if(err) {
-      return next(err);
-    }
-    console.log(mealEventsArray);
-    res.render('meal-views/show-all', {
-      mealEvents: mealEventsArray,
-    });
-  });
-  });
+  MealEvent.find()
+  .then( (allMealEventsFromDB) => {
+      console.log(allMealEventsFromDB)
+      res.render('meal-views/show-all', { allMealEventsFromDB });
+  })
+  .catch( (err) => console.log(err));
+});
   
 
 //   GET	/meal-events/create	Private route. Renders the meal-views/create form view to add a new event for the current user.
@@ -41,7 +38,9 @@ router.post('/create', (req, res, next) => {
   });
   theMealEvent.save(err => {
     if (err) {
-      res.render('meal-views/create');
+      res.render('meal-views/create', {
+        title: "Build Your New event",
+      });
     } else {
       res.redirect('/meal-events');
     }
@@ -56,7 +55,6 @@ router.get('/:id', (req, res, next) => {
     }
 
     res.render('meal-views/show', {
-      title: `${theMealEvent.eventName} Details`,
       mealEvent: theMealEvent,
     });
   });
@@ -70,14 +68,37 @@ router.get('/:id/edit', (req, res, next) => {
     }
 
     res.render('meal-views/edit', {
-      title: `Edit ${theMealEvent.eventName}`,
       mealEvent: theMealEvent,
     });
   });
 });
 
 // // PUT	/meal-events/:id/edit	Private route. Updates the existing event from the current user in the DB. Redirects to the user-views/myevents view.
+router.post('/:id', function(req, res, next) {
+  const updatedEvent = {
+    eventName: req.body.eventName,
+    cuisine: req.body.cuisine ,
+    dish: req.body.dish ,
+    date: req.body.date ,
+    eventImg: req.body.eventImg ,
+    // host: {  type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
+    // guest: [{  type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+    eventDescription:req.body.eventDescription ,
+    numberAttend: req.body.numberAttend,
+    // costScore: req.body.
+  };
+  MealEvent.update(
+    { _id: req.params.id },
+    updatedEvent,
+    (err, theMealEvent) => {
+      if (err) {
+        return next(err);
+      }
 
+      res.redirect('/meal-events');
+    },
+  );
+});
 
 
 // // DELETE	/meal-events/:id/delete
