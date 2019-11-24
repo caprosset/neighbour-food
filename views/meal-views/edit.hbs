@@ -16,11 +16,12 @@
     </div>
     <div>
       <label for="date"> Date </label>
-      <input type="text" name="date" id="date" value="{{ mealEvent.date }}">
+      <input type="datetime-local" name="date" id="date" value="{{ mealEvent.date }}">
     </div>
           <div>
       <label for="eventImg"> Event Photo </label>
-      <input type="text" name="eventImg" id="eventImg" value="{{ mealEvent.eventImg }}">
+      <img src="{{ mealEvent.eventImg }}">
+      <input type="file" name="eventImg" id="eventImg" value="{{ mealEvent.eventImg }}">
     </div>
           <div>
       <label for="eventDescription"> Description </label>

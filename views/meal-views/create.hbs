@@ -1,10 +1,9 @@
-<<<<<<< HEAD
-<div class="container-fluid">
+<<<<<<< HEAD <div class="container-fluid">
   <h1>CREATE AN EVENT</h1>
 
   <p>And earn 10 forks per guest</p>
 
-  <form action="/meal-events/create" method="POST">
+  <form action="/meal-events/create" method="POST" enctype="multipart/form-data">
     <div>
       <label for="eventName"> EventName </label>
       <input type="text" name="eventName" id="eventName" placeholder="Add a name to your event">
@@ -23,7 +22,7 @@
     </div>
     <div>
       <label for="eventImg"> Event Photo </label>
-      <input type="text" name="eventImg" id="eventImg">
+      <input type="file" name="eventImg" id="eventImg">
     </div>
     <div>
       <label for="eventDescription"> Description </label>
@@ -50,5 +49,5 @@
   </form>
 
 
-  <p><a href="/meal-events">Back to Events</a></p>  
-</div>
+  <p><a href="/meal-events">Back to Events</a></p>
+  </div>

@@ -4,6 +4,9 @@ const router = express.Router();
 const MealEvent = require('../../models/MealEvent');
 const User = require('../../models/User');
 
+const parser = require('../../config/cloudinary');
+
+
 
 // GET /meal-events --> renders all the events
 router.get('/', (req, res, next) => {
@@ -23,13 +26,15 @@ router.get('/create', (req, res, next) => {
   });
 
 // POST	/meal-events/create	--> Adds a new event in the DB 
-router.post('/create', (req, res, next) => {
+router.post('/create', parser.single('eventImg'), (req, res, next) => {
+  // const image_url = req.file.secure_url
+
   const theMealEvent = new MealEvent({
   eventName: req.body.eventName,
   cuisine: req.body.cuisine ,
   dish: req.body.dish ,
   date: req.body.date ,
-  eventImg: req.body.eventImg ,
+  eventImg: req.file.secure_url,
   host: req.session.currentUser._id,
   guest: [],
   eventDescription:req.body.eventDescription ,
@@ -96,7 +101,7 @@ router.post('/:id', function(req, res, next) {
     cuisine: req.body.cuisine ,
     dish: req.body.dish ,
     date: req.body.date ,
-    eventImg: req.body.eventImg ,
+    eventImg: req.body.img ,
     eventDescription:req.body.eventDescription ,
     numberAttend: req.body.numberAttend,
   };
