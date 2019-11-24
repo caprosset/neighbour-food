@@ -7,7 +7,6 @@ const User = require('../../models/User');
 const parser = require('../../config/cloudinary');
 
 
-
 // GET /meal-events --> renders all the events
 router.get('/', (req, res, next) => {
 
