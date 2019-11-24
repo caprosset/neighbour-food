@@ -3,24 +3,38 @@
 
 <div>
   <ul>
-        <li> EventName: {{ mealEvent.eventName }}</li>
-        <li> Cuisine: {{ mealEvent.cuisine }} </li>
-        <li> Dish:{{ mealEvent.dish }} </li>
+    <li> EventName: {{ mealEvent.eventName }}</li>
 
-        <li> Date: {{ mealEvent.date }}</li>
-  
-        <li> Event Photo: {{ mealEvent.eventImg }} </li>
- 
-        <li> Description: {{ mealEvent.eventDescription }} </li>
-  
-  
-        <li> Number of guests: {{ mealEvent.numberAttend }} </label>
-    
+    <li> Cuisine: {{ mealEvent.cuisine }} </li>
+    <li> Dish:{{ mealEvent.dish }} </li>
+
+    <li> Date: {{ mealEvent.date }}</li>
+
+    <li> Event Photo: {{ mealEvent.eventImg }} </li>
+
+    <li> Description: {{ mealEvent.eventDescription }} </li>
+
+    <li> Number of guests: {{ mealEvent.numberAttend }} </label>
   </ul>
 
-  {{#if "mealEvent.host !== hostInfo._id"}}
-    <form action="/meal-events/{{mealEvent._id}}/addguest" method="POST">
-      <button type="submit">Attend</button>
-    </form>
-  {{/if}}
+  {{!-- if current user is the host of this event --}}
+  {{#ifeqId mealEvent.host currentUserId }}
+    <p>You are the host of this event</p>
+
+  {{else}}
+    {{!-- if current user is not the host but is a guest of this event --}}
+    {{#ifinc mealEvent.guest currentUserId}}
+      <p>You attend this event</p>
+      <button type="submit">Cancel attendance</button>
+    {{!-- if current user is not a guest of this event either --}}
+    {{else}}
+       <form action="/meal-events/{{mealEvent._id}}/attend" method="POST">
+        <button type="submit">Attend</button>
+      </form>
+    {{/ifinc}}
+
+  {{/ifeqId}}
 </div>
+
+<p><a href="/profile/{{currentUserId}}">Back to your profile</a></p>
+<p><a href="/meal-events">Back to the list of events</a></p>

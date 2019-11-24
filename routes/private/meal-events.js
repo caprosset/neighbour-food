@@ -5,25 +5,24 @@ const MealEvent = require('../../models/MealEvent');
 const User = require('../../models/User');
 
 
-// GET '/meal-events' -- renders all the events
+// GET /meal-events --> renders all the events
 router.get('/', (req, res, next) => {
 
   MealEvent.find()
   .then( (allMealEventsFromDB) => {
-      console.log(allMealEventsFromDB)
-      res.render('meal-views/show-all', { allMealEventsFromDB , userInfo: req.session.currentUser});
+      // console.log(allMealEventsFromDB)
+      res.render('meal-views/show-all', { allMealEventsFromDB, userInfo: req.session.currentUser});
   })
   .catch( (err) => console.log(err));
 });
 
-  
 
-//   GET	/meal-events/create	Private route. Renders the meal-views/create form view to add a new event for the current user.
+//  GET /meal-events/create	--> Renders the form view to add a new event
 router.get('/create', (req, res, next) => {
   res.render('meal-views/create')
   });
 
-// POST	/meal-events/create	Private route. Adds a new event for the current user. Redirects to the meal-views/show-all view (url: /meal-events).
+// POST	/meal-events/create	--> Adds a new event in the DB 
 router.post('/create', (req, res, next) => {
   const theMealEvent = new MealEvent({
   eventName: req.body.eventName,
@@ -38,19 +37,19 @@ router.post('/create', (req, res, next) => {
   costScore: 10
   });
 
-  console.log('HEREEEEEE', theMealEvent);
+  // console.log('THE MEAL EVENT I ADDED', theMealEvent);
 
   theMealEvent.save()
   .then( mealevent => {
-    console.log('MEAL EVENT', mealevent);
-    console.log('SAVE HOSTED EVENT IN USER')
-    console.log('MEAL EVENT ID', mealevent._id);
-    console.log('USER ID', req.session.currentUser._id);
+    // console.log('MEAL EVENT', mealevent);
+    // console.log('SAVE HOSTED EVENT IN USER')
+    // console.log('MEAL EVENT ID', mealevent._id);
+    // console.log('USER ID', req.session.currentUser._id);
 
     User.updateOne({ _id: req.session.currentUser._id }, { $addToSet: { hostedEvents: mealevent._id} }, {new: true})
     // User.find({ email: 'capcap@cap'})
-    .then( (data) => console.log('USER FOUND', data))
-    .catch( (err) => console.log(err))
+    // .then( (data) => console.log('USER FOUND', data))
+    // .catch( (err) => console.log(err))
   })
   .then( () => { 
     res.redirect('/meal-events'); 
@@ -62,20 +61,23 @@ router.post('/create', (req, res, next) => {
   
 });
 
-// GET	/meal-events/:id	Private route. Renders the meal-views/show view.
+
+// GET	/meal-events/:id --> Renders the meal event details page
 router.get('/:id', (req, res, next) => {
-  MealEvent.findOne({ _id: req.params.id }, (err, theMealEvent) => {
-    if (err) {
-      return next(err);
-    }
-    User.find({_id: theMealEvent.host})
-    .then( hostInfo => {
-      res.render('meal-views/show', {mealEvent: theMealEvent, hostInfo});
-    })
-  });
+  MealEvent.findOne({ _id: req.params.id })
+  .then( (theMealEvent) => {
+    console.log('USER IDDDDDDDDD', req.session.currentUser._id);
+    console.log('EVENT HOSSSSTTT', theMealEvent.host);
+
+    const currentUserId = req.session.currentUser._id;
+
+    res.render('meal-views/show', {mealEvent: theMealEvent, currentUserId});
+  })
+  .catch( (err) => console.log(err));
 });
 
-// // GET	/meal-events/:id/edit	Private route. Renders the meal-views/edit form view.
+
+// GET /meal-events/:id/edit --> Renders the form to edit a specific meal event
 router.get('/:id/edit', (req, res, next) => {
   MealEvent.findOne({ _id: req.params.id }, (err, theMealEvent) => {
     if (err) {
@@ -88,7 +90,7 @@ router.get('/:id/edit', (req, res, next) => {
   });
 });
 
-// // PUT	/meal-events/:id/edit	Private route. Updates the existing event from the current user in the DB. Redirects to the user-views/myevents view.
+// PUT	/meal-events/:id/edit --> Updates the meal event in the DB
 router.post('/:id', function(req, res, next) {
   const updatedEvent = {
     eventName: req.body.eventName,
@@ -96,11 +98,8 @@ router.post('/:id', function(req, res, next) {
     dish: req.body.dish ,
     date: req.body.date ,
     eventImg: req.body.eventImg ,
-    // host: {  type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
-    // guest: [{  type: mongoose.Schema.Types.ObjectId, ref: "User"}],
     eventDescription:req.body.eventDescription ,
     numberAttend: req.body.numberAttend,
-    // costScore: req.body.
   };
   MealEvent.update(
     { _id: req.params.id },
@@ -115,7 +114,9 @@ router.post('/:id', function(req, res, next) {
   );
 });
 
-router.post('/:id/addguest', function(req, res, next) {
+
+// POST /meal-events/:id/attend --> Adds the current user as a meal event guest in the DB
+router.post('/:id/attend', function(req, res, next) {
   const id = req.params.id;
   const updatedEvent = { guest: req.session.currentUser._id };
 
@@ -132,13 +133,14 @@ router.post('/:id/addguest', function(req, res, next) {
   )
 
   Promise.all([pr1, pr2])
-  .then( () => res.redirect('/meal-events'))
+  .then( () => res.redirect(`/profile/${req.session.currentUser._id}/events`))
   .catch( (err) => console.log(err));    
 });
 
-// // DELETE	/meal-events/:id/delete
+
+// DELETE	/meal-events/:id/delete --> Deletes the meal event in the DB
 router.get('/:id/delete', (req, res, next) => {
-  console.log('DELETE', req.params);
+  // console.log('DELETE', req.params);
 
   MealEvent.findOne({ _id: req.params.id }, (err, theMealEvent) => {
     if (err) {

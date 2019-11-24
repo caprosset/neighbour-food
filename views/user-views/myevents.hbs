@@ -3,13 +3,13 @@
 <h2>EVENTS I HOST</h2>
 <ul>
 {{#each mealEventHost}}
-    <li>{{this.eventName}}</li>
+    <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
 {{/each}}
 </ul>
 
 <h2>EVENTS I ATTEND</h2>
 <ul>
 {{#each mealEventGuest}}
-    <li>{{this.eventName}}</li>
+    <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
 {{/each}}
 </ul>
