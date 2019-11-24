@@ -1,52 +1,54 @@
-<h1>CREATE MEAL EVENT</h1>
+<h1>CREATE AN EVENT</h1>
 
-   <form action = "/meal-events/create" method = "POST" >
-      <div>
-        <label for = "eventName"> EventName </label>
-        <input type = "text" name = "eventName" id = "eventName" >
-      </div>
-      <div>
-        <label for = "cuisine"> Cuisine </label>
-        <input type = "text" name = "cuisine" id = "cuisine" >
-      </div>
-      <div>
-        <label for = "dish"> Dish </label>
-        <input type = "text" name = "dish" id = "dish" >
-      </div>
+<p>And earn 10 forks per guest</p>
 
-      <div>
-        <label for = "date"> Date </label>
-        <input type = "datetime-local" name = "date" id = "date" >
-      </div>
-      <div style="display: none">
-        <label for = "host"> Host </label>
-        <input type = "text" name = "host" id = "host" >
-      </div>
-      <div style="display: none">
-        <label for = "guest">Guest </label>
-        <input type = "text" name = "guest" id = "guest" >
-      </div>
-      <div>
-        <label for = "eventImg"> Event Photo </label>
-        <input type = "text" name = "eventImg" id = "eventImg" >
-      </div>
-      <div>
-        <label for = "eventDescription"> Description </label>
-        <input type = "text" name = "eventDescription" id = "eventDescription" >
-      </div>
-      <div>
-        <label for = "numberAttend"> Number of guests </label>
-        <input type = "number" name = "numberAttend" id = "numberAttend">
-      </div>
-      <div style="display: none">
-        <label for = "costScore"> Score </label>
-        <input type = "number" name = "costScore" id = "costScore">
-      </div>
+<form action="/meal-events/create" method="POST">
+  <div>
+    <label for="eventName"> EventName </label>
+    <input type="text" name="eventName" id="eventName" placeholder="Add a name to your event">
+  </div>
+  <div>
+    <label for="date"> Date </label>
+    <input type="datetime-local" name="date" id="date">
+  </div>
+  <div>
+    <label for="cuisine"> Cuisine </label>
+    <input type="text" name="cuisine" id="cuisine">
+  </div>
+  <div>
+    <label for="dish"> Dish </label>
+    <input type="text" name="dish" id="dish">
+  </div>
+  <div>
+    <label for="eventImg"> Event Photo </label>
+    <input type="text" name="eventImg" id="eventImg">
+  </div>
+  <div>
+    <label for="eventDescription"> Description </label>
+    <input type="text" name="eventDescription" id="eventDescription">
+  </div>
+  <div>
+    <label for="numberAttend"> Number of guests </label>
+    <input type="number" name="numberAttend" id="numberAttend">
+  </div>
 
-      <button> Submit </button>
-    </form>
+  <div style="display: none">
+    <label for="host"> Host </label>
+    <input type="text" name="host" id="host">
+  </div>
+  <div style="display: none">
+    <label for="guest">Guest </label>
+    <input type="text" name="guest" id="guest">
+  </div>
+  <div style="display: none">
+    <label for="costScore"> Score </label>
+    <input type="number" name="costScore" id="costScore">
+  </div>
+
+  <button> Publish event </button>
+</form>
 
 
-    <a href = "/meal-events">
-      Back to Events
-    </a>
+<a href="/meal-events">
+  Back to Events
+</a>

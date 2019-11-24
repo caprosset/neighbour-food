@@ -2,30 +2,30 @@
 <h2>See all the events in your neighbourhood</h2>
 
 {{#if allMealEventsFromDB}}
-    <ul>
-      {{#each allMealEventsFromDB}}
-        <li>
-          <a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a>
-          - {{ this.cuisine }}
-          <a href="/meal-events/{{ this._id }}/edit">
-            Edit
-          </a>
-          <form action='/meal-events/{{this._id}}/delete' method="GET">
-            <button> Delete </button>
-          </form>
+<ul>
+  {{#each allMealEventsFromDB}}
+  <li>
+    <a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a>
+    - {{ this.cuisine }}
+    <a href="/meal-events/{{ this._id }}/edit">
+      Edit
+    </a>
+    <form action='/meal-events/{{this._id}}/delete' method="GET">
+      <button> Delete </button>
+    </form>
 
-        </li>
-      {{/each}}
-    </ul>
+  </li>
+  {{/each}}
+</ul>
 
 {{else}}
 <h2>Ooops! No meal events has been found in your neighbourhood! </h2>
-  <h2>Will you be the first one? </h2>
+<h2>Will you be the first one? </h2>
 {{/if}}
 
-    <a href="/meal-events/create">
-      Create a new event
-    </a>
+<a href="/meal-events/create">
+  Create a new event
+</a>
 
 
 {{!-- id needs to be changed --}}

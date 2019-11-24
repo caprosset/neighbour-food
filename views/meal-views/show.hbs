@@ -1,14 +1,15 @@
-<h1>SHOW MEAL EVENT</h1>
+<h1> {{ mealEvent.eventName }}</h1>
 
 
 <div>
   <ul>
     <li> EventName: {{ mealEvent.eventName }}</li>
 
-    <li> Cuisine: {{ mealEvent.cuisine }} </li>
-    <li> Dish:{{ mealEvent.dish }} </li>
-
     <li> Date: {{ mealEvent.date }}</li>
+
+    <li> Cuisine: {{ mealEvent.cuisine }} </li>
+
+    <li> Dish:{{ mealEvent.dish }} </li>
 
     <li> Event Photo: {{ mealEvent.eventImg }} </li>
 
@@ -19,21 +20,21 @@
 
   {{!-- if current user is the host of this event --}}
   {{#ifeqId mealEvent.host currentUserId }}
-    <p>You are the host of this event</p>
-    <p><a href="meal-events/{{mealEvent._id}}/edit">Edit this event</a></p>
+  <p>You are the host of this event</p>
+  <p><a href="meal-events/{{mealEvent._id}}/edit">Edit this event</a></p>
   {{else}}
-    {{!-- if current user is not the host but is a guest of this event --}}
-    {{#ifinc mealEvent.guest currentUserId}}
-      <p>You attend this event</p>
-      <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
-        <button type="submit">Cancel attendance</button>
-      </form>
-    {{!-- if current user is not a guest of this event either --}}
-    {{else}}
-       <form action="/meal-events/{{mealEvent._id}}/attend" method="POST">
-        <button type="submit">Attend</button>
-      </form>
-    {{/ifinc}}
+  {{!-- if current user is not the host but is a guest of this event --}}
+  {{#ifinc mealEvent.guest currentUserId}}
+  <p>You attend this event</p>
+  <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
+    <button type="submit">Cancel attendance</button>
+  </form>
+  {{!-- if current user is not a guest of this event either --}}
+  {{else}}
+  <form action="/meal-events/{{mealEvent._id}}/attend" method="POST">
+    <button type="submit">Attend</button>
+  </form>
+  {{/ifinc}}
 
   {{/ifeqId}}
 </div>
