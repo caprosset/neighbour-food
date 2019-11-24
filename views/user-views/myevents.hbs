@@ -1,27 +1,29 @@
-<h1>MY EVENTS</h1>
+<div class="container-fluid">
+  <h1>MY EVENTS</h1>
 
-<h2>EVENTS I HOST</h2>
-<ul>
-{{#if mealEventHost}}
+  <h2>EVENTS I HOST</h2>
+  <ul>
+  {{#if mealEventHost}}
     {{#each mealEventHost}}
-        <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
+      <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
     {{/each}}
-{{else}}
+  {{else}}
     <p>You don't host any event yet</p>
     <form action="/meal-events/create" method="POST">
-        <button type="submit">Create a new event</button>
+      <button type="submit">Create a new event</button>
     </form>
-{{/if}}
-</ul>
+  {{/if}}
+  </ul>
 
-<h2>EVENTS I ATTEND</h2>
-<ul>
-{{#if mealEventGuest}}
+  <h2>EVENTS I ATTEND</h2>
+  <ul>
+  {{#if mealEventGuest}}
     {{#each mealEventGuest}}
-        <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
+      <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
     {{/each}}
-{{else}}
+  {{else}}
     <p>You don't attend any event yet</p>
     <p><a href="/meal-events">See the list of events</a></p>
-{{/if}}
-</ul>
+  {{/if}}
+  </ul>
+</div>

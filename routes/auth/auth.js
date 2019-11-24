@@ -75,30 +75,36 @@ router.post('/login', (req, res, next) => {
     return;
   }
 
-  // Find the user by email
+  // Find the user by username
   User.findOne({ email })
-    .then(userData => {
-      // If email exists - check if the password is correct
-      const hashedPasswordFromDB = userData.password; 
+  .then(userData => {
+    // If - username doesn't exist - return error
+    if (!userData) {
+      res.render('auth-views/login', { errorMessage: 'User not found!' });
+      return;
+    }
 
-      const passwordCorrect = bcrypt.compareSync(
-        enteredPassword,
-        hashedPasswordFromDB,
-      );
+    // If username exists - check if the password is correct
+    const hashedPasswordFromDB = userData.password; 
 
-      // If email exists and password is correct - create session (& cookie) and redirect
-      if (userData && passwordCorrect) {
-        // Save the login in the session ( and create cookie )
-        // And redirect the user
-        req.session.currentUser = userData;
-        res.redirect('/meal-events');
-      } else {
-        // If email doesn't exist or password is incorrect - return error
-        res.render('auth-views/login', { errorMessage: 'Incorrect email or password' });
-        return;
-      }
-    })
-    .catch(err => console.log(err));
+    const passwordCorrect = bcrypt.compareSync(
+      enteredPassword,
+      hashedPasswordFromDB,
+    );
+
+    // If password is correct - create session (& cookie) and redirect
+    if (passwordCorrect) {
+      // Save the login in the session ( and create cookie )
+      // And redirect the user
+      req.session.currentUser = userData;
+      res.redirect('/private');
+    } else {
+      // Else - if password incorrect - return error
+      res.render('auth-views/login', { errorMessage: 'Incorrect password' });
+      return;
+    }
+  })
+  .catch(err => console.log(err));
 });
 
 module.exports = router;

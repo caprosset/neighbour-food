@@ -1,25 +1,18 @@
-<h1>ALL THE EVENTS</h1>
+<div class="container-fluid">
+  <h1>ALL THE EVENTS</h1>
 
-    <ul>
-      {{#each allMealEventsFromDB}}
-        <li>
-          <a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a>
-          - {{ this.cuisine }}
-          <a href="/meal-events/{{ this._id }}/edit">
-            Edit
-          </a>
-          <form action='/meal-events/{{this._id}}/delete' method="GET">
-            <button> Delete </button>
-          </form>
+  <ul>
+    {{#each allMealEventsFromDB}}
+      <li>
+        <a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a>
+        - {{ this.cuisine }}
+      </li>
+    {{/each}}
+  </ul>
 
-        </li>
-      {{/each}}
-    </ul>
+  <a href="/meal-events/create">
+    Click here to add a new event
+  </a>
 
-    <a href="/meal-events/create">
-      Click here to add a new event
-    </a>
-
-
-{{!-- id needs to be changed --}}
-<p><a href="/profile/{{userInfo._id}}">View my profile</a></p>
+  <p><a href="/profile/{{userInfo._id}}">View my profile</a></p>
+</div>
