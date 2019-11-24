@@ -20,12 +20,14 @@
   {{!-- if current user is the host of this event --}}
   {{#ifeqId mealEvent.host currentUserId }}
     <p>You are the host of this event</p>
-
+    <p><a href="meal-events/{{mealEvent._id}}/edit">Edit this event</a></p>
   {{else}}
     {{!-- if current user is not the host but is a guest of this event --}}
     {{#ifinc mealEvent.guest currentUserId}}
       <p>You attend this event</p>
-      <button type="submit">Cancel attendance</button>
+      <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
+        <button type="submit">Cancel attendance</button>
+      </form>
     {{!-- if current user is not a guest of this event either --}}
     {{else}}
        <form action="/meal-events/{{mealEvent._id}}/attend" method="POST">

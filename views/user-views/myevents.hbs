@@ -2,14 +2,26 @@
 
 <h2>EVENTS I HOST</h2>
 <ul>
-{{#each mealEventHost}}
-    <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
-{{/each}}
+{{#if mealEventHost}}
+    {{#each mealEventHost}}
+        <li><a href="meal-events/{{this._id}}">{{this.eventName}}</a></li>
+    {{/each}}
+{{else}}
+    <p>You don't host any event yet</p>
+    <form action="./../../meal-events/create" method="POST">
+        <button type="submit">Create a new event</button>
+    </form>
+{{/if}}
 </ul>
 
 <h2>EVENTS I ATTEND</h2>
 <ul>
-{{#each mealEventGuest}}
-    <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
-{{/each}}
+{{#if mealEventGuest}}
+    {{#each mealEventGuest}}
+        <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
+    {{/each}}
+{{else}}
+    <p>You don't attend any event yet</p>
+    <p><a href="/meal-events">See the list of events</a></p>
+{{/if}}
 </ul>

@@ -117,25 +117,48 @@ router.post('/:id', function(req, res, next) {
 
 // POST /meal-events/:id/attend --> Adds the current user as a meal event guest in the DB
 router.post('/:id/attend', function(req, res, next) {
-  const id = req.params.id;
-  const updatedEvent = { guest: req.session.currentUser._id };
+  const mealeventId = req.params.id;
+  const currentUserId = req.session.currentUser._id;
 
   const pr1 = MealEvent.update(
-    { _id: req.params.id },
-    updatedEvent,
+    { _id: mealeventId },
+    { $addToSet: { guest: currentUserId} },
     (err) => { if (err) { return next(err); }},
   );
 
   const pr2 = User.update(
-    { _id: req.session.currentUser._id},
-    { $addToSet: { attendedEvents: id} },
+    { _id: currentUserId},
+    { $addToSet: { attendedEvents: mealeventId} },
     (err) => { if (err) { return next(err); }},
   )
 
   Promise.all([pr1, pr2])
-  .then( () => res.redirect(`/profile/${req.session.currentUser._id}/events`))
+  .then( () => res.redirect(`/profile/${currentUserId}/events`))
   .catch( (err) => console.log(err));    
 });
+
+
+// POST /meal-events/:id/cancel --> Removes the current user from the meal event guests array in the DB
+// router.post('/:id/cancel', function(req, res, next) {
+//   const eventId = req.params.id;
+//   const guestIdToRemove;
+
+//   const pr1 = MealEvent.update(
+//     { _id: req.params.id },
+//     updatedEvent,
+//     (err) => { if (err) { return next(err); }},
+//   );
+
+//   const pr2 = User.update(
+//     { _id: req.session.currentUser._id},
+//     { $addToSet: { attendedEvents: id} },
+//     (err) => { if (err) { return next(err); }},
+//   )
+
+//   Promise.all([pr1, pr2])
+//   .then( () => res.redirect(`/profile/${req.session.currentUser._id}/events`))
+//   .catch( (err) => console.log(err));    
+// });
 
 
 // DELETE	/meal-events/:id/delete --> Deletes the meal event in the DB
