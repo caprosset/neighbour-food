@@ -34,8 +34,8 @@ router.get('/:id/events', (req, res, next) => {
 
         Promise.all([pr1, pr2])
         .then( (mealEvents) => {
-            console.log('EVENTS I HOST', mealEvents[0]);
-            console.log('EVENTS I ATTEND', mealEvents[1]);
+            // console.log('EVENTS I HOST', mealEvents[0]);
+            // console.log('EVENTS I ATTEND', mealEvents[1]);
             
             const mealEventIhost = mealEvents[0];
             const mealEventIattend = mealEvents[1];
