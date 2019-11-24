@@ -37,7 +37,7 @@ router.post('/create', (req, res, next) => {
   costScore: 10
   });
 
-  // console.log('THE MEAL EVENT I ADDED', theMealEvent);
+  // console.log('HEREEEEEE', theMealEvent);
 
   theMealEvent.save()
   .then( mealevent => {
@@ -47,9 +47,8 @@ router.post('/create', (req, res, next) => {
     // console.log('USER ID', req.session.currentUser._id);
 
     User.updateOne({ _id: req.session.currentUser._id }, { $addToSet: { hostedEvents: mealevent._id} }, {new: true})
-    // User.find({ email: 'capcap@cap'})
-    // .then( (data) => console.log('USER FOUND', data))
-    // .catch( (err) => console.log(err))
+    .then( (data) => console.log('USER UPDATEDDDDD', data))
+    .catch( (err) => console.log(err))
   })
   .then( () => { 
     res.redirect('/meal-events'); 

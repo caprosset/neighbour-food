@@ -18,20 +18,19 @@
         <label for = "date"> Date </label>
         <input type = "text" name = "date" id = "date" >
       </div>
-      <div>
+      <div style="display: none">
         <label for = "host"> Host </label>
         <input type = "text" name = "host" id = "host" >
       </div>
-      <div>
+      <div style="display: none">
         <label for = "guest">Guest </label>
         <input type = "text" name = "guest" id = "guest" >
       </div>
-            <div>
+      <div>
         <label for = "eventImg"> Event Photo </label>
         <input type = "text" name = "eventImg" id = "eventImg" >
       </div>
-      
-            <div>
+      <div>
         <label for = "eventDescription"> Description </label>
         <input type = "text" name = "eventDescription" id = "eventDescription" >
       </div>
@@ -39,24 +38,13 @@
         <label for = "numberAttend"> Number of guests </label>
         <input type = "number" name = "numberAttend" id = "numberAttend">
       </div>
-       <div>
+      <div style="display: none">
         <label for = "costScore"> Score </label>
         <input type = "number" name = "costScore" id = "costScore">
       </div>
 
       <button> Submit </button>
     </form>
-
-
-  {{!-- eventName: req.body.eventName,
-  cuisine: req.body.cuisine ,
-  dish: req.body.dish ,
-  date: req.body.date ,
-  eventImg: req.body.eventImg ,
-  // host: {  type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
-  // guest: [{  type: mongoose.Schema.Types.ObjectId, ref: "User"}],
-  eventDescription:req.body.eventDescription ,
-  numberAttend: req.body.numberAttend, --}}
 
 
     <a href = "/meal-events">
