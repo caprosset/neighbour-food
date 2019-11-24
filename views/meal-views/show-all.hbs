@@ -1,5 +1,7 @@
 <h1>ALL THE EVENTS</h1>
+<h2>See all the events in your neighbourhood</h2>
 
+{{#if allMealEventsFromDB}}
     <ul>
       {{#each allMealEventsFromDB}}
         <li>
@@ -16,8 +18,13 @@
       {{/each}}
     </ul>
 
+{{else}}
+<h2>Ooops! No meal events has been found in your neighbourhood! </h2>
+  <h2>Will you be the first one? </h2>
+{{/if}}
+
     <a href="/meal-events/create">
-      Click here to add a new event
+      Create a new event
     </a>
 
 
