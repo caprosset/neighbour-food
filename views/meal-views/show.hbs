@@ -24,7 +24,7 @@
     {{!-- if current user is the host of this event --}}
     {{#ifeqId mealEvent.host currentUserId }}
       <p>You are the host of this event</p>
-      <button><a href="meal-events/{{mealEvent._id}}/edit">Edit this event</a></button>
+      <button><a href="/meal-events/{{mealEvent._id}}/edit">Edit this event</a></button>
       <button><a href="/meal-events/{{mealEvent._id}}/delete">Delete this event</a></button>
     {{else}}
       {{!-- if current user is not the host but is a guest of this event --}}

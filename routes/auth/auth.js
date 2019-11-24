@@ -97,7 +97,7 @@ router.post('/login', (req, res, next) => {
       // Save the login in the session ( and create cookie )
       // And redirect the user
       req.session.currentUser = userData;
-      res.redirect('/private');
+      res.redirect('/meal-events');
     } else {
       // Else - if password incorrect - return error
       res.render('auth-views/login', { errorMessage: 'Incorrect password' });

@@ -76,7 +76,7 @@ router.post('/:id/edit', (req, res, next) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        street: req.body.street,
+        addstreet: req.body.street,
         houseNumber: req.body.houseNumber,
         zipcode: req.body.zipcode,
         city: req.body.city,
