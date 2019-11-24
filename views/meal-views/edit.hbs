@@ -1,46 +1,38 @@
-<h1>EDIT MEAL EVENT</h1>
+<div class="container-fluid">
+  <h1>EDIT MEAL EVENT</h1>
 
+  <form action="/meal-events/{{ mealEvent._id }}" method="POST" >
+    <div>
+      <label for="eventName"> EventName </label>
+      <input type="text" name="eventName" id="eventName" value="{{ mealEvent.eventName }}">
+    </div>
+    <div>
+      <label for="cuisine"> Cuisine </label>
+      <input type="text" name="cuisine" id="cuisine" value="{{ mealEvent.cuisine }}">
+    </div>
+    <div>
+      <label for="dish"> Dish </label>
+      <input type="text" name="dish" id="dish" value="{{ mealEvent.dish }}">
+    </div>
+    <div>
+      <label for="date"> Date </label>
+      <input type="text" name="date" id="date" value="{{ mealEvent.date }}">
+    </div>
+          <div>
+      <label for="eventImg"> Event Photo </label>
+      <input type="text" name="eventImg" id="eventImg" value="{{ mealEvent.eventImg }}">
+    </div>
+          <div>
+      <label for="eventDescription"> Description </label>
+      <input type="text" name ="eventDescription" id="eventDescription" value="{{ mealEvent.eventDescription }}">
+    </div>
+    <div>
+      <label for="numberAttend"> Number of guests </label>
+      <input type="number" name="numberAttend" id="numberAttend" value="{{ mealEvent.numberAttend }}">
+    </div>
 
-<form action="/meal-events/{{ mealEvent._id }}" method="POST">
-  <div>
-    <label for="eventName"> EventName </label>
-    <input type="text" name="eventName" id="eventName" value="{{ mealEvent.eventName }}">
-  </div>
-  <div>
-    <label for="date"> Date </label>
-    <input type="datetime-local" name="date" id="date" value="{{ mealEvent.date }}">
-  </div>
-  <div>
-    <label for="cuisine"> Cuisine </label>
-    <input type="text" name="cuisine" id="cuisine" value="{{ mealEvent.cuisine }}">
-  </div>
-  <div>
-    <label for="dish"> Dish </label>
-    <input type="text" name="dish" id="dish" value="{{ mealEvent.dish }}">
-  </div>
+    <button> Submit </button>
+  </form>
 
-  <div>
-    <label for="eventImg"> Event Photo </label>
-    <input type="text" name="eventImg" id="eventImg" value="{{ mealEvent.eventImg }}">
-  </div>
-  <div>
-    <label for="eventDescription"> Description </label>
-    <input type="text" name="eventDescription" id="eventDescription" value="{{ mealEvent.eventDescription }}">
-  </div>
-  <div>
-    <label for="numberAttend"> Number of guests </label>
-    <input type="number" name="numberAttend" id="numberAttend" value="{{ mealEvent.numberAttend }}">
-  </div>
-
-  <button> Submit </button>
-</form>
-
-
-
-{{!-- // host: {  type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
-  // guest: [{  type: mongoose.Schema.Types.ObjectId, ref: "User"}], --}}
-
-
-<a href="/meal-events">
-  Back to Events
-</a>
+  <p><a href="/meal-events">Back to Events</a></p> 
+</div>

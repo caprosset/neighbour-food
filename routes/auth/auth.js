@@ -13,12 +13,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // POST '/auth/signup'
 router.post('/signup', (req, res, next) => {
   // Destructure the password and email
-  console.log('Bodyyyyyyy', req.body);
-  console.log('body.address', req.body.address);
-  console.log('body.address', req.body.address);
-
+  // console.log('Bodyyyyyyy', req.body);
   const { name, email, password, street, houseNumber, zipcode, city, description, profileImg } = req.body;
-  
   
   // Check if the email and password are empty strings
   if (email === '' || password === '' || name === '' || street === '' ||  zipcode === '' || houseNumber === '' || city === '' ||   description === '' || profileImg === '') {
@@ -48,7 +44,7 @@ router.post('/signup', (req, res, next) => {
       .then(newUserObj => {
         req.session.currentUser = newUserObj; // triggers the cookie setting and allows us to be directly logged in
 
-        console.log('OBJECT SENT TO DBBBBBBBBBB', newUserObj);
+        // console.log('OBJECT SENT TO DBBBBBBBBBB', newUserObj);
         
         // > Once the user is created , redirect to private home
         res.redirect('/meal-events');
@@ -58,7 +54,7 @@ router.post('/signup', (req, res, next) => {
           errorMessage: `Error while creating new user: ${err}`,
         });
       });
-      console.log('I HAVE SIGNED UP');
+      // console.log('I HAVE SIGNED UP');
       
   })
   .catch(err => console.log(err));
@@ -74,39 +70,41 @@ router.post('/login', (req, res, next) => {
   // Check if email or password are empty strings
   if (email === '' || enteredPassword === '') {
     res.render('auth-views/login', {
-      errorMessage: 'Provide email and password',
+      errorMessage: 'Please provide email and password',
     });
     return;
   }
 
-  // Find the user by email
+  // Find the user by username
   User.findOne({ email })
-    .then(userData => {
-      // If - email doesn't exist - return error
-      if (!userData) {
-        res.render('auth-views/login', { errorMessage: 'Username not found!' });
-        return;
-      }
+  .then(userData => {
+    // If - username doesn't exist - return error
+    if (!userData) {
+      res.render('auth-views/login', { errorMessage: 'User not found!' });
+      return;
+    }
 
-      // If email exists - check if the password is correct
-      const hashedPasswordFromDB = userData.password; 
+    // If username exists - check if the password is correct
+    const hashedPasswordFromDB = userData.password; 
 
-      const passwordCorrect = bcrypt.compareSync(
-        enteredPassword,
-        hashedPasswordFromDB,
-      );
+    const passwordCorrect = bcrypt.compareSync(
+      enteredPassword,
+      hashedPasswordFromDB,
+    );
 
-      // If password is correct - create session (& cookie) and redirect
-      if (passwordCorrect) {
-        // Save the login in the session ( and create cookie )
-        // And redirect the user
-        req.session.currentUser = userData;
-        res.redirect('/meal-events');
-      }
-
+    // If password is correct - create session (& cookie) and redirect
+    if (passwordCorrect) {
+      // Save the login in the session ( and create cookie )
+      // And redirect the user
+      req.session.currentUser = userData;
+      res.redirect('/private');
+    } else {
       // Else - if password incorrect - return error
-    })
-    .catch(err => console.log(err));
+      res.render('auth-views/login', { errorMessage: 'Incorrect password' });
+      return;
+    }
+  })
+  .catch(err => console.log(err));
 });
 
 module.exports = router;

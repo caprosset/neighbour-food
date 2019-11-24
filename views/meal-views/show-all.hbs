@@ -1,32 +1,22 @@
-<h1>ALL THE EVENTS</h1>
-<h2>See all the events in your neighbourhood</h2>
+<div class="container-fluid">
+  <h1>ALL THE EVENTS</h1>
+  <h2>See all the events in your neighbourhood</h2>
 
-{{#if allMealEventsFromDB}}
-<ul>
-  {{#each allMealEventsFromDB}}
-  <li>
-    <a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a>
-    - {{ this.cuisine }}
-    <a href="/meal-events/{{ this._id }}/edit">
-      Edit
-    </a>
-    <form action='/meal-events/{{this._id}}/delete' method="GET">
-      <button> Delete </button>
-    </form>
+  {{#if allMealEventsFromDB}}
+  <ul>
+    {{#each allMealEventsFromDB}}
+      <li>
+        <a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a>
+        - {{ this.cuisine }}
+      </li>
+    {{/each}}
+  </ul>
+  {{else}}
+    <h2>Ooops! No meal events has been found in your neighbourhood! </h2>
+    <h2>Will you be the first one? </h2>
+  {{/if}}
 
-  </li>
-  {{/each}}
-</ul>
+  <a href="/meal-events/create">Create a new event</a>
 
-{{else}}
-<h2>Ooops! No meal events has been found in your neighbourhood! </h2>
-<h2>Will you be the first one? </h2>
-{{/if}}
-
-<a href="/meal-events/create">
-  Create a new event
-</a>
-
-
-{{!-- id needs to be changed --}}
-<p><a href="/profile/{{userInfo._id}}">View my profile</a></p>
+  <p><a href="/profile/{{userInfo._id}}">View my profile</a></p>
+</div>

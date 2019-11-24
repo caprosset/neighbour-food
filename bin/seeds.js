@@ -229,8 +229,8 @@ const users = [
       events.map((event) => {
         const num = Math.floor(Math.random() * (users.length));
         const id = users[num]._id;
-        console.log('RANDOM ID', id);
-        console.log('EVENT ID', event._id);
+        // console.log('RANDOM ID', id);
+        // console.log('EVENT ID', event._id);
         // MealEvent.find({ _id: event._id}).then((res) => {
         //   console.log(res);
     
