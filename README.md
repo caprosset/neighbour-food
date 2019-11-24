@@ -53,7 +53,9 @@ Shared platform for neighbours who would like to meet your next door person shar
 | `GET`      | `/meal-events`   | Private route. Renders the `meal-views/show-all` view.
 | `GET`     | `/meal-events/create` | Private route. Renders the `meal-views/create` form view to add a new event for the current user. 
 | `POST`     | `/meal-events/create`  | Private route. Adds a new event for the current user. Redirects to the `meal-views/show-all` view (url: /meal-events).  
-| `GET`   | `/meal-events/:id` | Private route. Renders the `meal-views/show` view. 
+| `GET`   | `/meal-events/:id` | Private route. Renders the `meal-views/show` view.
+| `POST`   | `/meal-events/:id/attend` | Private route. Updates the current event in the DB with the current user as a guest.
+| `PUT`   | `/meal-events/:id/cancel` | Private route. Updates the current event in the DB, removing the current user from the guests.
 | `GET`   | `/meal-events/:id/edit` | Private route. Renders the `meal-views/edit` form view.
 | `PUT`   | `/meal-events/:id/edit` | Private route. Updates the existing event from the current user in the DB. Redirects to the `user-views/myevents` view.
 | `DELETE`   | `/meal-events/:id/delete` | Private route. Deletes the existing event from the current user. Redirects to the `meal-views/show-all` view (url: /meal-events).                                   
