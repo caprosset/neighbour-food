@@ -70,19 +70,20 @@ router.post('/:id/edit', (req, res, next) => {
     console.log('BODY -->', req.body);
 
     const id = req.params.id;
-    // console.log('THIS IS THE ID', id);
 
     const updatedUser = {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        addstreet: req.body.street,
-        houseNumber: req.body.houseNumber,
-        zipcode: req.body.zipcode,
-        city: req.body.city,
+        "address.street": req.body.street,
+        "address.houseNumber": req.body.houseNumber,
+        "address.zipcode": req.body.zipcode,
+        "address.city": req.body.city,
         description: req.body.description,
         profileImg: req.body.profileImg
     };
+    console.log('THIS IS THE UPDATED USER', updatedUser);
+    
 
     User.update({_id: id}, updatedUser, (err) => {
         if (err) {
