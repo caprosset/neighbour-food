@@ -14,32 +14,17 @@ router.get('/', (req, res, next) => {
   const hostInfo = [];
 
   MealEvent.find()
+  .populate('host')
   .then( (allMealEventsFromDB) => {
-      // console.log('ALL EVENTS', allMealEventsFromDB)
+      console.log('ALL EVENTS', allMealEventsFromDB)
 
-    allMealEventsFromDB.forEach(meal => {
-      console.log('HOST IDSSSS', meal.host);
-
-      User.findById({_id: meal.host})
-      .then( (host) => {
-        // hostName.push(host.name);
-        // hostAddress.push(host.address.zipcode);
-        hostInfo.push(host);
-        console.log('HOST INFOOOOO', hostInfo);
-        return hostInfo;
-      })
-      .catch( (err) => console.log(err));
-    })
-
-    res.render('meal-views/show-all', { 
-      allMealEventsFromDB, 
-      userInfo: req.session.currentUser
-    });
+      res.render('meal-views/show-all', { 
+        allMealEventsFromDB, 
+        userInfo: req.session.currentUser
+      });
   })
-  .catch( (err) => console.log(err));
+  .catch( (err) => console.log('ERRROOOORRR', err));
 });
-
-
 
 
 //  GET /meal-events/create	--> Renders the form view to add a new event
