@@ -49,6 +49,7 @@ router.post('/create', parser.single('eventImg'), (req, res, next) => {
     // console.log('SAVE HOSTED EVENT IN USER')
     // console.log('MEAL EVENT ID', mealevent._id);
     // console.log('USER ID', req.session.currentUser._id);
+  console.log('dateeee: ', req.body.date);
 
     User.updateOne({ _id: req.session.currentUser._id }, { $addToSet: { hostedEvents: mealevent._id} }, {new: true})
     .then( (data) => console.log('USER UPDATEDDDDD', data))
