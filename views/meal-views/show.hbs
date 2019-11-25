@@ -6,11 +6,11 @@
     
     <div>
       <p> EventName: {{ mealEvent.eventName }}</p>
-      <p> Date: {{ mealEvent.sdate }}</p>
-      {{#ifeqId mealEvent.host userInfo._id }}
+      <p> Date: {{ mealEvent.date }}</p>
+      {{#ifeqId mealEvent.host._id userInfo._id }}
         <p>Host: you are the host of this event</p>
       {{else}}
-        <p> Host: <a href="/profile/{{ mealEvent.host }}">{{hostInfo.name}}</a></p>
+        <p> Host: <a href="/profile/{{ mealEvent.host }}">{{mealEvent.host.name}}</a></p>
       {{/ifeqId}}
       <p> Cuisine: {{ mealEvent.cuisine }} </p>
       <p> Number of guests: {{ mealEvent.numberAttend }}</p>
@@ -18,21 +18,30 @@
 
     <div>
       <p> Dish: {{ mealEvent.dish }}</p>
+      <p> Neighbourhood: {{ mealEvent.host.address.zipcode }}</p>
       <p> Description: {{ mealEvent.eventDescription }}</p>
     </div>
   <div>
 
   <div>
     {{!-- if current user is the host of this event --}}
-    {{#ifeqId mealEvent.host userInfo._id }}
-      
+    {{#ifeqId mealEvent.host._id userInfo._id }}
       <button><a href="/meal-events/{{mealEvent._id}}/edit">Edit this event</a></button>
       <button><a href="/meal-events/{{mealEvent._id}}/delete">Delete this event</a></button>
     {{else}}
       {{!-- if current user is not the host but is a guest of this event --}}
       {{#ifinc mealEvent.guest userInfo._id}}
-        <p>You attend this event</p>
-        <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
+        <div>
+          <p>You attend this event</p>
+        <p>This is the address:</p>
+        <ul>
+          <li>{{ mealEvent.host.address.street }}</li>
+          <li>{{ mealEvent.host.address.houseNumber }}</li>
+          <li>{{ mealEvent.host.address.zipcode }}</li>
+          <li>{{ mealEvent.host.address.city }}</li>
+        </ul>
+        </div>
+         <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
           <button type="submit">Cancel attendance</button>
         </form>
       {{!-- if current user is not a guest of this event either --}}

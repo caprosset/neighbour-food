@@ -18,10 +18,7 @@ router.get('/:id', (req, res, next) => {
         // console.log(oneUser);
         res.render('user-views/show', { oneUser, userInfo: req.session.currentUser });
     })
-    .catch( (err) => {
-        console.log(err);
-        next();
-    });
+    .catch( (err) => console.log(err) );
 })
 
 // GET /profile/:id/events --> Renders the 'my events' page
@@ -48,10 +45,7 @@ router.get('/:id/events', (req, res, next) => {
         })
         .catch( (err) => console.log(err));
     })
-    .catch( (err) => {
-        console.log(err);
-        next();
-    });
+    .catch( (err) => console.log(err) );
 })
 
 
@@ -62,20 +56,14 @@ router.get('/:id/edit', (req, res, next) => {
         // console.log(oneUser);
         res.render('user-views/edit', { oneUser, userInfo: req.session.currentUser })
     })
-    .catch( (err) => {
-        console.log(err);
-        next();
-    });
+    .catch( (err) => console.log(err) );
 })
-
 
 // POST	/profile/:id/ --> updates the user info in DB. Redirects to the profile page
 router.post('/:id/edit', (req, res, next) => {
-    console.log('PARAMS -->', req.params);
-    console.log('BODY -->', req.body);
-
+    // console.log('PARAMS -->', req.params);
+    // console.log('BODY -->', req.body);
     const id = req.params.id;
-
     const updatedUser = {
         name: req.body.name,
         email: req.body.email,
@@ -87,16 +75,18 @@ router.post('/:id/edit', (req, res, next) => {
         description: req.body.description,
         profileImg: req.body.profileImg
     };
-    // console.log('THIS IS THE UPDATED USER', updatedUser);
     
-    User.update({_id: id}, updatedUser, (err) => {
-        if (err) {
-            return next(err);
-        }
-        res.redirect(`/profile/${id}`); 
-    });
+    User.update({_id: id}, updatedUser)
+    .then( () => {
+        return User.findById(id);
+    })
+    .then( (updatedUser) => {;
+        // console.log('UPDATED USER', updatedUser);
+        req.session.currentUser = updatedUser;
+        res.redirect(`/profile/${id}`);
+    })
+    .catch( (err) => console.log(err));
 })
-
 
 
 // POST /profile/{{oneUser._id}}/review --> saves the newly created review in the DB
@@ -106,31 +96,20 @@ router.post('/:id/review', (req, res, next) => {
     const reviewToInsert = req.body.review;
 
     User.updateOne({ _id: id}, { $addToSet: { reviews: reviewToInsert}}, {new: true})
-    .then( () => {
-        res.redirect(`/profile/${req.params.id}`); 
-    })
+    .then( () => res.redirect(`/profile/${req.params.id}`))
     .catch( (err) => console.log(err));
 })
 
 
 // DELETE	/profile/:id/delete
 router.get('/:id/delete', function(req, res, next) {
-    console.log('ID TO DELETE', req.params);
-    const id = req.params.id;
+    // console.log('ID TO DELETE', req.params);
 
-    User.findOne({ _id: id }, (err, theUser) => {
-        if (err) {
-            return next(err);
-        }
-
-        theUser.remove(err => {
-            if (err) {
-                return next(err);
-            }
-
-            res.redirect('/');
-        });
-    });
+    User.findOne({ _id: req.params.id })
+    .then( (theUser) => theUser.remove())
+    .then( () => req.session.destroy())
+    .then( () => res.redirect('/'))
+    .catch( (err) => console.log(err));
 });
 
 
