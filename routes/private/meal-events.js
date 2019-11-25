@@ -12,7 +12,13 @@ router.get('/', (req, res, next) => {
   MealEvent.find()
   .populate('host')
   .then( (allMealEventsFromDB) => {
-      console.log('ALL EVENTS', allMealEventsFromDB)
+      // console.log('ALL EVENTS', allMealEventsFromDB)
+
+      // for each meal event, push userinfo zipcode in the object
+      allMealEventsFromDB.forEach( meal => {
+        meal["userZipcode"] = req.session.currentUser.address.zipcode;
+      })
+      // console.log('USERS ZIPCODE', allMealEventsFromDB[0].userZipcode)
 
       res.render('meal-views/show-all', { 
         allMealEventsFromDB, 
