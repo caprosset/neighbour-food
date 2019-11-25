@@ -93,6 +93,7 @@ router.post('/login', (req, res, next) => {
     );
 
     // If password is correct - create session (& cookie) and redirect
+    // if(enteredPassword === userData.password){
     if (passwordCorrect) {
       // Save the login in the session ( and create cookie )
       // And redirect the user
