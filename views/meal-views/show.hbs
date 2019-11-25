@@ -22,13 +22,13 @@
 
   <div>
     {{!-- if current user is the host of this event --}}
-    {{#ifeqId mealEvent.host currentUserId }}
+    {{#ifeqId mealEvent.host userInfo._id }}
       <p>You are the host of this event</p>
       <button><a href="/meal-events/{{mealEvent._id}}/edit">Edit this event</a></button>
       <button><a href="/meal-events/{{mealEvent._id}}/delete">Delete this event</a></button>
     {{else}}
       {{!-- if current user is not the host but is a guest of this event --}}
-      {{#ifinc mealEvent.guest currentUserId}}
+      {{#ifinc mealEvent.guest userInfo._id}}
         <p>You attend this event</p>
         <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
           <button type="submit">Cancel attendance</button>
@@ -43,7 +43,7 @@
   </div>
 
   <div>
-    <p><a href="/profile/{{currentUserId}}">Back to your profile</a></p>
+    <p><a href="/profile/{{userInfo._id}}">Back to your profile</a></p>
     <p><a href="/meal-events">Back to the list of events</a></p>
   </div>
 </div>

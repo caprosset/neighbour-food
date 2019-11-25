@@ -17,16 +17,27 @@
 </head>
 
 <body>
+  {{#if userInfo}}
+    <nav class="navbar fixed-top navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+      <div class="container"></div>
+        <p>You have 10 forks</p>
+        <a href="/signout"><button type="button" class="btn btn-danger">Logout</button></a>
+      </div>
+  </nav>
+  {{/if}}
+
   <div class="container-fluid">
     {{{body}}}
   </div>
 
+
+  {{#if userInfo}}
   <nav class="navbar fixed-bottom navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="nav-item nav-link active" href="/meal-events">
         <i class="material-icons">restaurant_menu</i><span class="sr-only">(current)</span>
       </a>
-      <a class="nav-item nav-link active" href="./{{oneUser._id}}/events">
+      <a class="nav-item nav-link active" href="/profile/{{userInfo._id}}/events">
         <i class="material-icons">calendar_today</i><span class="sr-only">(current)</span>
       </a>
       <a class="navbar-brand" href="/meal-events/create">
@@ -36,9 +47,11 @@
         <i class="material-icons">mail_outline</i><span class="sr-only">(current)</span>
       </a>
       <a class="nav-item nav-link active" href="/profile/{{userInfo._id}}">
-        <i class="material-icons">person</i><span class="sr-only">(current)</span></a>
+        <i class="material-icons">person</i><span class="sr-only">(current)</span>
+      </a>
     </div>
   </nav>
+  {{/if}}
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

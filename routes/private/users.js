@@ -16,7 +16,7 @@ router.get('/:id', (req, res, next) => {
     User.findById(req.params.id)
     .then( (oneUser) => {
         console.log(oneUser);
-        res.render('user-views/show', { oneUser });
+        res.render('user-views/show', { oneUser, userInfo: req.session.currentUser });
     })
     .catch( (err) => {
         console.log(err);
@@ -40,7 +40,11 @@ router.get('/:id/events', (req, res, next) => {
             const mealEventIhost = mealEvents[0];
             const mealEventIattend = mealEvents[1];
 
-            res.render('user-views/myevents', { mealEventHost: mealEventIhost, mealEventGuest: mealEventIattend});
+            res.render('user-views/myevents', { 
+                mealEventHost: mealEventIhost, 
+                mealEventGuest: mealEventIattend,
+                userInfo: req.session.currentUser
+            });
         })
         .catch( (err) => console.log(err));
     })
@@ -56,7 +60,7 @@ router.get('/:id/edit', (req, res, next) => {
     User.findById(req.params.id)
     .then( (oneUser) => {
         console.log(oneUser);
-        res.render('user-views/edit', { oneUser })
+        res.render('user-views/edit', { oneUser, userInfo: req.session.currentUser })
     })
     .catch( (err) => {
         console.log(err);

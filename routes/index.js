@@ -24,7 +24,14 @@ router.use('/signup', signupRouter);
 
 /* GET home page */
 router.get('/', (req, res, next) => {
-  res.render('index');
+  const userId = req.session.currentUser._id;
+
+  if (userId) {
+    res.redirect('/meal-events');
+  } else {
+    res.render('index');
+  }
+  
 }); 
 
 

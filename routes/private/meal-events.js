@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
 
 //  GET /meal-events/create	--> Renders the form view to add a new event
 router.get('/create', (req, res, next) => {
-  res.render('meal-views/create')
+  res.render('meal-views/create', { userInfo: req.session.currentUser });
   });
 
 // POST	/meal-events/create	--> Adds a new event in the DB 
@@ -72,9 +72,7 @@ router.get('/:id', (req, res, next) => {
     // console.log('USER IDDDDDDDDD', req.session.currentUser._id);
     // console.log('EVENT HOSSSSTTT', theMealEvent.host);
 
-    const currentUserId = req.session.currentUser._id;
-
-    res.render('meal-views/show', {mealEvent: theMealEvent, currentUserId});
+    res.render('meal-views/show', {mealEvent: theMealEvent, userInfo: req.session.currentUser});
   })
   .catch( (err) => console.log(err));
 });
@@ -89,6 +87,7 @@ router.get('/:id/edit', (req, res, next) => {
 
     res.render('meal-views/edit', {
       mealEvent: theMealEvent,
+      userInfo: req.session.currentUser
     });
   });
 });
