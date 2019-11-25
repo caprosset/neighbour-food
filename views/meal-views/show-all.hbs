@@ -8,7 +8,9 @@
     <div class="event-preview">
       <img src="{{ this.eventImg }}" alt="Event image">
       <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+      <p>Host: {{ this.host.name }}</p>
       <p>Cuisine: {{ this.cuisine }}</p>
+      <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
       <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
     </div>
     {{/each}}

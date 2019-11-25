@@ -18,8 +18,9 @@
 
 <body>
   {{#if userInfo}}
-    <nav class="navbar fixed-top navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+    <nav class="navbar fixed-top navbar navbar-expand-lg navbar-light bg-light">
       <div class="container"></div>
+        <p>Hello <a href="/profile/{{userInfo._id}}">{{userInfo.email}}</a></p>
         <p>You have 10 forks</p>
         <a href="/signout"><button type="button" class="btn btn-danger">Logout</button></a>
       </div>
@@ -63,6 +64,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+    <script src="/scripts/script.js"></script>
 </body>
 
 </html>

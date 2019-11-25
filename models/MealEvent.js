@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const User = require('./User');
 
-const MealEventSchema = Schema({
+const mealEventSchema = Schema({
   eventName: {type: String, required: true} ,
   cuisine: {type: String, required: true} ,
   dish: {type: String, required: true} ,
@@ -14,6 +15,6 @@ const MealEventSchema = Schema({
   costScore: {type: Number} 
 });
 
-const MealEvent = mongoose.model('mealEvent', MealEventSchema);
+const MealEvent = mongoose.model('MealEvent', mealEventSchema);
 
 module.exports = MealEvent;
