@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-// const parser = require('../../config/cloudinary');
+const parser = require('../../config/cloudinary');
 
 const app = express();
 
@@ -13,11 +13,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // POST '/auth/signup'
-router.post('/signup',(req, res, next) => {
+router.post('/signup', parser.single('profileImg'),(req, res, next) => {
   // Destructure the password and email
-  // console.log('Bodyyyyyyy', req.body);
-  const { name, email, password, street, houseNumber, zipcode, city, description, profileImg } = req.body;
-  // const { profileImg } = req.file.secure_url;
+  console.log('Bodyyyyyyy', req.file.secure_url);
+  const { name, email, password, street, houseNumber, zipcode, city, description } = req.body;
+  const profileImg = req.file.secure_url;
 
   // Check if the email and password are empty strings
   if (email === '' || password === '' || name === '' || street === '' ||  zipcode === '' || houseNumber === '' || city === '' ||   description === '' || profileImg === '') {
