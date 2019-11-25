@@ -5,14 +5,19 @@
   <div>
   {{#if allMealEventsFromDB}}
     {{#each allMealEventsFromDB}}
-    <div class="event-preview">
-      <img src="{{ this.eventImg }}" alt="Event image">
-      <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-      <p>Host: {{ this.host.name }}</p>
-      <p>Cuisine: {{ this.cuisine }}</p>
-      <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
-      <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
-    </div>
+      {{!-- if current user zipcode matches the event host zipcode --}}
+      {{#ifeq this.host.address.zipcode this.userZipcode}}
+       {{!-- <p>ZIPCODDDEEE: {{../userInfo.address.zipcode}} </p> --}}
+        <div class="event-preview">
+          <img src="{{ this.eventImg }}" alt="Event image">
+          <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+          <p>Host: {{ this.host.name }}</p>
+          <p>Cuisine: {{ this.cuisine }}</p>
+          <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
+          <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
+        </div>
+        <hr>
+      {{/ifeq}}
     {{/each}}
   {{else}}
     <p>Ooops! No meal events has been found in your neighbourhood! </p>
