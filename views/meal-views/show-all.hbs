@@ -7,7 +7,7 @@
     {{#each allMealEventsFromDB}}
       {{!-- if current user zipcode matches the event host zipcode --}}
       {{#ifeq this.host.address.zipcode this.userZipcode}}
-       <p>ZIPCODDDEEE: {{../userInfo.address.zipcode}} </p>
+       {{!-- <p>ZIPCODDDEEE: {{../userInfo.address.zipcode}} </p> --}}
         <div class="event-preview">
           <img src="{{ this.eventImg }}" alt="Event image">
           <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
