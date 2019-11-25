@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <h1>EDIT USER PROFILE</h1>
 
-  <form action='/profile/{{oneUser._id}}/edit' method='POST'>
+  <form action='/profile/{{oneUser._id}}/edit' method='POST' enctype="multipart/form-data">
     <label for=''>Name</label>
     <input type='text' name='name' value='{{oneUser.name}}'>
     <br>
@@ -20,8 +20,9 @@
     <label for=''>Description</label>
     <input type='textarea' name='description' value='{{oneUser.description}}'>
     <br>
-    <label for=''>Image</label>
-    <input type='text' name='profileImg' value='{{oneUser.profileImg}}'>
+    <label for='profileImg'>Image</label>
+    <img src="{{oneUser.profileImg}}" alt="profileImg">
+    <input type='file' name='profileImg' value='{{oneUser.profileImg}}'>
     <br>
     <button type='submit'>Save changes</button>
   </form>

@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('./../../models/User');
 const MealEvent = require('./../../models/MealEvent');
 // const axios = require('axios');
+const parser = require('../../config/cloudinary');
 
 
 // GET	/profile --> Redirects to the profile page
@@ -60,7 +61,7 @@ router.get('/:id/edit', (req, res, next) => {
 })
 
 // POST	/profile/:id/ --> updates the user info in DB. Redirects to the profile page
-router.post('/:id/edit', (req, res, next) => {
+router.post('/:id/edit', parser.single('profileImg'), (req, res, next) => {
     // console.log('PARAMS -->', req.params);
     // console.log('BODY -->', req.body);
     const id = req.params.id;
@@ -73,7 +74,7 @@ router.post('/:id/edit', (req, res, next) => {
         "address.zipcode": req.body.zipcode,
         "address.city": req.body.city,
         description: req.body.description,
-        profileImg: req.body.profileImg
+        profileImg: req.file.secure_url,
     };
     
     User.update({_id: id}, updatedUser)

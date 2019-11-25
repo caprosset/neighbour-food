@@ -93,14 +93,14 @@ router.get('/:id/edit', (req, res, next) => {
 });
 
 // PUT	/meal-events/:id/edit --> Updates the meal event in the DB
-router.post('/:id', (req, res, next) => {
+router.post('/:id', parser.single('eventImg'), (req, res, next) => {
   
   const updatedEvent = {
     eventName: req.body.eventName,
     cuisine: req.body.cuisine ,
     dish: req.body.dish ,
     date: req.body.date ,
-    eventImg: req.body.img ,
+    eventImg: req.file.secure_url,
     eventDescription:req.body.eventDescription ,
     numberAttend: req.body.numberAttend,
   };
