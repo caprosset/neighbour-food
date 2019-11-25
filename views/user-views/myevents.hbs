@@ -9,9 +9,7 @@
     {{/each}}
   {{else}}
     <p>You don't host any event yet</p>
-    <form action="/meal-events/create" method="POST">
-      <button type="submit">Create a new event</button>
-    </form>
+    <p><a href="/meal-events/create">Create a new event</a></p>
   {{/if}}
   </ul>
 
@@ -26,7 +24,4 @@
     <p><a href="/meal-events">See the list of events</a></p>
   {{/if}}
   </ul>
-
-  <p><a href="/profile/{{oneUser._id}}">Back to my profile</a></p>
-  <p><a href="/meal-events">Back to all events</a></p>
 </div>

@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
   req.session.destroy( (err) => {
     console.log('YOU HAVE BEEN LOGGED OUT');
-    res.render('index');
+    res.redirect('/');
   })
 });
   

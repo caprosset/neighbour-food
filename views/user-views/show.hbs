@@ -9,6 +9,15 @@
   <p>Description: {{oneUser.description}}</p>
   <div>
     <p>Reviews:</p>
+    {{#ifeqId oneUser._id userInfo._id}}
+      You have {{oneUser.reviews.length}} review(s)
+    {{else}}
+      <form action="/profile/{{oneUser._id}}/review" method="POST">
+        <label for="review">Write a review for this user: </label>
+        <input name="review" type="textarea">
+        <button type="submit">Submit review</button>
+      </form>
+    {{/ifeqId}}
     <ul>
       {{#each oneUser.reviews}}
       <li>{{this}}</li>
@@ -16,10 +25,11 @@
     </ul>
   </div>
 
+  {{#ifeqId oneUser._id userInfo._id}}
   <div class="user-actions">
     <button><a href="/profile/{{oneUser._id}}/edit">Edit profile</a></button>
     <button id="delete-button"><a href="/profile/{{oneUser._id}}/delete">Delete profile</a></button>
     <p><a href="/profile/{{oneUser._id}}/events">See my events</a></p>
-    <p><a href="/signout">Logout</a></p>
   </div>
 </div>
+{{/ifeqId}}

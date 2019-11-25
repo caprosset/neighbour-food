@@ -9,14 +9,37 @@ const parser = require('../../config/cloudinary');
 
 // GET /meal-events --> renders all the events
 router.get('/', (req, res, next) => {
+  // const hostName = [];
+  // const hostAddress = [];
+  const hostInfo = [];
 
   MealEvent.find()
   .then( (allMealEventsFromDB) => {
-      // console.log(allMealEventsFromDB)
-      res.render('meal-views/show-all', { allMealEventsFromDB, userInfo: req.session.currentUser});
+      // console.log('ALL EVENTS', allMealEventsFromDB)
+
+    allMealEventsFromDB.forEach(meal => {
+      console.log('HOST IDSSSS', meal.host);
+
+      User.findById({_id: meal.host})
+      .then( (host) => {
+        // hostName.push(host.name);
+        // hostAddress.push(host.address.zipcode);
+        hostInfo.push(host);
+        console.log('HOST INFOOOOO', hostInfo);
+        return hostInfo;
+      })
+      .catch( (err) => console.log(err));
+    })
+
+    res.render('meal-views/show-all', { 
+      allMealEventsFromDB, 
+      userInfo: req.session.currentUser
+    });
   })
   .catch( (err) => console.log(err));
 });
+
+
 
 
 //  GET /meal-events/create	--> Renders the form view to add a new event
@@ -72,8 +95,13 @@ router.get('/:id', (req, res, next) => {
   .then( (theMealEvent) => {
     // console.log('USER IDDDDDDDDD', req.session.currentUser._id);
     // console.log('EVENT HOSSSSTTT', theMealEvent.host);
-
-    res.render('meal-views/show', {mealEvent: theMealEvent, userInfo: req.session.currentUser});
+    // console.log('HOST INFO', theMealEvent.host);
+    User.findOne({_id: theMealEvent.host})
+    .then( (host) =>{
+      // console.log('HOST INFO', host);
+      res.render('meal-views/show', {mealEvent: theMealEvent, userInfo: req.session.currentUser, hostInfo: host});
+    })
+    .catch( (err) => console.log(err));
   })
   .catch( (err) => console.log(err));
 });
@@ -111,8 +139,7 @@ router.post('/:id', function(req, res, next) {
       if (err) {
         return next(err);
       }
-
-      res.redirect('/meal-events');
+      res.redirect(`/meal-events/${req.params.id}`);
     },
   );
 });

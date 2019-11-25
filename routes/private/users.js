@@ -5,17 +5,17 @@ const MealEvent = require('./../../models/MealEvent');
 // const axios = require('axios');
 
 
-// GET	/profile
+// GET	/profile --> Redirects to the profile page
 router.get('/', (req, res, next) => {
     const id = req.session.currentUser._id;
     res.redirect(`/profile/${id}`)
 })
 
-// GET	/profile/:id	Private route. Renders user-views/show view.
+// GET	/profile/:id --> Renders the profile page
 router.get('/:id', (req, res, next) => {
     User.findById(req.params.id)
     .then( (oneUser) => {
-        console.log(oneUser);
+        // console.log(oneUser);
         res.render('user-views/show', { oneUser, userInfo: req.session.currentUser });
     })
     .catch( (err) => {
@@ -24,7 +24,7 @@ router.get('/:id', (req, res, next) => {
     });
 })
 
-// GET /profile/:id/events Private route. Renders user-views/myevent view.
+// GET /profile/:id/events --> Renders the 'my events' page
 router.get('/:id/events', (req, res, next) => {
     User.findById(req.params.id)
     .then( (oneUser) => {
@@ -55,11 +55,11 @@ router.get('/:id/events', (req, res, next) => {
 })
 
 
-// GET	/profile/:id/edit	Private route. Renders user-views/edit form view.
+// GET	/profile/:id/edit --> Renders the edit form to edit user profile
 router.get('/:id/edit', (req, res, next) => {
     User.findById(req.params.id)
     .then( (oneUser) => {
-        console.log(oneUser);
+        // console.log(oneUser);
         res.render('user-views/edit', { oneUser, userInfo: req.session.currentUser })
     })
     .catch( (err) => {
@@ -68,7 +68,8 @@ router.get('/:id/edit', (req, res, next) => {
     });
 })
 
-// POST	/profile/:id/	Private route. Sends edit-profile info to server and updates user in DB. Redirects to the user-views/show view (url: /profile/:id).
+
+// POST	/profile/:id/ --> updates the user info in DB. Redirects to the profile page
 router.post('/:id/edit', (req, res, next) => {
     console.log('PARAMS -->', req.params);
     console.log('BODY -->', req.body);
@@ -86,15 +87,29 @@ router.post('/:id/edit', (req, res, next) => {
         description: req.body.description,
         profileImg: req.body.profileImg
     };
-    console.log('THIS IS THE UPDATED USER', updatedUser);
+    // console.log('THIS IS THE UPDATED USER', updatedUser);
     
-
     User.update({_id: id}, updatedUser, (err) => {
         if (err) {
             return next(err);
         }
         res.redirect(`/profile/${id}`); 
     });
+})
+
+
+
+// POST /profile/{{oneUser._id}}/review --> saves the newly created review in the DB
+router.post('/:id/review', (req, res, next) => {
+    // console.log('BODY -->', req.body.review);
+    const id = req.params.id;
+    const reviewToInsert = req.body.review;
+
+    User.updateOne({ _id: id}, { $addToSet: { reviews: reviewToInsert}}, {new: true})
+    .then( () => {
+        res.redirect(`/profile/${req.params.id}`); 
+    })
+    .catch( (err) => console.log(err));
 })
 
 

@@ -1,29 +1,31 @@
 
 <div class="container-fluid">
   <h1>{{ mealEvent.eventName }}</h1>
+  <div class="event-container">
+    <img src="{{ mealEvent.eventImg }}" alt="Event image">
+    
+    <div>
+      <p> EventName: {{ mealEvent.eventName }}</p>
+      <p> Date: {{ mealEvent.sdate }}</p>
+      {{#ifeqId mealEvent.host userInfo._id }}
+        <p>Host: you are the host of this event</p>
+      {{else}}
+        <p> Host: <a href="/profile/{{ mealEvent.host }}">{{hostInfo.name}}</a></p>
+      {{/ifeqId}}
+      <p> Cuisine: {{ mealEvent.cuisine }} </p>
+      <p> Number of guests: {{ mealEvent.numberAttend }}</p>
+    </div>
 
-  <div>
-    <ul>
-      <li> EventName: {{ mealEvent.eventName }}</li>
-
-      <li> Cuisine: {{ mealEvent.cuisine }} </li>
-      
-      <li> Dish:{{ mealEvent.dish }} </li>
-
-      <li> Date: {{ mealEvent.date }}</li>
-
-      <li> Event Photo: <img src="{{ mealEvent.eventImg }}"> </li>
-
-      <li> Description: {{ mealEvent.eventDescription }} </li>
-
-      <li> Number of guests: {{ mealEvent.numberAttend }} </label>
-    </ul>
+    <div>
+      <p> Dish: {{ mealEvent.dish }}</p>
+      <p> Description: {{ mealEvent.eventDescription }}</p>
+    </div>
   <div>
 
   <div>
     {{!-- if current user is the host of this event --}}
     {{#ifeqId mealEvent.host userInfo._id }}
-      <p>You are the host of this event</p>
+      
       <button><a href="/meal-events/{{mealEvent._id}}/edit">Edit this event</a></button>
       <button><a href="/meal-events/{{mealEvent._id}}/delete">Delete this event</a></button>
     {{else}}

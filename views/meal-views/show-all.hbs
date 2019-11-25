@@ -1,21 +1,24 @@
 <div class="container-fluid">
   <h1>ALL THE EVENTS</h1>
-  <h2>See all the events in your neighbourhood</h2>
+  <h2>See all the events in your neighbourhood: {{userInfo.address.zipcode}}</h2>
 
+  <div>
   {{#if allMealEventsFromDB}}
-  <ul>
     {{#each allMealEventsFromDB}}
-      <li>
-        <a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a>
-        - {{ this.cuisine }}
-      </li>
+    <div class="event-preview">
+      <img src="{{ this.eventImg }}" alt="Event image">
+      <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+      <p>Cuisine: {{ this.cuisine }}</p>
+      <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
+    </div>
     {{/each}}
-  </ul>
   {{else}}
     <p>Ooops! No meal events has been found in your neighbourhood! </p>
     <p>Will you be the first one? </p>
   {{/if}}
+  </div>
 
-
-  <a href="/meal-events/create">Create a new event</a>
+  <div>
+    <a href="/meal-events/create">Create a new event</a>
+  </div>
 </div>
