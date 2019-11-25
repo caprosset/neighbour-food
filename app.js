@@ -10,6 +10,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
+const registerHelpers = require('./loaders/hbs')
 // const exphbs = require('express-handlebars');
 // const axios = require('axios');
 
@@ -42,25 +43,25 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // HBS helpers
-hbs.registerHelper
-hbs.registerHelper('ifeq', function(a, b, options){
-  if (a === b) {
-    return options.fn(this);
-  }
-    return options.inverse(this);
-});
-hbs.registerHelper('ifeqId', function(a, b, options){
-  if (a.equals(b)) {
-    return options.fn(this);
-  }
-    return options.inverse(this);
-});
-hbs.registerHelper('ifinc', function(array, value, options){
-  if (array.includes(value)) {
-    return options.fn(this);
-  }
-    return options.inverse(this);
-});
+// hbs.registerHelper('ifeq', function(a, b, options){
+//   if (a === b) {
+//     return options.fn(this);
+//   }
+//     return options.inverse(this);
+// });
+// hbs.registerHelper('ifeqId', function(a, b, options){
+//   if (a.equals(b)) {
+//     return options.fn(this);
+//   }
+//     return options.inverse(this);
+// });
+// hbs.registerHelper('ifinc', function(array, value, options){
+//   if (array.includes(value)) {
+//     return options.fn(this);
+//   }
+//     return options.inverse(this);
+// });
+registerHelpers(hbs);
 
 
 // Authentication
