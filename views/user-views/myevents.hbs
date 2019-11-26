@@ -17,7 +17,7 @@
         <h6>Pending guests:</h6>
           {{#each this.pendingGuests}}
           <div class="pending-guest">
-            <p><a href="/profile/{{this}}">Guest</a></p>
+            <p><a href="/profile/{{this}}">guest</a></p>
             <form action="/meal-events/{{../this._id}}/accept/{{this}}" method="POST">
               <button type="submit">Accept</button>
             </form>
@@ -57,7 +57,7 @@
     {{#if mealEventPending}}
     <p>Events pending:</p>
     {{#each mealEventPending}}
-      <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
+      <li>{{this.date}} - <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
     {{/each}}
     {{/if}}
   </div>

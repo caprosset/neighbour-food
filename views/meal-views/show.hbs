@@ -7,11 +7,22 @@
     <div>
       <p> EventName: {{ mealEvent.eventName }}</p>
       <p> Date: {{ mealEvent.date }}</p>
+
       {{#ifeqId mealEvent.host._id userInfo._id }}
         <p>Host: you are the host of this event</p>
       {{else}}
         <p> Host: <a href="/profile/{{ mealEvent.host._id }}">{{mealEvent.host.name}}</a></p>
       {{/ifeqId}}
+
+      {{#if mealEvent.acceptedGuests}}
+        <p>Guests attending this event:</p>
+        <ul>
+        {{#each mealEvent.acceptedGuests}}
+          <li><a href="/profile/{{this._id}}">{{this.name}}</a></li>
+        {{/each}}
+        </ul>
+      {{/if}}
+
       <p> Cuisine: {{ mealEvent.cuisine }} </p>
       <p> Number of guests: {{ mealEvent.numberAttend }}</p>
     </div>

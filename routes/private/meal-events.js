@@ -88,7 +88,7 @@ router.get('/:id', (req, res, next) => {
   MealEvent.findOne({
       _id: req.params.id
     })
-    .populate('host')
+    .populate('host acceptedGuests')
     .then((theMealEvent) => {
       // console.log('MEAL EVENT', theMealEvent);
 
