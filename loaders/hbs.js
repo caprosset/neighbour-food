@@ -29,6 +29,10 @@ function registerHelpers(hbsModule) {
   }
     return options.inverse(this);
   });
+  hbsModule.registerHelper('incremented', function (index) {
+    index++;
+    return index;
+  });
 }
 
 module.exports = registerHelpers;
