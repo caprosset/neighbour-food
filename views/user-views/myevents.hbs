@@ -3,16 +3,27 @@
 
   <h2>EVENTS I HOST</h2>
   <ul>
+    {{#each guestsName}}
+      <li>Names: {{this}}</li>
+    {{/each}}
+
     {{#if mealEventHost}}
       {{#each mealEventHost}}
       <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
 
         {{#if this.pendingGuests}}
-        <ul>
+        <div>
+          <h5>Pending guests:</h5>
           {{#each this.pendingGuests}}
-            <li><a href="/profile/{{this}}">Pending guest</a></li>
+            <p><a href="/profile/{{this}}">guest</a></p>
+            <form action="/meal-events/{{../this._id}}/accept/{{this}}" method="POST">
+              <button type="submit">Accept</button>
+            </form>
+            <form action="/meal-events/{{../this._id}}/decline/{{this}}" method="POST">
+              <button type="submit">Decline</button>
+            </form>
           {{/each}}
-        </ul>
+        </div>
         {{/if}}
       {{/each}}
     {{else}}

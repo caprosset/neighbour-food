@@ -34,39 +34,34 @@ router.get('/:id/events', (req, res, next) => {
             "mealEventPending:", oneUser.pendingEvents,
             "mealEventGuest:", oneUser.attendedEvents);
         
-            oneUser.hostedEvents.forEach(mealhost => {
-
-                console.log('PENDING GUESTS', mealhost.pendingGuests);
+        // save guests names into an array
+        const myArr = []
+        oneUser.hostedEvents.forEach(mealhost => {
+            console.log('PENDING GUESTS', mealhost.pendingGuests);
+            mealhost.pendingGuests.forEach(guestId => {
+                User.findById(guestId)
+                .then( (guestObj) => {
+                    console.log('GUEST OBJECT', guestObj)
+                    return myArr.push(guestObj.name);
+                })
+                .then(() =>{
+                    console.log('MY ARRAYYYYoooo', myArr); 
+                    return myArr;
+                })
+                .then(() =>{
+                    res.render('user-views/myevents', {
+                        guestsName: myArr,
+                        mealEventHost: oneUser.hostedEvents,
+                        mealEventPending: oneUser.pendingEvents,
+                        mealEventGuest: oneUser.attendedEvents,
+                        userInfo: req.session.currentUser
+                    });
+                })
+                .catch( (err) => console.log(err));
             }) 
-            
-        
-        // console.log(oneUser);
-        // const pr1 = MealEvent.find({
-        //     _id: oneUser.hostedEvents
-        // });
-        // const pr2 = MealEvent.find({
-        //     _id: oneUser.attendedEvents
-        // });
-        res.render('user-views/myevents', {
-            mealEventHost: oneUser.hostedEvents,
-            mealEventPending: oneUser.pendingEvents,
-            mealEventGuest: oneUser.attendedEvents,
-            userInfo: req.session.currentUser
-        });
-    })
-
-    //     Promise.all([pr1, pr2])
-    //         .then((mealEvents) => {
-    //             // console.log('EVENTS I HOST', mealEvents[0]);
-    //             // console.log('EVENTS I ATTEND', mealEvents[1]);
-
-    //             const mealEventIhost = mealEvents[0];
-    //             const mealEventIattend = mealEvents[1];
-
-                
-    //         .catch((err) => console.log(err));
-    // })
+        })
     .catch((err) => console.log(err));
+    })
 })
 
 

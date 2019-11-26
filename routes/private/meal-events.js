@@ -169,6 +169,28 @@ router.post('/:id/attend', function (req, res, next) {
 });
 
 
+router.post('/:mealId/accept/:guestId',  (req, res, next) => {
+    const mealeventId = req.params.mealId;
+    const guestId = req.params.guestId;
+    const currentUserId = req.session.currentUser._id;
+
+    const pr1 = MealEvent.update({_id: mealeventId}, 
+      { 
+        $addToSet: {acceptedGuests: guestId},
+        $pull: {pendingGuests: guestId}
+      })
+
+    const pr2 = User.update({_id: guestId}, 
+      { 
+        $addToSet: {attendedEvents: mealeventId},
+        $pull: {pendingEvents: mealeventId}
+      })
+
+    Promise.all([pr1, pr2])
+      .then( () => res.redirect(`/profile/${currentUserId}/events`))
+      .catch( (err) => console.log(err));
+})
+
 // POST /meal-events/:id/cancel --> Removes the current user from the meal event guests array in the DB
 router.post('/:id/cancel', function (req, res, next) {
   const mealeventId = req.params.id;
