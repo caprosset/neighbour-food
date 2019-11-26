@@ -6,7 +6,7 @@ const mealEventSchema = Schema({
   eventName: {type: String, required: true} ,
   cuisine: {type: String, required: true} ,
   dish: {type: String, required: true} ,
-  date: {type: Date, required: true} ,
+  date: {type: String, required: true} ,
   eventImg: {type: String} ,
   host: {  type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
   guest: [{  type: mongoose.Schema.Types.ObjectId, ref: "User"}],

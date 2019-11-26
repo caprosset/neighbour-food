@@ -15,114 +15,145 @@ router.get('/', (req, res, next) => {
 // GET	/profile/:id --> Renders the profile page
 router.get('/:id', (req, res, next) => {
     User.findById(req.params.id)
-    .then( (oneUser) => {
-        // console.log(oneUser);
-        res.render('user-views/show', { oneUser, userInfo: req.session.currentUser });
-    })
-    .catch( (err) => console.log(err) );
+        .then((oneUser) => {
+            // console.log(oneUser);
+            res.render('user-views/show', {
+                oneUser,
+                userInfo: req.session.currentUser
+            });
+        })
+        .catch((err) => console.log(err));
 })
 
 // GET /profile/:id/events --> Renders the 'my events' page
 router.get('/:id/events', (req, res, next) => {
     User.findById(req.params.id)
-    .then( (oneUser) => {
-        // console.log(oneUser);
-        const pr1 = MealEvent.find( {_id: oneUser.hostedEvents} );
-        const pr2 = MealEvent.find( {_id: oneUser.attendedEvents} );
-
-        Promise.all([pr1, pr2])
-        .then( (mealEvents) => {
-            // console.log('EVENTS I HOST', mealEvents[0]);
-            // console.log('EVENTS I ATTEND', mealEvents[1]);
-            
-            const mealEventIhost = mealEvents[0];
-            const mealEventIattend = mealEvents[1];
-
-            res.render('user-views/myevents', { 
-                mealEventHost: mealEventIhost, 
-                mealEventGuest: mealEventIattend,
-                userInfo: req.session.currentUser
+        .then((oneUser) => {
+            // console.log(oneUser);
+            const pr1 = MealEvent.find({
+                _id: oneUser.hostedEvents
             });
+            const pr2 = MealEvent.find({
+                _id: oneUser.attendedEvents
+            });
+
+            Promise.all([pr1, pr2])
+                .then((mealEvents) => {
+                    // console.log('EVENTS I HOST', mealEvents[0]);
+                    // console.log('EVENTS I ATTEND', mealEvents[1]);
+
+                    const mealEventIhost = mealEvents[0];
+                    const mealEventIattend = mealEvents[1];
+
+                    res.render('user-views/myevents', {
+                        mealEventHost: mealEventIhost,
+                        mealEventGuest: mealEventIattend,
+                        userInfo: req.session.currentUser
+                    });
+                })
+                .catch((err) => console.log(err));
         })
-        .catch( (err) => console.log(err));
-    })
-    .catch( (err) => console.log(err) );
+        .catch((err) => console.log(err));
 })
 
 
 // GET	/profile/:id/edit --> Renders the edit form to edit user profile
 router.get('/:id/edit', (req, res, next) => {
     User.findById(req.params.id)
-    .then( (oneUser) => {
-        // console.log(oneUser);
-        res.render('user-views/edit', { oneUser, userInfo: req.session.currentUser })
-    })
-    .catch( (err) => console.log(err) );
+        .then((oneUser) => {
+            // console.log(oneUser);
+            res.render('user-views/edit', {
+                oneUser,
+                userInfo: req.session.currentUser
+            })
+        })
+        .catch((err) => console.log(err));
 })
 
 // POST	/profile/:id/ --> updates the user info in DB. Redirects to the profile page
 router.post('/:id/edit', parser.single('profileImg'), (req, res, next) => {
-    // console.log('PARAMS -->', req.params);
-    // console.log('BODY -->', req.body);
-    const id = req.params.id;
-    const updatedUser = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        "address.street": req.body.street,
-        "address.houseNumber": req.body.houseNumber,
-        "address.zipcode": req.body.zipcode,
-        "address.city": req.body.city,
-        description: req.body.description,
-        profileImg: req.file.secure_url,
-    };
-    
-    User.update({_id: id}, updatedUser)
-    .then( () => {
-        return User.findById(id);
-    })
-    .then( (updatedUser) => {;
-        // console.log('UPDATED USER', updatedUser);
-        req.session.currentUser = updatedUser;
-        res.redirect(`/profile/${id}`);
-    })
-    .catch( (err) => console.log(err));
-})
+            // console.log('PARAMS -->', req.params);
+            // console.log('BODY -->', req.body);
+
+            let previousUserImg;
+            User.findById(req.params.id).then(theUserProfile => {
+                previousUserImg = theUserProfile.profileImg;
+
+                const imgUserUrl = req.file ? req.file.secure_url : previousUserImg;
+
+                const id = req.params.id;
+                const updatedUser = {
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: req.body.password,
+                    "address.street": req.body.street,
+                    "address.houseNumber": req.body.houseNumber,
+                    "address.zipcode": req.body.zipcode,
+                    "address.city": req.body.city,
+                    description: req.body.description,
+                    profileImg: imgUserUrl,
+                };
+
+                User.update({
+                        _id: id
+                    }, updatedUser)
+                    .then(() => {
+                        return User.findById(id);
+                    })
+                    .then((updatedUser) => {
+                        ;
+                        // console.log('UPDATED USER', updatedUser);
+                        req.session.currentUser = updatedUser;
+                        res.redirect(`/profile/${id}`);
+                    })
+                    .catch((err) => console.log(err));
+            })
+        });
 
 
-// POST /profile/{{oneUser._id}}/review --> saves the newly created review in the DB
-router.post('/:id/review', (req, res, next) => {
-    // console.log('BODY -->', req.body.review);
-    const id = req.params.id;
-    const reviewToInsert = req.body.review;
+            // POST /profile/{{oneUser._id}}/review --> saves the newly created review in the DB
+            router.post('/:id/review', (req, res, next) => {
+                // console.log('BODY -->', req.body.review);
+                const id = req.params.id;
+                const reviewToInsert = req.body.review;
 
-    User.updateOne({ _id: id}, { $addToSet: { reviews: reviewToInsert}}, {new: true})
-    .then( () => res.redirect(`/profile/${req.params.id}`))
-    .catch( (err) => console.log(err));
-})
-
-
-// DELETE	/profile/:id/delete
-router.get('/:id/delete', function(req, res, next) {
-    // console.log('ID TO DELETE', req.params);
-
-    User.findOne({ _id: req.params.id })
-    .then( (theUser) => theUser.remove())
-    .then( () => req.session.destroy())
-    .then( () => res.redirect('/'))
-    .catch( (err) => console.log(err));
-});
+                User.updateOne({
+                        _id: id
+                    }, {
+                        $addToSet: {
+                            reviews: reviewToInsert
+                        }
+                    }, {
+                        new: true
+                    })
+                    .then(() => res.redirect(`/profile/${req.params.id}`))
+                    .catch((err) => console.log(err));
+            })
 
 
-// deleteButton.addEventListener('onclick', (e) => {
-// e.preventDefault();
+            // DELETE	/profile/:id/delete
+            router.get('/:id/delete', function (req, res, next) {
+                // console.log('ID TO DELETE', req.params);
 
-// axios.delete('/:id/delete')
-//     .then( () => {
-//         console.log('DELETED');
+                User.findOne({
+                        _id: req.params.id
+                    })
+                    .then((theUser) => theUser.remove())
+                    .then(() => req.session.destroy())
+                    .then(() => res.redirect('/'))
+                    .catch((err) => console.log(err));
+            });
 
-//     })
-//     .catch( (err) => console.log(err));
-// });
 
-module.exports = router;
+            // deleteButton.addEventListener('onclick', (e) => {
+            // e.preventDefault();
+
+            // axios.delete('/:id/delete')
+            //     .then( () => {
+            //         console.log('DELETED');
+
+            //     })
+            //     .catch( (err) => console.log(err));
+            // });
+
+            module.exports = router;
