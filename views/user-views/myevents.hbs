@@ -3,25 +3,42 @@
 
   <h2>EVENTS I HOST</h2>
   <ul>
-  {{#if mealEventHost}}
-    {{#each mealEventHost}}
+    {{#if mealEventHost}}
+      {{#each mealEventHost}}
       <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
-    {{/each}}
-  {{else}}
+
+        {{#if this.pendingGuests}}
+        <ul>
+          {{#each this.pendingGuests}}
+            <li><a href="/profile/{{this}}">Pending guest</a></li>
+          {{/each}}
+        </ul>
+        {{/if}}
+      {{/each}}
+    {{else}}
     <p>You don't host any event yet</p>
     <p><a href="/meal-events/create">Create a new event</a></p>
-  {{/if}}
+    {{/if}}
   </ul>
 
   <h2>EVENTS I ATTEND</h2>
   <ul>
-  {{#if mealEventGuest}}
+    {{#if mealEventGuest}}
     {{#each mealEventGuest}}
-      <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
+    <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
     {{/each}}
-  {{else}}
+    {{else}}
     <p>You don't attend any event yet</p>
     <p><a href="/meal-events">See the list of events</a></p>
-  {{/if}}
+    {{/if}}
+  </ul>
+
+  <ul>
+    {{#if mealEventPending}}
+    <p>Events pending:</p>
+    {{#each mealEventPending}}
+    <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
+    {{/each}}
+    {{/if}}
   </ul>
 </div>

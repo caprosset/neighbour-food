@@ -151,7 +151,7 @@ router.post('/:id/attend', function (req, res, next) {
     _id: mealeventId
   }, {
     $addToSet: {
-      guest: currentUserId
+      pendingGuests: currentUserId
     }
   });
 
@@ -159,7 +159,7 @@ router.post('/:id/attend', function (req, res, next) {
     _id: currentUserId
   }, {
     $addToSet: {
-      attendedEvents: mealeventId
+      pendingEvents: mealeventId
     }
   })
 

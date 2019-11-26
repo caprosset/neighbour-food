@@ -28,32 +28,45 @@ router.get('/:id', (req, res, next) => {
 // GET /profile/:id/events --> Renders the 'my events' page
 router.get('/:id/events', (req, res, next) => {
     User.findById(req.params.id)
-        .then((oneUser) => {
-            // console.log(oneUser);
-            const pr1 = MealEvent.find({
-                _id: oneUser.hostedEvents
-            });
-            const pr2 = MealEvent.find({
-                _id: oneUser.attendedEvents
-            });
+    .populate('hostedEvents pendingEvents attendedEvents')
+    .then((oneUser) => {
+        console.log("mealEventHost:", oneUser.hostedEvents,
+            "mealEventPending:", oneUser.pendingEvents,
+            "mealEventGuest:", oneUser.attendedEvents);
+        
+            oneUser.hostedEvents.forEach(mealhost => {
 
-            Promise.all([pr1, pr2])
-                .then((mealEvents) => {
-                    // console.log('EVENTS I HOST', mealEvents[0]);
-                    // console.log('EVENTS I ATTEND', mealEvents[1]);
+                console.log('PENDING GUESTS', mealhost.pendingGuests);
+            }) 
+            
+        
+        // console.log(oneUser);
+        // const pr1 = MealEvent.find({
+        //     _id: oneUser.hostedEvents
+        // });
+        // const pr2 = MealEvent.find({
+        //     _id: oneUser.attendedEvents
+        // });
+        res.render('user-views/myevents', {
+            mealEventHost: oneUser.hostedEvents,
+            mealEventPending: oneUser.pendingEvents,
+            mealEventGuest: oneUser.attendedEvents,
+            userInfo: req.session.currentUser
+        });
+    })
 
-                    const mealEventIhost = mealEvents[0];
-                    const mealEventIattend = mealEvents[1];
+    //     Promise.all([pr1, pr2])
+    //         .then((mealEvents) => {
+    //             // console.log('EVENTS I HOST', mealEvents[0]);
+    //             // console.log('EVENTS I ATTEND', mealEvents[1]);
 
-                    res.render('user-views/myevents', {
-                        mealEventHost: mealEventIhost,
-                        mealEventGuest: mealEventIattend,
-                        userInfo: req.session.currentUser
-                    });
-                })
-                .catch((err) => console.log(err));
-        })
-        .catch((err) => console.log(err));
+    //             const mealEventIhost = mealEvents[0];
+    //             const mealEventIattend = mealEvents[1];
+
+                
+    //         .catch((err) => console.log(err));
+    // })
+    .catch((err) => console.log(err));
 })
 
 

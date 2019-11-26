@@ -30,7 +30,7 @@
       <button><a href="/meal-events/{{mealEvent._id}}/delete">Delete this event</a></button>
     {{else}}
       {{!-- if current user is not the host but is a guest of this event --}}
-      {{#ifinc mealEvent.guest userInfo._id}}
+      {{#ifinc mealEvent.acceptedGuests userInfo._id}}
         <div>
           <p>You attend this event</p>
         <p>This is the address:</p>
@@ -41,7 +41,7 @@
           <li>{{ mealEvent.host.address.city }}</li>
         </ul>
         </div>
-         <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
+        <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
           <button type="submit">Cancel attendance</button>
         </form>
       {{!-- if current user is not a guest of this event either --}}
