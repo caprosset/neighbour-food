@@ -58,15 +58,15 @@ router.get("/:id/events", (req, res, next) => {
               User.findById(guestId)
                 .then(guestObj => {
                   // console.log("GUEST OBJECT", guestObj);
-                  return myArr.push(guestObj.name);
+                  return myArr.push(guestObj);
                 })
                 .then(() => {
-                  // console.log("MY ARRAYYYYoooo", myArr);
+                  console.log("MY ARRAYYYYoooo", myArr);
                   return myArr;
                 })
                 .then(() => {
                   res.render("user-views/myevents", {
-                    guestsName: myArr,
+                    guestsInfo: myArr,
                     mealEventHost: oneUser.hostedEvents,
                     mealEventPending: oneUser.pendingEvents,
                     mealEventGuest: oneUser.attendedEvents,
@@ -77,7 +77,6 @@ router.get("/:id/events", (req, res, next) => {
             });
           } else {
             // console.log('hola');
-            
             res.render("user-views/myevents", {
               mealEventHost: oneUser.hostedEvents,
               mealEventPending: oneUser.pendingEvents,

@@ -17,7 +17,13 @@
         <h6>Pending guests:</h6>
           {{#each this.pendingGuests}}
           <div class="pending-guest">
-            <p><a href="/profile/{{this}}">guest</a></p>
+            <p> 
+              {{#each ../../guestsInfo}}  
+                {{#ifeqId this._id ../this}}
+                Name: <a href="/profile/{{../this}}"> {{this.name}}</a>
+                {{/ifeqId}}
+              {{/each}}
+            </p>
             <form action="/meal-events/{{../this._id}}/accept/{{this}}" method="POST">
               <button type="submit">Accept</button>
             </form>
