@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -18,14 +16,16 @@ const app = express();
 const indexRouter = require('./routes/index');
 const siteRouter = require('./routes/site-routes');
 
+require('dotenv').config();
+
 // Mongoose configuration
 mongoose.connect(process.env.MONGODB_URI, {
-  useCreateIndex: true,
-  keepAlive: true,
   useNewUrlParser: true,
-  reconnectTries: Number.MAX_VALUE,
   useUnifiedTopology: true,
-});
+})
+.then( x => console.log('Connected to Mongo DB', x.connections[0].name))
+.catch( (err) => console.log(err));
+
 
 // Middleware configuration
 app.use(logger('dev'));
