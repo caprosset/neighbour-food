@@ -14,12 +14,20 @@ router.get("/", (req, res, next) => {
 // GET	/profile/:id --> Renders the profile page
 router.get("/:id", (req, res, next) => {
   User.findById(req.params.id)
-    .then(oneUser => {
-      // console.log(oneUser);
-      res.render("user-views/show", {
-        oneUser,
-        userInfo: req.session.currentUser
-      });
+  .populate('hostedEvents pendingEvents attendedEvents')
+  .then(oneUser => {
+    // console.log(oneUser);
+    let arrayOfGuests;
+    oneUser.hostedEvents.forEach(event => {
+      arrayOfGuests = event.acceptedGuests;
+    })
+    // console.log('HOSTED EVENTS', arrayOfGuests);
+    
+    res.render("user-views/show", {
+      oneUser,
+      arrayOfGuests,
+      userInfo: req.session.currentUser
+    });
     })
     .catch(err => console.log(err));
 });

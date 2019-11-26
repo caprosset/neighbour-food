@@ -4,8 +4,12 @@
   <p>Name: {{oneUser.name}}</p>
   <p>Image: <img src="{{oneUser.profileImg}}" alt="Profile picture" width="300"></p>
   <p>Address: <br>
-  {{oneUser.address.houseNumber}} {{oneUser.address.street}}<br>
-  {{oneUser.address.zipcode}} {{oneUser.address.city}}</p>
+  {{#ifinc userInfo._id arrayOfGuests}}
+    {{oneUser.address.houseNumber}} {{oneUser.address.street}}<br>
+    {{oneUser.address.zipcode}} {{oneUser.address.city}}</p>
+  {{else}}
+    {{oneUser.address.zipcode}} 
+  {{/ifinc}}
   <p>Description: {{oneUser.description}}</p>
   <div>
     <p>Reviews:</p>
