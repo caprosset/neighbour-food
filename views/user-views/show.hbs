@@ -1,35 +1,44 @@
 <div class="container-fluid">
-  <h1>USER PROFILE</h1>
+  <h1>MY PROFILE</h1>
 
-  <p>Name: {{oneUser.name}}</p>
-  <p>Image: <img src="{{oneUser.profileImg}}" alt="Profile picture"></p>
-  <p>Address: <br>
-  {{oneUser.address.houseNumber}} {{oneUser.address.street}}<br>
-  {{oneUser.address.zipcode}} {{oneUser.address.city}}</p>
-  <p>Description: {{oneUser.description}}</p>
-  <div>
-    <p>Reviews:</p>
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Name: {{oneUser.name}}</h3>
+    </div> 
+    <img class="card-img-top" src="{{oneUser.profileImg}}" alt="Profile picture">
+  <div class="card-body">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Address: <br>
+      {{oneUser.address.houseNumber}} {{oneUser.address.street}}<br>
+      {{oneUser.address.zipcode}} {{oneUser.address.city}}</li>
+    <li class="list-group-item">Description: {{oneUser.description}}</li>
+    <li class="list-group-item">Reviews:</li>
     {{#ifeqId oneUser._id userInfo._id}}
-      You have {{oneUser.reviews.length}} review(s)
-    {{else}}
-      <form action="/profile/{{oneUser._id}}/review" method="POST">
-        <label for="review">Write a review for this user: </label>
-        <input name="review" type="textarea">
-        <button type="submit">Submit review</button>
-      </form>
-    {{/ifeqId}}
-    <ul>
-      {{#each oneUser.reviews}}
-      <li>{{this}}</li>
-      {{/each}}
-    </ul>
-  </div>
-
-  {{#ifeqId oneUser._id userInfo._id}}
-  <div class="user-actions">
-    <button><a href="/profile/{{oneUser._id}}/edit">Edit profile</a></button>
-    <button id="delete-button"><a href="/profile/{{oneUser._id}}/delete">Delete profile</a></button>
-    <p><a href="/profile/{{oneUser._id}}/events">See my events</a></p>
+    You have {{oneUser.reviews.length}} review(s)
+  </ul>
   </div>
 </div>
+
+{{else}}
+<form action="/profile/{{oneUser._id}}/review" method="POST">
+  <label for="review">Write a review for this user: </label>
+  <input name="review" type="textarea">
+  <button type="submit">Submit review</button>
+</form>
 {{/ifeqId}}
+<ul>
+  {{#each oneUser.reviews}}
+  <li>{{this}}</li>
+  {{/each}}
+</ul>
+
+<div class="card-body">
+{{#ifeqId oneUser._id userInfo._id}}
+<div class="user-actions">
+  <button class="btn btn-outline-primary"><a href="/profile/{{oneUser._id}}/edit">Edit profile</a></button>
+  <button class="btn btn-outline-primary" id="delete-button"><a class="card-link" href="/profile/{{oneUser._id}}/delete">Delete profile</a></button>
+  <p><a class="btn btn-primary my-2" href="/profile/{{oneUser._id}}/events">See my events</a></p>
+</div>
+</div>
+{{/ifeqId}}
+</div>

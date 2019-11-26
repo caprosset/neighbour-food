@@ -1,38 +1,38 @@
 <div class="container-fluid">
-  <h1>EDIT MEAL EVENT</h1>
+  <h1>EDIT MY EVENT</h1>
 
   <form action="/meal-events/{{ mealEvent._id }}" method="POST" enctype="multipart/form-data">
-    <div>
+    <div class="form-group">
       <label for="eventName"> EventName </label>
-      <input type="text" name="eventName" id="eventName" value="{{ mealEvent.eventName }}">
+      <input class="form-control" type="text" name="eventName" id="eventName" value="{{ mealEvent.eventName }}">
     </div>
-    <div>
+    <div class="form-group">
       <label for="cuisine"> Cuisine </label>
-      <input type="text" name="cuisine" id="cuisine" value="{{ mealEvent.cuisine }}">
+      <input class="form-control" type="text" name="cuisine" id="cuisine" value="{{ mealEvent.cuisine }}">
     </div>
-    <div>
+    <div class="form-group">
       <label for="dish"> Dish </label>
-      <input type="text" name="dish" id="dish" value="{{ mealEvent.dish }}">
+      <input class="form-control" type="text" name="dish" id="dish" value="{{ mealEvent.dish }}">
     </div>
-    <div>
+    <div class="form-group">
       <label for="date"> Date </label>
-      <input type="datetime-local" name="date" id="date" value="{{ mealEvent.date }}">
+      <input class="form-control" type="datetime-local" name="date" id="date" value="{{ mealEvent.date }}">
     </div>
-        
+        <div class="form-group">
       <label for="eventImg"> Event Photo </label>
-      <img src="{{ mealEvent.eventImg }}">
-      <input type="file" name="eventImg" value="{{ mealEvent.eventImg }}">
+      <img class="card-img-top" src="{{ mealEvent.eventImg }}">
+      <input class="form-control" type="file" name="eventImg" value="{{ mealEvent.eventImg }}">
     </div>
-          <div>
+      <div class="form-group">
       <label for="eventDescription"> Description </label>
-      <input type="text" name ="eventDescription" id="eventDescription" value="{{ mealEvent.eventDescription }}">
+      <input class="form-control" type="text" name ="eventDescription" id="eventDescription" value="{{ mealEvent.eventDescription }}">
     </div>
-    <div>
+    <div class="form-group">
       <label for="numberAttend"> Number of guests </label>
-      <input type="number" name="numberAttend" id="numberAttend" value="{{ mealEvent.numberAttend }}">
+      <input class="form-control" type="number" name="numberAttend" id="numberAttend" value="{{ mealEvent.numberAttend }}">
     </div>
 
-    <button> Submit </button>
+    <button class="btn btn-primary"> Submit </button>
   </form>
 
   <p><a href="/meal-events">Back to Events</a></p> 
