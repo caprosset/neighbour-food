@@ -1,30 +1,56 @@
-<div class="home container-fluid">
-    <h1>NEIGHBOURHOOD</h1>
-    <p>Welcome to our app</p>
 
-    <p><a href="/signup">Signup</a></p>
+<h1>NEIGHBOURFOOD</h1>
+<p>Welcome to our app</p>
 
-    <p><a href="/login">Login</a></p>
+<p><a href="/signup">Signup</a></p>
 
-    <form action="/search" method="GET">
-        <input type="text" name="zipcode" placeholder="Enter your zipcode">
-        <button type="submit">Search</button>
-    </form>
+<p><a href="/login">Login</a></p>
 
-    {{#if eventsNearZipcode}}
-    <div>
-        <h2>Neighbours events happening near you</h2>
-        <div class="search-results">
-            <div class="event-preview"></div>
-                {{#each eventsNearZipcode}}
-                    <img src="{{ this.eventImg }}" alt="Event image">
-                    <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-                    <p>Cuisine: {{ this.cuisine }}</p>
-                    <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
-                    <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
-                {{/each}}
-            </div>
-        </div>
+<form action="/search" method="GET">
+    <input type="text" name="zipcode" placeholder="Enter your zipcode">
+    <button type="submit">Search</button>
+</form>
+
+
+
+{{#if eventsNearZipcode}}
+<div>
+  <div class="search-results">
+    <div class="event-preview"></div>
+      <h2>Neighbours events happening soon in {{eventsNearZipcode.0.host.address.zipcode}} </h2>
+      {{#each eventsNearZipcode}}
+        <img src="{{ this.eventImg }}" alt="Event image" width="300">
+        <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+        <p>Cuisine: {{ this.cuisine }}</p>
+        <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
+        <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
+      {{/each}}
     </div>
-    {{/if}}
+  </div>
 </div>
+{{else}}
+  {{#unless allMealsFromDB}}
+    <p>Ooops! No meal events has been found in your neighbourhood! </p>
+    <p>Will you be the first one? </p>
+  {{/unless}}
+{{/if}}
+
+
+{{#if allMealsFromDB}} 
+  {{!-- {{#unless eventsNearZipcode}} --}}
+  <div>
+    <div class="event-preview"></div>
+    <h2>Neighbours events happening soon</h2>
+      {{#each allMealsFromDB}}
+        {{#ifIndexLessThan3 @index}}
+          <img src="{{ this.eventImg }}" alt="Event image" width="300">
+          <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+          <p>Cuisine: {{ this.cuisine }}</p>
+          <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
+          <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
+        {{/ifIndexLessThan3}}
+      {{/each}}
+    </div>
+  </div>
+  {{!-- {{/unless}} --}}
+{{/if}}

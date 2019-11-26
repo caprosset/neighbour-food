@@ -31,10 +31,18 @@ router.use('/signup', signupRouter);
 
 /* GET home page */
 router.get('/', (req, res, next) => {
+  // if user is logged in
   if (req.session.currentUser) {
     res.redirect('/meal-events');
-  } else {
-    res.render('index');
+  } 
+  else // if user is logged out
+  {
+    MealEvent.find()
+    .populate('host')
+    .then( (allMealsFromDB) => {
+      res.render('index', { allMealsFromDB });
+    })
+    .catch( (err) => console.log(err));
   }
 }); 
 
@@ -59,6 +67,7 @@ router.get('/search', (req, res, next) => {
   })
   .catch( (err) => console.log(err));
 }); 
+
 
 
 module.exports = router;
