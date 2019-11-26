@@ -11,12 +11,16 @@
         <div class="event-preview">
           <img src="{{ this.eventImg }}" alt="Event image" width="300">
           <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-          <p>Host: {{ this.host.name }}</p>
+          <p>Date: {{this.date}}</p>
+          <p>Host: <a href="/profile/{{ this.host._id }}">{{ this.host.name }}</a></p>
           <p>Cuisine: {{ this.cuisine }}</p>
           <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
           <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
         </div>
         <hr>
+      {{!-- {{else}}
+        <p>Ooops! No meal events has been found in your neighbourhood! </p>
+        <p>Will you be the first one? </p> --}}
       {{/ifeq}}
     {{/each}}
   {{else}}
@@ -24,6 +28,8 @@
     <p>Will you be the first one? </p>
   {{/if}}
   </div>
+
+
 
   <div>
     <a href="/meal-events/create">Create a new event</a>
