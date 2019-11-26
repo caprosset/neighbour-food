@@ -1,14 +1,16 @@
 <div class="home container-fluid">
-    <h1>NEIGHBOURHOOD</h1>
-    <p>Welcome to our app</p>
+    <div class="jumbotron">
+        <h1 class="display-6">NEIGHBOURFOOD</h1>
+        <p class="lead">Welcome to our app</p>
+        <hr class="my-4">
+        <p class="lead"><a class="btn btn-primary btn-lg" href="/signup">Signup</a></p>
 
-    <p><a href="/signup">Signup</a></p>
-
-    <p><a href="/login">Login</a></p>
-
-    <form action="/search" method="GET">
+        <p class="lead"><a class="btn btn-primary btn-lg" href="/login">Login</a></p>
+        <hr class="my-4">
+    </div>
+    <form class="lead" action="/search" method="GET">
         <input type="text" name="zipcode" placeholder="Enter your zipcode">
-        <button type="submit">Search</button>
+        <button class="btn btn-primary btn-lg" type="submit">Search</button>
     </form>
 
     {{#if eventsNearZipcode}}
@@ -16,15 +18,15 @@
         <h2>Neighbours events happening near you</h2>
         <div class="search-results">
             <div class="event-preview"></div>
-                {{#each eventsNearZipcode}}
-                    <img src="{{ this.eventImg }}" alt="Event image">
-                    <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-                    <p>Cuisine: {{ this.cuisine }}</p>
-                    <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
-                    <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
-                {{/each}}
-            </div>
+            {{#each eventsNearZipcode}}
+            <img src="{{ this.eventImg }}" alt="Event image">
+            <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+            <p>Cuisine: {{ this.cuisine }}</p>
+            <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
+            <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
+            {{/each}}
         </div>
     </div>
-    {{/if}}
+</div>
+{{/if}}
 </div>
