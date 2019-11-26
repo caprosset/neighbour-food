@@ -140,8 +140,7 @@ router.post('/:id', parser.single('eventImg'), (req, res, next) => {
 });
 
 
-
-// POST /meal-events/:id/attend --> Adds the current user in the meal-event pending guests array in the DB
+// POST /meal-events/:id/attend --> Adds the current user in the meal-event pendingGuests array && in the user pendingEvents array in the DB
 router.post('/:id/attend', function (req, res, next) {
   const mealeventId = req.params.id;
   const currentUserId = req.session.currentUser._id;
@@ -162,6 +161,7 @@ router.post('/:id/attend', function (req, res, next) {
 });
 
 
+// POST /meal-events/:mealId/accept/:guestId --> Adds the current user in the meal-event acceptedGuests && in the user attendedEvents array in the DB
 router.post('/:mealId/accept/:guestId',  (req, res, next) => {
     const mealeventId = req.params.mealId;
     const guestId = req.params.guestId;
@@ -185,6 +185,7 @@ router.post('/:mealId/accept/:guestId',  (req, res, next) => {
 })
 
 
+// POST /meal-events/:mealId/decline/:guestId --> Removes the current user from both the the meal-event pendingGuests array && the user pendingEvents array in the DB 
 router.post('/:mealId/decline/:guestId', (req, res, next) => {
   const mealeventId = req.params.mealId;
   const guestId = req.params.guestId;
