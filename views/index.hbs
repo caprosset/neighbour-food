@@ -1,32 +1,38 @@
+<nav class="navbar fixed-top navbar-light bg-light justify-content-end">
+    <form class="form-inline d-flex align-items-center">
+        <p class="lead"><a class="btn btn-primary btn-md mr-2 " href="/signup">Signup</a></p>
+        <p class="lead"><a class="btn btn-primary btn-md ml-2 mr-2" href="/login">Login</a></p>
+    </form>
+</nav>
+
 <div class="home container-fluid">
     <div class="jumbotron">
-        <h1 class="display-6">NEIGHBOURFOOD</h1>
+        <h2 class="display-6">NEIGHBOURFOOD</h2>
         <p class="lead">Welcome to our app</p>
         <hr class="my-4">
-        <p class="lead"><a class="btn btn-primary btn-lg" href="/signup">Signup</a></p>
-
-        <p class="lead"><a class="btn btn-primary btn-lg" href="/login">Login</a></p>
-        <hr class="my-4">
     </div>
-    <form class="lead" action="/search" method="GET">
-        <input type="text" name="zipcode" placeholder="Enter your zipcode">
-        <button class="btn btn-primary btn-lg" type="submit">Search</button>
+
+    <form class="form-inline" action="/search" method="GET">
+        <input class="form-control mr-sm-2" type="text" name="zipcode" placeholder="Enter your zipcode">
+        <button class="btn btn-primary btn-md my-2 my-sm-0" type="submit">Search</button>
     </form>
 
     {{#if eventsNearZipcode}}
     <div>
         <h2>Neighbours events happening near you</h2>
-        <div class="search-results">
-            <div class="event-preview"></div>
+        <div class="search-results ">
             {{#each eventsNearZipcode}}
-            <img src="{{ this.eventImg }}" alt="Event image">
-            <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-            <p>Cuisine: {{ this.cuisine }}</p>
-            <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
-            <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
+            <div class="event-preview card mb-3">
+                <img class="card-img-top" src="{{ this.eventImg }}" alt="Event image">
+                <div class="card-body">
+                    <h3 class="card-title"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+                    <p class="card-text">Cuisine: {{ this.cuisine }}</p>
+                    <p class="card-text">Neighbourhood: {{ this.host.address.zipcode }}</p>
+                    <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
+                </div>
+            </div>
             {{/each}}
         </div>
     </div>
-</div>
-{{/if}}
+    {{/if}}
 </div>
