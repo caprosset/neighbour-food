@@ -5,3 +5,19 @@ body {
 .container-fluid {
     margin: 100px 0 100px;
 }
+
+.jumbotron {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

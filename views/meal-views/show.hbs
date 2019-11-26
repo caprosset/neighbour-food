@@ -30,8 +30,8 @@
     {{!-- if current user is the host of this event --}}
     {{#ifeqId mealEvent.host._id userInfo._id }}
     <div class="user-actions">
-      <button class="btn btn-primary my-2"><a href="/meal-events/{{mealEvent._id}}/edit">Edit this event</a></button>
-      <button class="btn btn-primary my-2"><a href="/meal-events/{{mealEvent._id}}/delete">Delete this event</a></button>
+      <a class="btn btn-primary my-2" href="/meal-events/{{mealEvent._id}}/edit">Edit this event</a>
+      <a class="btn btn-primary my-2" href="/meal-events/{{mealEvent._id}}/delete">Delete this event</a>
     </div>
 
     {{else}}
