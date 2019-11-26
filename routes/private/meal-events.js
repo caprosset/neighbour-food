@@ -141,7 +141,7 @@ router.post('/:id', parser.single('eventImg'), (req, res, next) => {
 
 
 
-// POST /meal-events/:id/attend --> Adds the current user as a meal event guest in the DB
+// POST /meal-events/:id/attend --> Adds the current user in the meal-event pending guests array in the DB
 router.post('/:id/attend', function (req, res, next) {
   const mealeventId = req.params.id;
   const currentUserId = req.session.currentUser._id;
@@ -214,67 +214,19 @@ router.post('/:id/cancel', function (req, res, next) {
   const mealeventId = req.params.id;
   const currentUserId = req.session.currentUser._id;
 
-  const pr1 = MealEvent.findOne({
-      _id: mealeventId
-    })
-    .then(mealevent => {
-      const arrayOfGuests = mealevent.guest;
-      const updatedGuestsArray = arrayOfGuests.filter(function (ele) {
-        return ele != currentUserId;
-      });
-      console.log('UPDATED GUESTS ARRAY', updatedGuestsArray);
-      return updatedGuestsArray;
-    })
-    .catch((err) => console.log(err));
+  const pr1 = MealEvent.update( 
+    { _id: mealeventId },
+    { $pull: { acceptedGuests: currentUserId} }
+  );
 
-  const pr2 = User.findOne({
-      _id: currentUserId
-    })
-    .then((userinfo) => {
-      const arrayOfAttendedEvents = userinfo.attendedEvents;
-      const updatedAttendedEventsArray = arrayOfAttendedEvents.filter(function (ele) {
-        return ele != mealeventId;
-      });
-      console.log('UPDATED ATTENDED EVENTS ARRAY', updatedAttendedEventsArray);
-      return updatedAttendedEventsArray;
-    })
-    .catch((err) => console.log(err));
+  const pr2 = User.update( 
+    { _id: currentUserId},
+    { $pull: { attendedEvents: mealeventId} }
+  )
 
   Promise.all([pr1, pr2])
-    .then((changedArrays) => {
-      console.log('MEALEVENT MODEL - GUESTS ARRAY', changedArrays[0]);
-      console.log('USER MODEL - ATTENDED EVENTS ARRAY', changedArrays[1]);
-
-      const updatedGuestsArray = changedArrays[0];
-      const updatedAttendedEventsArray = changedArrays[1];
-
-      const pr3 = MealEvent.updateOne({
-        _id: mealeventId
-      }, {
-        $set: {
-          guest: updatedGuestsArray
-        }
-      }, {
-        new: true
-      })
-      const pr4 = User.updateOne({
-        _id: currentUserId
-      }, {
-        $set: {
-          attendedEvents: updatedAttendedEventsArray
-        }
-      }, {
-        new: true
-      })
-
-      Promise.all([pr3, pr4])
-        .then(() => {
-          console.log('ALL COLLECTIONS ARE UPDATED');
-          res.redirect(`/profile/${currentUserId}/events`);
-        })
-        .catch((err) => console.log(err));
-    })
-    .catch((err) => console.log(err));
+  .then( () => res.redirect(`/profile/${currentUserId}/events`))
+  .catch( (err) => console.log(err));
 });
 
 

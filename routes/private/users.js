@@ -17,15 +17,15 @@ router.get("/:id", (req, res, next) => {
   .populate('hostedEvents pendingEvents attendedEvents')
   .then(oneUser => {
     // console.log(oneUser);
-    let arrayOfGuests;
-    oneUser.hostedEvents.forEach(event => {
-      arrayOfGuests = event.acceptedGuests;
-    })
+    // let arrayOfGuests;
+    // oneUser.hostedEvents.forEach(event => {
+    //   arrayOfGuests = event.acceptedGuests;
+    // })
     // console.log('HOSTED EVENTS', arrayOfGuests);
     
     res.render("user-views/show", {
       oneUser,
-      arrayOfGuests,
+      // arrayOfGuests,
       userInfo: req.session.currentUser
     });
     })
