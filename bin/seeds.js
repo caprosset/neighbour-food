@@ -5,14 +5,11 @@ const MealEvent = require('./../models/MealEvent');
 require('dotenv').config();
 
 mongoose.connect(process.env.MONGODB_URI, {
-    useCreateIndex: true,
-    keepAlive: true,
-    useNewUrlParser: true,
-    reconnectTries: Number.MAX_VALUE,
-    useUnifiedTopology: true,
-  })
-  .then(() => insertFirst())
-  .catch(err => console.log(err));
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then( x => console.log('Connected to Mongo DB', x.connections[0].name))
+.catch( (err) => console.log(err));
 
 
 function insertFirst() {
@@ -32,7 +29,6 @@ function insertFirst() {
     hostedEvents: [],
     attendedEvents: [],
     reviews: 'Drop',
-    requests: 'pending'
   });
 
   const pr2 = MealEvent.create({
@@ -88,8 +84,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
-
     },
     {
       name: 'Bob Bullin',
@@ -107,8 +101,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
-
     },
 
     {
@@ -127,8 +119,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
-
     },
 
     {
@@ -147,8 +137,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
-
     },
     {
       name: 'Suzy Willys',
@@ -166,8 +154,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
-
     },
     {
       name: 'Lucy Miller',
@@ -185,8 +171,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
-
     },
     {
       name: 'Paul Lupp',
@@ -204,8 +188,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
-
     },
     {
       name: 'Bobby Sullivann',
@@ -223,7 +205,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
     },
 
     {
@@ -242,7 +223,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
     },
 
     {
@@ -261,7 +241,6 @@ function populateDatabase() {
       hostedEvents: [],
       attendedEvents: [],
       reviews: [],
-      requests: 'pending'
     }
 
   ]
