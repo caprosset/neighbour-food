@@ -12,7 +12,13 @@
           <img src="{{ this.eventImg }}" alt="Event image" width="300">
           <h3><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
           <p>Date: {{this.date}}</p>
-          <p>Host: <a href="/profile/{{ this.host._id }}">{{ this.host.name }}</a></p>
+
+          {{#ifeqId this.host._id this.userId}}
+            <p>Host: yourself</p>
+          {{else}}
+            <p>Host: <a href="/profile/{{ this.host._id }}">{{ this.host.name }}</a></p>
+          {{/ifeqId}}
+
           <p>Cuisine: {{ this.cuisine }}</p>
           <p>Neighbourhood: {{ this.host.address.zipcode }}</p>
           <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
