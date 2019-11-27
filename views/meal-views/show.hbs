@@ -54,10 +54,7 @@
         <p class="card-text">You attend this event</p>
         <p class="card-text">This is the address:</p>
         <ul>
-          <li class="card-text">{{ mealEvent.host.address.street }}</li>
-          <li class="card-text">{{ mealEvent.host.address.houseNumber }}</li>
-          <li class="card-text">{{ mealEvent.host.address.zipcode }}</li>
-          <li class="card-text">{{ mealEvent.host.address.city }}</li>
+          <li class="card-text" id="host-address">{{ hostAddress }}</li>
         </ul>
         </div>
           <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
@@ -85,3 +82,5 @@
 </div>
 
 
+<div id="coordinates"></div>
+<script src="/scripts/script.js"></script>

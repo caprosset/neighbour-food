@@ -109,8 +109,12 @@ router.get('/:id', (req, res, next) => {
         } 
       })
     
+      let hostAddress = theMealEvent.host.address.street + ' ' + theMealEvent.host.address.houseNumber + ', ' + theMealEvent.host.address.zipcode + ' ' + theMealEvent.host.address.city;
+      console.log('HOST ADDRESSS', hostAddress);
+
       res.render('meal-views/show', {
         type,
+        hostAddress,
         mealEvent: theMealEvent,
         userInfo: req.session.currentUser
       });
