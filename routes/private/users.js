@@ -16,20 +16,28 @@ router.get("/:id", (req, res, next) => {
   User.findById(req.params.id)
   .populate('hostedEvents pendingEvents attendedEvents')
   .then(oneUser => {
-    // console.log(oneUser);
-    // let arrayOfGuests;
-    // oneUser.hostedEvents.forEach(event => {
-    //   arrayOfGuests = event.acceptedGuests;
-    // })
-    // console.log('HOSTED EVENTS', arrayOfGuests);
+    console.log(oneUser);
+
+    let arrayOfGuests;
+    oneUser.hostedEvents.forEach(event => {
+      arrayOfGuests = event.acceptedGuests;
+    })
+    // console.log('GUESTS ARRAY', arrayOfGuests);
+
+    let host;
+    oneUser.attendedEvents.forEach(event => {
+      host = event.host;
+    })
+    // console.log('HOST ID', host);
     
     res.render("user-views/show", {
       oneUser,
-      // arrayOfGuests,
+      host,
+      arrayOfGuests,
       userInfo: req.session.currentUser
     });
-    })
-    .catch(err => console.log(err));
+  })
+  .catch(err => console.log(err));
 });
 
 

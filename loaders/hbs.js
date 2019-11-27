@@ -17,6 +17,12 @@ function registerHelpers(hbsModule) {
   }
     return options.inverse(this);
   });
+  hbsModule.registerHelper('ifneqId', function(a, b, options){
+  if (!a.equals(b)) {
+    return options.fn(this);
+  }
+    return options.inverse(this);
+  });
   hbsModule.registerHelper('ifinc', function(array, value, options){
   if (array.includes(value)) {
     return options.fn(this);

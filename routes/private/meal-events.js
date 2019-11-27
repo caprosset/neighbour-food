@@ -91,7 +91,11 @@ router.get('/:id', (req, res, next) => {
     .populate('host acceptedGuests')
     .then((theMealEvent) => {
       // console.log('MEAL EVENT', theMealEvent);
+      theMealEvent.acceptedGuests.forEach(guest => {
 
+        console.log('GUEST IDSSS', guest._id);
+      })
+      
       res.render('meal-views/show', {
         mealEvent: theMealEvent,
         userInfo: req.session.currentUser
