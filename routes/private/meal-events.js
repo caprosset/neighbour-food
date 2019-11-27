@@ -57,7 +57,8 @@ router.post('/create', parser.single('eventImg'), (req, res, next) => {
     // date: convertDate(req.body.date),
     eventImg: req.file.secure_url,
     host: req.session.currentUser._id,
-    guest: [],
+    pendingGuests: [],
+    acceptedGuests: [],
     eventDescription: req.body.eventDescription,
     numberAttend: req.body.numberAttend,
     costScore: 10
@@ -95,7 +96,7 @@ router.get('/:id', (req, res, next) => {
 
         console.log('GUEST IDSSS', guest._id);
       })
-      
+    
       res.render('meal-views/show', {
         mealEvent: theMealEvent,
         userInfo: req.session.currentUser
