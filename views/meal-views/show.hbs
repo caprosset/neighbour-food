@@ -17,7 +17,7 @@
       {{/ifeqId}}
 
       {{#if mealEvent.acceptedGuests}}
-        <p>Guests attending this event:</p>
+        <p class="card-title" >Guests attending this event:</p>
         <ul>
         {{#each mealEvent.acceptedGuests}}
           <li><a href="/profile/{{this._id}}">{{this.name}}</a></li>
@@ -28,10 +28,6 @@
 
       <p class="card-text"> Cuisine: {{ mealEvent.cuisine }} </p>
       <p class="card-text"> Number of guests: {{ mealEvent.numberAttend }}</p>
-
-    </div>
-
-    <div class="card-body">
       <p class="card-text"> Dish: {{ mealEvent.dish }}</p>
       <p class="card-text"> Neighbourhood: {{ mealEvent.host.address.zipcode }}</p>
       <p class="card-text"> Description: {{ mealEvent.eventDescription }}</p>
@@ -61,12 +57,12 @@
         </ul>
         </div>
           <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
-            <button type="submit">Cancel attendance</button>
+            <button class="btn btn-primary btn-sm" type="submit">Cancel attendance</button>
           </form>
      
       {{!-- if current user is not a guest of this event either --}}
       {{else if type.pending}}
-        <button>Pending</button>
+        <button class="btn btn-warning">Pending</button>
       
        {{!-- if current user is not a guest and not a host --}}
       {{else}}

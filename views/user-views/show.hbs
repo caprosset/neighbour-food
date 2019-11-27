@@ -1,5 +1,7 @@
 <div class="container-fluid">
+  <div class="jumbotron pb-0 pt-0">
   <h1>MY PROFILE</h1>
+  </div>
 
   <div class="card">
     <div class="card-body">
@@ -15,26 +17,28 @@
       {{/ifeqId}}
 
       {{#ifneqId oneUser._id userInfo._id}}
-        {{oneUser.address.zipcode}}
+       <li> {{oneUser.address.zipcode}}
       {{/ifneqId}}</li>
     <li class="list-group-item">Description: {{oneUser.description}}</li>
 
-    <li class="list-group-item">Reviews:</li>
+    <li class="list-group-item font-weight-bold">Reviews:</li>
     {{!-- if user is on his profile --}}
     {{#ifeqId oneUser._id userInfo._id}}
-      You have {{oneUser.reviews.length}} review(s)
+      <h4 class="card-title text-center">You have {{oneUser.reviews.length}} review(s)</h4>
     {{else}}
     {{!-- if current user is on another user profile --}}
-      {{oneUser.reviews.length}} review(s)
+      <h3 class="card-title>{{oneUser.reviews.length}} review(s)</h3>
     
       {{!-- if current user is or has been a guest to this other user --}}
       {{#if arrayOfGuests}}
         {{#each arrayOfGuests}}
           {{#ifeqId this ../userInfo._id}}
           <form action="/profile/{{../oneUser._id}}/review" method="POST">
+            <div class="form-group">
             <label for="review">Write a review for this user: </label>
-            <input name="review" type="textarea">
-            <button type="submit">Submit review</button>
+            <input class="form-control" name="review" type="textarea">
+            </div>
+            <button class="btn btn-primary" type="submit">Submit review</button>
           </form>
           {{/ifeqId}}
         {{/each}}
@@ -44,9 +48,11 @@
       {{#if host}}
         {{#ifeqId host userInfo._id}}
           <form action="/profile/{{oneUser._id}}/review" method="POST">
+            <div class="form-group">
             <label for="review">Write a review for this user: </label>
-            <input name="review" type="textarea">
-            <button type="submit">Submit review</button>
+            <input class="form-control" name="review" type="textarea">
+            </div>
+            <button class="btn btn-primary" type="submit">Submit review</button>
           </form>
         {{/ifeqId}}
       {{/if}}
@@ -65,9 +71,9 @@
       {{/each}}
     </ul> --}}
 
-    <ul>
+    <ul class="list-group">
       {{#each oneUser.reviews}}
-        <li>{{this}}</li>
+        <li class="list-group-item">{{this}}</li>
       {{/each}}
     </ul>
 

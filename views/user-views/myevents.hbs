@@ -1,23 +1,26 @@
 <div class="container-fluid">
-  <h1>MY EVENTS</h1>
+  <div class="jumbotron">
+  <h1 class="display-6">MY EVENTS</h1>
+  </div>
 
-  <h2>EVENTS I HOST</h2>
+  <div class="jumbotron">
+    <h2 class="display-6">EVENTS I HOST</h2>
 
   {{#if mealEventHost}}
-  <div class="hosted-event">
+      <div class="hosted-event">
 
     {{#each mealEventHost}}
-    <h3>{{incremented @index}}.
-       {{this.date}} -
+    <p class="card-text">{{incremented @index}}.
+       {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}} -
       <a href="/meal-events/{{this._id}}">{{this.eventName}}</a>
-    </h3>
+    </p>
 
       {{#if this.pendingGuests}}
-      <div>
-        <h6>Pending guests:</h6>
+        <div>
+        <h6 class="lead" >Pending guests:</h6>
           {{#each this.pendingGuests}}
           <div class="pending-guest">
-            <p> 
+            <p class="card-text"> 
               {{#each ../../guestsInfo}}  
                 {{#ifeqId this._id ../this}}
                   Name: <a href="/profile/{{../this}}"> {{this.name}}</a>
@@ -25,10 +28,10 @@
               {{/each}}
             </p>
             <form action="/meal-events/{{../this._id}}/accept/{{this}}" method="POST">
-              <button type="submit">Accept</button>
+              <button class="btn btn-success btn-sm" type="submit">Accept</button>
             </form>
             <form action="/meal-events/{{../this._id}}/decline/{{this}}" method="POST">
-              <button type="submit">Decline</button>
+              <button class="btn btn-danger btn-sm" type="submit">Decline</button>
             </form>
           </div>
           {{/each}}
@@ -37,15 +40,16 @@
     {{/each}}
 
   {{else}}
-    <p>You don't host any event yet</p>
-    <p><a href="/meal-events/create">Create a new event</a></p>
+    <p class="card-text">You don't host any event yet</p>
+    <p><a class="btn btn-primary btn-sm" href="/meal-events/create">Create a new event</a></p>
     
   {{/if}}
   </div>
+</div>
 
-  <hr>
 
-  <h2>EVENTS I ATTEND</h2>
+<div class="jumbotron">
+  <h2 class="display-6">EVENTS I ATTEND</h2>
   <div>
     {{#if mealEventGuest}}
       {{#each mealEventGuest}}
@@ -54,14 +58,14 @@
           <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h3>
       {{/each}}
     {{else}}
-      <p>You don't attend any event yet</p>
+      <p class="card-text">You don't attend any event yet</p>
       <p><a href="/meal-events">See the list of events</a></p>
     {{/if}}
   </div>
 
   <div>
     {{#if mealEventPending}}
-    <p>Events pending:</p>
+    <p class="lead">Events pending:</p>
     {{#each mealEventPending}}
       <li>{{this.date}} - <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
     {{/each}}

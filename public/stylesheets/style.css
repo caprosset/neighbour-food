@@ -5,8 +5,9 @@
   }
 
 body {
-  background-color: #fff;
-  
+  background-image: url('./../images/background.png');
+  background-size: auto;
+  background-repeat: repeat;
 }
 
 .container-fluid {

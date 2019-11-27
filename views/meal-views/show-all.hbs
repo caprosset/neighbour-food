@@ -1,6 +1,8 @@
 <div class="container-fluid">
-  <h1>ALL THE EVENTS</h1>
+  <div class="jumbotron">
+  {{!-- <h1>ALL THE EVENTS</h1> --}}
   <h2>See all the events in your neighbourhood: {{userInfo.address.zipcode}}</h2>
+</div>
 
   <div>
     {{#if allMealEventsFromDB}}
@@ -12,7 +14,7 @@
         <img class="card-img-top" src="{{ this.eventImg }}" alt="Event image">
         <div class="card-body">
           <h3 class="card-title"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-          <p>Date: {{this.date}}</p>
+          <p class="card-title">Date: {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}}</p>
           
           {{#ifeqId this.host._id this.userId}}
               <p class="card-text">Host: yourself</p>
@@ -39,6 +41,6 @@
   </div>
 
   <div>
-    <a href="/meal-events/create">Create a new event</a>
+    <a class="btn btn-primary btn-sm" href="/meal-events/create">Create a new event</a>
   </div>
 </div>

@@ -6,49 +6,51 @@
     <form action='/auth/signup' method='POST' enctype="multipart/form-data">
 
       <div class="form-group">
-      <label for=''>Username</label>
-      <input class="form-control" type='text' name='name' placeholder="Username" required>
+        <label for=''>Username</label>
+        <input class="form-control" type='text' name='name' placeholder="Username" required>
       </div>
       <div class="form-group">
-      <label for=''>Email</label>
-      <input class="form-control" type='email' name='email' placeholder="Email" required>
+        <label for=''>Email</label>
+        <input class="form-control" type='email' name='email' placeholder="Email" required>
       </div>
       <div class="form-group">
-      <label for=''>Password</label>
-      <input class="form-control" type='password' name='password' placeholder="Password" required>
+        <label for=''>Password</label>
+        <input class="form-control" type='password' name='password' placeholder="Password" required>
       </div>
       <div class="form-group">
-      <label for=''>Address</label>
-      <input class="form-control" type='text' name='street' placeholder="Street" required>
-      <input class="form-control" type='number' name='houseNumber' placeholder="Number" required>
-      <input class="form-control" type='number' name='zipcode' placeholder="Zipcode" required>
-      <input class="form-control" type='text' name='city' placeholder="City" required>
+        <label for=''>Address</label>
+        <input class="form-control" type='text' name='street' placeholder="Street" required>
+        <input class="form-control" type='number' name='houseNumber' placeholder="Number" required>
+        <input class="form-control" type='number' name='zipcode' placeholder="Zipcode" required>
+        <input class="form-control" type='text' name='city' placeholder="City" required>
       </div>
       <div class="form-group">
-      <label for=''>About me</label>
-      <input class="form-control" type='textarea' name='description' placeholder="About you" required>
+        <label for=''>About me</label>
+        <input class="form-control" type='textarea' name='description' placeholder="About me" required>
       </div>
+
       <div class="form-group">
-      <label for='profileImg'>Image</label>
-<<<<<<< HEAD
-      <input class="form-control" type='file' name='profileImg' id="profileImg" required>
-     </div>
+        <div class="custom-file">
+          <label class="custom-file-label" for='profileImg'>Image</label>
+          <input class="custom-file-input" type='file' name='profileImg' id="profileImg" required>
+        </div>
+      </div>
 
       {{!-- <div style="display:none">
         <label for='score'>Score</label>
         <input type='text' name='score' id="score">
       </div> --}}
-     
+
       <button class="btn btn-primary" type='submit'>Create account</button>
-      
+
       <p class="account-message my-2">
-          Already have an account? <a href="/login">Login</a>
+        Already have an account? <a href="/login">Login</a>
       </p>
     </form>
 
     {{!-- error message display --}}
     {{#if errorMessage}}
-      <div class="error-message">{{ errorMessage }}</div>
+    <div class="error-message">{{ errorMessage }}</div>
     {{/if}}
 
   </div>
