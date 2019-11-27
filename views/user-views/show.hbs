@@ -3,7 +3,16 @@
 
   <p>Name: {{oneUser.name}}</p>
   <p>Image: <img src="{{oneUser.profileImg}}" alt="Profile picture" width="300"></p>
-  <p>Address: {{oneUser.address.zipcode}}</p>
+  <p>Address: 
+    {{#ifeqId oneUser._id userInfo._id}}
+      {{oneUser.address.street}} {{oneUser.address.houseNumber}}
+      {{oneUser.address.zipcode}} {{oneUser.address.city}}</p>
+    {{/ifeqId}}
+
+    {{#ifneqId oneUser._id userInfo._id}}
+      {{oneUser.address.zipcode}}
+    {{/ifneqId}}
+    
   <p>Description: {{oneUser.description}}</p>
 
   <div>

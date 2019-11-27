@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
         meal["userId"] = req.session.currentUser._id;
       })
       // console.log('USERS ZIPCODE', allMealEventsFromDB[0].userZipcode)
-      console.log('USERS ID', allMealEventsFromDB[0].userId)
+      // console.log('USERS ID', allMealEventsFromDB[0].userId)
 
       res.render('meal-views/show-all', {
         allMealEventsFromDB,
@@ -89,15 +89,28 @@ router.get('/:id', (req, res, next) => {
   MealEvent.findOne({
       _id: req.params.id
     })
-    .populate('host acceptedGuests')
+    .populate('host pendingGuests acceptedGuests')
     .then((theMealEvent) => {
       // console.log('MEAL EVENT', theMealEvent);
-      theMealEvent.acceptedGuests.forEach(guest => {
+      const currentUserId = req.session.currentUser._id;
+      let type = {};
 
-        console.log('GUEST IDSSS', guest._id);
+      theMealEvent.acceptedGuests.forEach(guest => {
+        console.log('ACCEPTED GUEST IDSSS', guest._id);
+        if(guest._id.equals(currentUserId)) {
+          type.accepted = true;
+        }
+      })
+
+      theMealEvent.pendingGuests.forEach(guest => {
+        console.log('PENDING GUEST IDSSS', guest._id);
+        if(guest._id.equals(currentUserId)) {
+          type.pending = true;
+        } 
       })
     
       res.render('meal-views/show', {
+        type,
         mealEvent: theMealEvent,
         userInfo: req.session.currentUser
       });

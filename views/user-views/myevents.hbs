@@ -20,7 +20,7 @@
             <p> 
               {{#each ../../guestsInfo}}  
                 {{#ifeqId this._id ../this}}
-                Name: <a href="/profile/{{../this}}"> {{this.name}}</a>
+                  Name: <a href="/profile/{{../this}}"> {{this.name}}</a>
                 {{/ifeqId}}
               {{/each}}
             </p>

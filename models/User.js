@@ -13,7 +13,7 @@ const userSchema = Schema({
 },
   description: {type: String, required: true},
   profileImg: {type: String, required: true},
-  score: {type: Number},
+  score: {type: mongoose.Schema.Types.ObjectId, ref: "MealEvent"},
   hostedEvents: [{  type: mongoose.Schema.Types.ObjectId, ref: "MealEvent"}],
   pendingEvents: [{  type: mongoose.Schema.Types.ObjectId, ref: "MealEvent"}],
   attendedEvents: [{  type: mongoose.Schema.Types.ObjectId, ref: "MealEvent"}], // attending events 
