@@ -53,3 +53,8 @@ form.form-inline {
       color: rgb(54, 130, 211);
       
   }
+
+  #map {
+    height: 400px;
+    width: 100%;
+  }
