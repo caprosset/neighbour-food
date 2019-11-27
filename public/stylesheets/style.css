@@ -6,6 +6,7 @@
 
 body {
   background-color: #fff;
+  
 }
 
 .container-fluid {
@@ -45,11 +46,7 @@ form.form-inline {
     margin-bottom: 0;
   }
 
-  /* nav.navbar.fixed-top.navbar-light.bg-light.justify-content-end{
-    padding-top: 15px;
-    padding-bottom: 0;
-    margin-bottom: 0;
-  } */
+
 
   #plus-icon {
       font-size: 55px;
