@@ -17,6 +17,12 @@ hbsModule.registerHelper('ifeq', function(a, b, options){
     }
         return options.inverse(this);
     });
+
+    //Date time format
+hbsModule.registerHelper('dateFormat', require('handlebars-dateformat'));
+
 }
+
+
 
 module.exports = registerHelpers;

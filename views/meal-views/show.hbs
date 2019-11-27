@@ -9,7 +9,7 @@
     
     <div class="card-body">
       <p class="card-text"> EventName: {{ mealEvent.eventName }}</p>
-      <p class="card-text"> Date: {{ mealEvent.date }}</p>
+      <p class="card-text"> Date: {{ dateFormat mealEvent.date "dddd, MMMM Do YYYY, h:mm"}}</p>
       {{#ifeqId mealEvent.host._id userInfo._id }}
         <p class="card-text">Host: you are the host of this event</p>
       {{else}}
