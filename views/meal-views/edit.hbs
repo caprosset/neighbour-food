@@ -1,33 +1,33 @@
 <div class="container-fluid">
-  <h1>EDIT MY EVENT</h1>
+  <h1 class="font-weight-bold text-center">EDIT MY EVENT</h1>
 
   <form action="/meal-events/{{ mealEvent._id }}" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
+    <div class="font-weight-bold form-group">
       <label for="eventName"> EventName </label>
       <input class="form-control" type="text" name="eventName" id="eventName" value="{{ mealEvent.eventName }}">
     </div>
-    <div class="form-group">
+    <div class="font-weight-bold form-group">
       <label for="cuisine"> Cuisine </label>
       <input class="form-control" type="text" name="cuisine" id="cuisine" value="{{ mealEvent.cuisine }}">
     </div>
-    <div class="form-group">
+    <div class="font-weight-bold form-group">
       <label for="dish"> Dish </label>
       <input class="form-control" type="text" name="dish" id="dish" value="{{ mealEvent.dish }}">
     </div>
-    <div class="form-group">
+    <div class="font-weight-bold form-group">
       <label for="date"> Date </label>
       <input class="form-control" type="datetime-local" name="date" id="date" value="{{ mealEvent.date }}">
     </div>
-        <div class="form-group">
+        <div class="font-weight-bold form-group">
       <label for="eventImg"> Event Photo </label>
       <img class="card-img-top" src="{{ mealEvent.eventImg }}">
       <input class="form-control" type="file" name="eventImg" value="{{ mealEvent.eventImg }}">
     </div>
-      <div class="form-group">
+      <div class="font-weight-bold form-group">
       <label for="eventDescription"> Description </label>
       <input class="form-control" type="text" name ="eventDescription" id="eventDescription" value="{{ mealEvent.eventDescription }}">
     </div>
-    <div class="form-group">
+    <div class="font-weight-bold form-group">
       <label for="numberAttend"> Number of guests </label>
       <input class="form-control" type="number" name="numberAttend" id="numberAttend" value="{{ mealEvent.numberAttend }}">
     </div>
@@ -35,5 +35,4 @@
     <button class="btn btn-primary"> Submit </button>
   </form>
 
-  <p><a href="/meal-events">Back to Events</a></p> 
 </div>

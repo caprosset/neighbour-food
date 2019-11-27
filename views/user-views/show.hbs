@@ -1,33 +1,34 @@
 <div class="container-fluid">
   <div class="jumbotron pb-0 pt-0">
-    <h1>MY PROFILE</h1>
+    <h1 class="font-weight-bold">MY PROFILE</h1>
   </div>
 
   <div class="card">
     <div class="card-body">
-      <h3 class="card-title">Name: {{oneUser.name}}</h3>
+      <h3 class="card-title text-center"> {{oneUser.name}}</h3>
     </div>
     <img class="card-img-top" src="{{oneUser.profileImg}}" alt="Profile picture">
     <div class="card-body">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Address: <br>
+        <li class="list-group-item"><span class="font-weight-bold">Address:</span>  <br>
           {{#ifeqId oneUser._id userInfo._id}}
           {{oneUser.address.street}} {{oneUser.address.houseNumber}}<br>
-          {{oneUser.address.zipcode}} {{oneUser.address.city}}</li>
+          {{oneUser.address.zipcode}} <br>
+          {{oneUser.address.city}}</li>
         {{/ifeqId}}
 
         {{#ifneqId oneUser._id userInfo._id}}
-        <li> {{oneUser.address.zipcode}}
+        <li class="list-group-item"> {{oneUser.address.zipcode}}
           {{/ifneqId}}</li>
-        <li class="list-group-item">Description: {{oneUser.description}}</li>
+        <li class="list-group-item"><span class="font-weight-bold">Description:</span> {{oneUser.description}}</li>
 
         <li class="list-group-item font-weight-bold">Reviews:</li>
         {{!-- if user is on his profile --}}
         {{#ifeqId oneUser._id userInfo._id}}
-        <h4 class="card-title text-center">You have {{oneUser.reviews.length}} review(s)</h4>
+        <h5 class="card-text text-center">You have {{oneUser.reviews.length}} review(s)</h5>
         {{else}}
         {{!-- if current user is on another user profile --}}
-        <h3 class="card-title">{{oneUser.reviews.length}} review(s)</h3>
+        <h5 class="card-text text-center">{{oneUser.reviews.length}} review(s)</h5>
 
         {{!-- if current user is or has been a guest to this other user --}}
         {{#if arrayOfGuests}}
@@ -83,13 +84,10 @@
 
     {{#ifeqId oneUser._id userInfo._id}}
     <div class="user-actions">
-      <button class="btn btn-outline-primary"><a href="/profile/{{oneUser._id}}/edit">Edit profile</a></button>
-      <button class="btn btn-outline-primary" id="delete-button"><a class="card-link"
-          href="/profile/{{oneUser._id}}/delete">Delete profile</a></button>
+      <a class="btn btn-primary ml-5 mb-3" href="/profile/{{oneUser._id}}/edit">Edit profile</a>
+      <a class="btn btn-primary ml-4 mb-3" href="/profile/{{oneUser._id}}/delete">Delete profile</a>
     </div>
-  </div>
-  <p><a class="btn btn-primary my-2" href="/profile/{{oneUser._id}}/events">See my events</a></p>
-</div>
+
 {{/ifeqId}}
 
 </div>

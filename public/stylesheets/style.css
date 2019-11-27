@@ -4,6 +4,10 @@
     }
   }
 
+  * {
+    font-family: 'Noto Sans', sans-serif;
+  }
+
 body {
   background-image: url('./../images/background.png');
   background-size: auto;
@@ -53,4 +57,22 @@ form.form-inline {
       font-size: 55px;
       color: rgb(54, 130, 211);
       
+  }
+
+  .btn-primary {
+    background-color: rgb(28, 184, 163);
+    border: 1px solid rgb(28, 184, 163);
+  }
+
+  #title-main-page {
+    text-shadow: 0 0 5px whitesmoke;
+ 
+  }
+
+  #logo-img {
+    height: 42px;
+  }
+
+  .jumbotron {
+    opacity: 0.7;
   }

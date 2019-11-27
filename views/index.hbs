@@ -9,13 +9,10 @@
 
     
       <img class="card-img-top p-0 m-0"src="/images/logo.png" alt="">
-      {{!-- <div class="jumbotron p-0 ">
-        <p class="lead">Welcome to our app</p>
-    </div> --}}
 
 <div class="input-group">
     <form class="input-group-prepend" action="/search" method="GET">
-        <input class="form-control ml-4" type="text" name="zipcode" placeholder="Enter your zipcode">
+        <input class="form-control ml-5" type="text" name="zipcode" placeholder="Enter your zipcode">
         <button class="btn btn-primary btn-sm" type="submit">Search</button>
     </form>
 </div>
@@ -43,7 +40,7 @@
 
 {{#if eventsNearZipcode}}
   <div class="search-results">
-      <h2 class="lead">Neighbours events happening soon in {{eventsNearZipcode.0.host.address.zipcode}} </h2>
+      <h1 class="lead text-center font-weight-bold">Neighbours events happening soon in {{eventsNearZipcode.0.host.address.zipcode}} </h1>
       {{#each eventsNearZipcode}}
       <div class="event-preview card mb-3">
         <img class="card-img-top" src="{{ this.eventImg }}" alt="Event image" width="300">
@@ -68,7 +65,7 @@
 {{#if allMealsFromDB}} 
   {{!-- {{#unless eventsNearZipcode}} --}}
     <div class="event-preview"></div>
-    <h2 class="lead">Neighbours events happening soon</h2>
+    <h1 id="title-main-page" class="lead font-weight-bold text-center">Neighbours events happening soon</h1>
       {{#each allMealsFromDB}}
         {{#ifIndexLessThan3 @index}}
         <div class="event-preview card mb-3">

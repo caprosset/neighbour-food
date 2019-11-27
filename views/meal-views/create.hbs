@@ -1,41 +1,40 @@
-
 <div class="container-fluid">
 
-  <h1>CREATE YOUR EVENT</h1>
+  <h2 class="font-weight-bold text-center">CREATE YOUR EVENT</h2>
 
-  <p>And earn 10 forks per guest</p>
+  {{!-- <p>And earn 10 forks per guest</p> --}}
 
   <form class="needs-validation" novalidate action="/meal-events/create" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
+    <div class="form-group font-weight-bold">
       <label for="eventName"> EventName </label>
-      <input class="form-control" type="text" name="eventName" id="eventName" placeholder="Add a name to your event">
+      <input class="form-control" type="text" name="eventName" id="eventName" placeholder="Add a name to your event"
+        required>
     </div>
-
-    <div class="form-group">
+    <div class="form-group font-weight-bold">
       <label for="date"> Date </label>
       <input class="form-control" type="datetime-local" name="date" id="date">
     </div>
-
-
-    <div class="form-group">
+    <div class="form-group font-weight-bold">
       <label for="cuisine"> Cuisine </label>
       <input class="form-control" type="text" name="cuisine" id="cuisine" placeholder="Cuisine">
     </div>
-    <div class="form-group">
+    <div class="form-group font-weight-bold">
       <label for="dish"> Dish </label>
       <input class="form-control" type="text" name="dish" id="dish" placeholder="Dish">
     </div>
-    <div class="form-group">
-      <label for="eventImg"> Event Photo </label>
-      <input class="form-control" type="file" name="eventImg" id="eventImg">
-    </div>
-    <div class="form-group">
+    <div class="form-group font-weight-bold">
       <label for="eventDescription"> Description </label>
       <input class="form-control" type="text" name="eventDescription" id="eventDescription" placeholder="Description">
     </div>
-    <div class="form-group">
+    <div class="form-group font-weight-bold">
       <label for="numberAttend"> Number of guests </label>
-      <input class="form-control" type="number" name="numberAttend" id="numberAttend">
+      <input class="form-control" type="number" name="numberAttend" id="numberAttend" placeholder="Number of guests">
+    </div>
+    <div class="form-group font-weight-bold">
+      <div class="custom-file">
+        <label class="custom-file-label" for='eventImg'>Image</label>
+        <input class="custom-file-input" type='file' name='eventImg' id="eventImg" required>
+      </div>
     </div>
     <div style="display: none">
       <label for="host"> Host </label>
@@ -50,10 +49,7 @@
       <input type="number" name="costScore" id="costScore">
     </div>
 
-    <button class="btn btn-primary"> Publish event </button>
+    <button type="button" class="btn btn-primary text-center"> Publish event </button>
   </form>
 
-  <br>
-
-  <p><a href="/meal-events">Back to Events</a></p>
 </div>

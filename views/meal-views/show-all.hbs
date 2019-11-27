@@ -1,7 +1,6 @@
 <div class="container-fluid">
   <div class="jumbotron">
-  {{!-- <h1>ALL THE EVENTS</h1> --}}
-  <h2>See all the events in your neighbourhood: {{userInfo.address.zipcode}}</h2>
+  <h3 class="text-center font-weight-bold">See all the events in your neighbourhood: {{userInfo.address.zipcode}}</h3>
 </div>
 
   <div>
@@ -11,20 +10,20 @@
       {{#ifeq this.host.address.zipcode this.userZipcode}}
       {{!-- <p>ZIPCODDDEEE: {{../userInfo.address.zipcode}} </p> --}}
       <div class="card event-preview">
-        <img class="card-img-top" src="{{ this.eventImg }}" alt="Event image">
+        <a href="/meal-events/{{ this._id }}"><img class="card-img-top" src="{{ this.eventImg }}" alt="Event image"></a>
         <div class="card-body">
-          <h3 class="card-title"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+          <h3 class="card-title text-center"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
           <p class="card-title">Date: {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}}</p>
           
           {{#ifeqId this.host._id this.userId}}
-              <p class="card-text">Host: yourself</p>
+              <p class="card-text">Host: It's your event!</p>
           {{else}}
               <p class="card-text">Host: <a href="/profile/{{ this.host._id }}">{{ this.host.name }}</a></p>
           {{/ifeqId}}
 
           <p class="card-text">Cuisine: {{ this.cuisine }}</p>
           <p class="card-text">Neighbourhood: {{ this.host.address.zipcode }}</p>
-          <a class="btn btn-primary" href="/meal-events/{{ this._id }}">Check out this event</a>
+          <a class="btn btn-primary sm mx-5" href="/meal-events/{{ this._id }}">Check out this event</a>
         </div>
       </div>
       
@@ -40,7 +39,4 @@
     {{/if}}
   </div>
 
-  <div>
-    <a class="btn btn-primary btn-sm" href="/meal-events/create">Create a new event</a>
-  </div>
 </div>
