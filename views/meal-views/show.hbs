@@ -33,8 +33,8 @@
       <p class="card-text"> Description: {{ mealEvent.eventDescription }}</p>
     </div>
   </div>
-</div>
-  <div>
+{{!-- </div>
+  <div> --}}
     {{!-- if current user is the host of this event --}}
     {{#ifeqId mealEvent.host._id userInfo._id }}
 
@@ -72,12 +72,13 @@
       {{/if}}
   
   {{/ifeqId}}
+</div>
 
   <div class="user-actions">
     <p><a class="btn btn-outline-primary" href="/profile/{{userInfo._id}}">Back to your profile</a></p>
     <p><a class="btn btn-outline-primary" href="/meal-events">Back to the list of events</a></p>
 
-  </div>
+  {{!-- </div> --}}
 </div>
 
 

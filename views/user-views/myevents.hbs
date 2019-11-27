@@ -3,7 +3,7 @@
   <h1 class="display-6">MY EVENTS</h1>
   </div>
 
-  <div class="jumbotron">
+  <div class="jumbotron mb-0">
     <h2 class="display-6">EVENTS I HOST</h2>
 
   {{#if mealEventHost}}
@@ -47,14 +47,13 @@
   </div>
 </div>
 
-
 <div class="jumbotron">
   <h2 class="display-6">EVENTS I ATTEND</h2>
   <div>
     {{#if mealEventGuest}}
       {{#each mealEventGuest}}
         <h3>{{incremented @index}}. 
-          {{this.date}} -
+          {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}}
           <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h3>
       {{/each}}
     {{else}}
@@ -65,10 +64,12 @@
 
   <div>
     {{#if mealEventPending}}
-    <p class="lead">Events pending:</p>
+    <p class="lead font-weight-bold">Events pending:</p>
+    <ul class="list-group">
     {{#each mealEventPending}}
-      <li>{{this.date}} - <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
+      <li class="list-group-item">{{dateFormat this.date "dddd, MMM Do YYYY, h:mm a"}} <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
     {{/each}}
+    </ul>
     {{/if}}
   </div>
 </div>

@@ -1,62 +1,62 @@
 <div class="container-fluid">
   <div class="jumbotron pb-0 pt-0">
-  <h1>MY PROFILE</h1>
+    <h1>MY PROFILE</h1>
   </div>
 
   <div class="card">
     <div class="card-body">
       <h3 class="card-title">Name: {{oneUser.name}}</h3>
-    </div> 
+    </div>
     <img class="card-img-top" src="{{oneUser.profileImg}}" alt="Profile picture">
-  <div class="card-body">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Address: <br>
-      {{#ifeqId oneUser._id userInfo._id}}
-        {{oneUser.address.street}} {{oneUser.address.houseNumber}}<br>
-        {{oneUser.address.zipcode}} {{oneUser.address.city}}</li>
-      {{/ifeqId}}
-
-      {{#ifneqId oneUser._id userInfo._id}}
-       <li> {{oneUser.address.zipcode}}
-      {{/ifneqId}}</li>
-    <li class="list-group-item">Description: {{oneUser.description}}</li>
-
-    <li class="list-group-item font-weight-bold">Reviews:</li>
-    {{!-- if user is on his profile --}}
-    {{#ifeqId oneUser._id userInfo._id}}
-      <h4 class="card-title text-center">You have {{oneUser.reviews.length}} review(s)</h4>
-    {{else}}
-    {{!-- if current user is on another user profile --}}
-      <h3 class="card-title>{{oneUser.reviews.length}} review(s)</h3>
-    
-      {{!-- if current user is or has been a guest to this other user --}}
-      {{#if arrayOfGuests}}
-        {{#each arrayOfGuests}}
-          {{#ifeqId this ../userInfo._id}}
-          <form action="/profile/{{../oneUser._id}}/review" method="POST">
-            <div class="form-group">
-            <label for="review">Write a review for this user: </label>
-            <input class="form-control" name="review" type="textarea">
-            </div>
-            <button class="btn btn-primary" type="submit">Submit review</button>
-          </form>
-          {{/ifeqId}}
-        {{/each}}
-      {{/if}}
-
-      {{!-- if current user is or has been a host to this other user --}}
-      {{#if host}}
-        {{#ifeqId host userInfo._id}}
-          <form action="/profile/{{oneUser._id}}/review" method="POST">
-            <div class="form-group">
-            <label for="review">Write a review for this user: </label>
-            <input class="form-control" name="review" type="textarea">
-            </div>
-            <button class="btn btn-primary" type="submit">Submit review</button>
-          </form>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Address: <br>
+          {{#ifeqId oneUser._id userInfo._id}}
+          {{oneUser.address.street}} {{oneUser.address.houseNumber}}<br>
+          {{oneUser.address.zipcode}} {{oneUser.address.city}}</li>
         {{/ifeqId}}
-      {{/if}}
-    {{/ifeqId}}
+
+        {{#ifneqId oneUser._id userInfo._id}}
+        <li> {{oneUser.address.zipcode}}
+          {{/ifneqId}}</li>
+        <li class="list-group-item">Description: {{oneUser.description}}</li>
+
+        <li class="list-group-item font-weight-bold">Reviews:</li>
+        {{!-- if user is on his profile --}}
+        {{#ifeqId oneUser._id userInfo._id}}
+        <h4 class="card-title text-center">You have {{oneUser.reviews.length}} review(s)</h4>
+        {{else}}
+        {{!-- if current user is on another user profile --}}
+        <h3 class="card-title">{{oneUser.reviews.length}} review(s)</h3>
+
+        {{!-- if current user is or has been a guest to this other user --}}
+        {{#if arrayOfGuests}}
+        {{#each arrayOfGuests}}
+        {{#ifeqId this ../userInfo._id}}
+        <form action="/profile/{{../oneUser._id}}/review" method="POST">
+          <div class="form-group">
+            <label for="review">Write a review for this user: </label>
+            <input class="form-control" name="review" type="textarea">
+          </div>
+          <button class="btn btn-primary" type="submit">Submit review</button>
+        </form>
+        {{/ifeqId}}
+        {{/each}}
+        {{/if}}
+
+        {{!-- if current user is or has been a host to this other user --}}
+        {{#if host}}
+        {{#ifeqId host userInfo._id}}
+        <form action="/profile/{{oneUser._id}}/review" method="POST">
+          <div class="form-group">
+            <label for="review">Write a review for this user: </label>
+            <input class="form-control" name="review" type="textarea">
+          </div>
+          <button class="btn btn-primary" type="submit">Submit review</button>
+        </form>
+        {{/ifeqId}}
+        {{/if}}
+        {{/ifeqId}}
 
         {{!-- {{else}}
     <form action="/profile/{{oneUser._id}}/review" method="POST">
@@ -71,26 +71,25 @@
       {{/each}}
     </ul> --}}
 
-    <ul class="list-group">
-      {{#each oneUser.reviews}}
-        <li class="list-group-item">{{this}}</li>
-      {{/each}}
-    </ul>
+        <ul class="list-group">
+          {{#each oneUser.reviews}}
+          <li class="list-group-item">{{this}}</li>
+          {{/each}}
+        </ul>
+      </ul>
+    </div>
 
-  </ul>
 
+
+    {{#ifeqId oneUser._id userInfo._id}}
+    <div class="user-actions">
+      <button class="btn btn-outline-primary"><a href="/profile/{{oneUser._id}}/edit">Edit profile</a></button>
+      <button class="btn btn-outline-primary" id="delete-button"><a class="card-link"
+          href="/profile/{{oneUser._id}}/delete">Delete profile</a></button>
+    </div>
   </div>
-</div>
-
-
-
-<div class="card-body">
-{{#ifeqId oneUser._id userInfo._id}}
-<div class="user-actions">
-  <button class="btn btn-outline-primary"><a href="/profile/{{oneUser._id}}/edit">Edit profile</a></button>
-  <button class="btn btn-outline-primary" id="delete-button"><a class="card-link" href="/profile/{{oneUser._id}}/delete">Delete profile</a></button>
   <p><a class="btn btn-primary my-2" href="/profile/{{oneUser._id}}/events">See my events</a></p>
 </div>
-</div>
 {{/ifeqId}}
+
 </div>

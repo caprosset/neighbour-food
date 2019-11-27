@@ -8,10 +8,10 @@
 <div class="home container-fluid">
 
     
-      <img class="card-img-top"src="/images/logo.png" alt="">
-      <div class="jumbotron p-0 ">
+      <img class="card-img-top p-0 m-0"src="/images/logo.png" alt="">
+      {{!-- <div class="jumbotron p-0 ">
         <p class="lead">Welcome to our app</p>
-    </div>
+    </div> --}}
 
 <div class="input-group">
     <form class="input-group-prepend" action="/search" method="GET">
@@ -47,10 +47,10 @@
       {{#each eventsNearZipcode}}
       <div class="event-preview card mb-3">
         <img class="card-img-top" src="{{ this.eventImg }}" alt="Event image" width="300">
-        <h3 class="card-title"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+        <h3 class="card-title text-center"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
         <p class="card-text">Cuisine: {{ this.cuisine }}</p>
         <p class="card-text">Neighbourhood: {{ this.host.address.zipcode }}</p>
-        <a href="/meal-events/{{ this._id }}"><button class="btn btn-primary btn-sm">Check out this event</button></a>
+        <a href="/meal-events/{{ this._id }}"><button class="btn btn-primary btn-sm ml-4">Check out this event</button></a>
     </div>
       {{/each}}
   </div>
@@ -73,10 +73,10 @@
         {{#ifIndexLessThan3 @index}}
         <div class="event-preview card mb-3">
           <img class="card-img-top" src="{{ this.eventImg }}" alt="Event image" width="300">
-          <h3 class="card-title"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-          <p class="card-text">Cuisine: {{ this.cuisine }}</p>
-          <p class="card-text">Neighbourhood: {{ this.host.address.zipcode }}</p>
-          <a href="/meal-events/{{ this._id }}"><button class="btn btn-primary btn-sm">Check out this event</button></a>
+          <h3 class="card-title pl-5"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+          <p class="card-text pl-2">Cuisine: {{ this.cuisine }}</p>
+          <p class="card-text pl-2">Neighbourhood: {{ this.host.address.zipcode }}</p>
+          <a class="btn btn-secondary btn-sm pl-2" href="/meal-events/{{ this._id }}">Check out this event</a>
     </div>
         {{/ifIndexLessThan3}}
       {{/each}}
