@@ -32,7 +32,7 @@
                     <h3 class="card-title"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
                     <p class="card-text">Cuisine: {{ this.cuisine }}</p>
                     <p class="card-text">Neighbourhood: {{ this.host.address.zipcode }}</p>
-                    <a href="/meal-events/{{ this._id }}"><button>Check out this event</button></a>
+                    <a href="/meal-events/{{ this._id }}"><button class="btn btn-primary btn-sm">Check out this event</button></a>
                 </div>
             </div>
             {{/each}}
