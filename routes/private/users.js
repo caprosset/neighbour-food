@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("./../../models/User");
 const MealEvent = require("./../../models/MealEvent");
-// const axios = require('axios');
 const parser = require("../../config/cloudinary");
+
 
 // GET	/profile --> Redirects to the profile page
 router.get("/", (req, res, next) => {
@@ -14,31 +14,44 @@ router.get("/", (req, res, next) => {
 // GET	/profile/:id --> Renders the profile page
 router.get("/:id", (req, res, next) => {
   User.findById(req.params.id)
-    .then(oneUser => {
-      // console.log(oneUser);
-      res.render("user-views/show", {
-        oneUser,
-        userInfo: req.session.currentUser
-      });
+  .populate('hostedEvents pendingEvents attendedEvents')
+  .then(oneUser => {
+    console.log(oneUser);
+
+    let arrayOfGuests;
+    oneUser.hostedEvents.forEach(event => {
+      arrayOfGuests = event.acceptedGuests;
     })
-    .catch(err => console.log(err));
+    // console.log('GUESTS ARRAY', arrayOfGuests);
+
+    let host;
+    oneUser.attendedEvents.forEach(event => {
+      host = event.host;
+    })
+    // console.log('HOST ID', host);
+    
+    res.render("user-views/show", {
+      oneUser,
+      host,
+      arrayOfGuests,
+      userInfo: req.session.currentUser
+    });
+  })
+  .catch(err => console.log(err));
 });
+
 
 // GET /profile/:id/events --> Renders the 'my events' page
 router.get("/:id/events", (req, res, next) => {
-  // console.log('HELLPPPPPP');
   
   User.findById(req.params.id)
     .populate("hostedEvents hostedEvents.pendingGuests pendingEvents attendedEvents")
     .then(oneUser => {
-      console.log(
-        "mealEventHost:",
-        oneUser.hostedEvents,
-        "mealEventPending:",
-        oneUser.pendingEvents,
-        "mealEventGuest:",
-        oneUser.attendedEvents
-      );
+      // console.log(
+      //   "mealEventHost:", oneUser.hostedEvents,
+      //   "mealEventPending:", oneUser.pendingEvents,
+      //   "mealEventGuest:", oneUser.attendedEvents
+      // );
 
       // save guests names of the hosted events into an array
       const myArr = [];
@@ -46,22 +59,22 @@ router.get("/:id/events", (req, res, next) => {
       if(oneUser.hostedEvents.length) {
         oneUser.hostedEvents.forEach(mealhost => {
           // console.log("PENDING GUESTS", mealhost.pendingGuests);
-          console.log('mealhost', mealhost);
+          // console.log('mealhost', mealhost);
           
           if(mealhost.pendingGuests.length) {
             mealhost.pendingGuests.forEach(guestId => {
               User.findById(guestId)
                 .then(guestObj => {
                   // console.log("GUEST OBJECT", guestObj);
-                  return myArr.push(guestObj.name);
+                  return myArr.push(guestObj);
                 })
                 .then(() => {
-                  // console.log("MY ARRAYYYYoooo", myArr);
+                  console.log("MY ARRAYYYYoooo", myArr);
                   return myArr;
                 })
                 .then(() => {
                   res.render("user-views/myevents", {
-                    guestsName: myArr,
+                    guestsInfo: myArr,
                     mealEventHost: oneUser.hostedEvents,
                     mealEventPending: oneUser.pendingEvents,
                     mealEventGuest: oneUser.attendedEvents,
@@ -72,7 +85,6 @@ router.get("/:id/events", (req, res, next) => {
             });
           } else {
             // console.log('hola');
-            
             res.render("user-views/myevents", {
               mealEventHost: oneUser.hostedEvents,
               mealEventPending: oneUser.pendingEvents,
@@ -83,14 +95,13 @@ router.get("/:id/events", (req, res, next) => {
       
         });
       } else {
-        console.log('hola');
-            
-            res.render("user-views/myevents", {
-              mealEventHost: oneUser.hostedEvents,
-              mealEventPending: oneUser.pendingEvents,
-              mealEventGuest: oneUser.attendedEvents,
-              userInfo: req.session.currentUser
-            });
+        // console.log('hola');
+        res.render("user-views/myevents", {
+          mealEventHost: oneUser.hostedEvents,
+          mealEventPending: oneUser.pendingEvents,
+          mealEventGuest: oneUser.attendedEvents,
+          userInfo: req.session.currentUser
+        });
       }
     })
     .catch(err => console.log(err));
@@ -135,15 +146,8 @@ router.post("/:id/edit", parser.single("profileImg"), (req, res, next) => {
         profileImg: imgUserUrl
       };
 
-      User.update(
-        {
-          _id: id
-        },
-        updatedUser
-      )
-        .then(() => {
-          return User.findById(id);
-        })
+      User.update({ _id: id }, updatedUser)
+        .then(() => User.findById(id))
         .then(updatedUser => {
           // console.log('UPDATED USER', updatedUser);
           req.session.currentUser = updatedUser;
@@ -153,6 +157,7 @@ router.post("/:id/edit", parser.single("profileImg"), (req, res, next) => {
     })
     .catch(err => console.log(err));
 });
+
 
 // POST /profile/{{oneUser._id}}/review --> saves the newly created review in the DB
 router.post("/:id/review", (req, res, next) => {
@@ -168,6 +173,7 @@ router.post("/:id/review", (req, res, next) => {
     .then(() => res.redirect(`/profile/${req.params.id}`))
     .catch(err => console.log(err));
 });
+
 
 // DELETE	/profile/:id/delete
 router.get("/:id/delete", function(req, res, next) {

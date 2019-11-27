@@ -4,28 +4,37 @@
 
   <div>
     {{#if allMealEventsFromDB}}
-    {{#each allMealEventsFromDB}}
-    {{!-- if current user zipcode matches the event host zipcode --}}
-    {{#ifeq this.host.address.zipcode this.userZipcode}}
-    {{!-- <p>ZIPCODDDEEE: {{../userInfo.address.zipcode}} </p> --}}
-    <div class="card event-preview">
-      <img class="card-img-top" src="{{ this.eventImg }}" alt="Event image">
-      <div class="card-body">
-        <h3 class="card-title"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-        <p class="card-text">Host: {{ this.host.name }}</p>
-        <p class="card-text">Cuisine: {{ this.cuisine }}</p>
-        <p class="card-text">Neighbourhood: {{ this.host.address.zipcode }}</p>
-        <a class="btn btn-primary" href="/meal-events/{{ this._id }}">Check out this event</a>
-      </div>
-    </div>
-    
-<br>
+      {{#each allMealEventsFromDB}}
+      {{!-- if current user zipcode matches the event host zipcode --}}
+      {{#ifeq this.host.address.zipcode this.userZipcode}}
+      {{!-- <p>ZIPCODDDEEE: {{../userInfo.address.zipcode}} </p> --}}
+      <div class="card event-preview">
+        <img class="card-img-top" src="{{ this.eventImg }}" alt="Event image">
+        <div class="card-body">
+          <h3 class="card-title"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+          <p>Date: {{this.date}}</p>
+          
+          {{#ifeqId this.host._id this.userId}}
+              <p class="card-text">Host: yourself</p>
+          {{else}}
+              <p class="card-text">Host: <a href="/profile/{{ this.host._id }}">{{ this.host.name }}</a></p>
+          {{/ifeqId}}
 
-    {{/ifeq}}
-    {{/each}}
+          <p class="card-text">Cuisine: {{ this.cuisine }}</p>
+          <p class="card-text">Neighbourhood: {{ this.host.address.zipcode }}</p>
+          <a class="btn btn-primary" href="/meal-events/{{ this._id }}">Check out this event</a>
+        </div>
+      </div>
+      
+        <br>
+        {{/ifeq}}
+      {{/each}}
+
     {{else}}
+
     <p>Ooops! No meal events has been found in your neighbourhood! </p>
     <p>Will you be the first one? </p>
+
     {{/if}}
   </div>
 

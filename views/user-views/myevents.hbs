@@ -7,14 +7,23 @@
   <div class="hosted-event">
 
     {{#each mealEventHost}}
-    <h3>{{@index}}. <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h3>
+    <h3>{{incremented @index}}.
+       {{this.date}} -
+      <a href="/meal-events/{{this._id}}">{{this.eventName}}</a>
+    </h3>
 
       {{#if this.pendingGuests}}
       <div>
         <h6>Pending guests:</h6>
           {{#each this.pendingGuests}}
           <div class="pending-guest">
-            <p><a href="/profile/{{this}}">Guest</a></p>
+            <p> 
+              {{#each ../../guestsInfo}}  
+                {{#ifeqId this._id ../this}}
+                  Name: <a href="/profile/{{../this}}"> {{this.name}}</a>
+                {{/ifeqId}}
+              {{/each}}
+            </p>
             <form action="/meal-events/{{../this._id}}/accept/{{this}}" method="POST">
               <button type="submit">Accept</button>
             </form>
@@ -40,7 +49,9 @@
   <div>
     {{#if mealEventGuest}}
       {{#each mealEventGuest}}
-        <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
+        <h3>{{incremented @index}}. 
+          {{this.date}} -
+          <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h3>
       {{/each}}
     {{else}}
       <p>You don't attend any event yet</p>
@@ -52,7 +63,7 @@
     {{#if mealEventPending}}
     <p>Events pending:</p>
     {{#each mealEventPending}}
-      <li><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
+      <li>{{this.date}} - <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
     {{/each}}
     {{/if}}
   </div>
