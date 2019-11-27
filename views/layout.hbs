@@ -20,9 +20,10 @@
 
 <body>
   {{#if userInfo}}
-    <nav class="navbar fixed-top fixed-top navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
         <p class="navbar-brand">Hello <a href="/profile/{{userInfo._id}}">{{userInfo.name}}</a></p>
-        <p class="navbar-text">You have 10 forks</p>
+        <p class="navbar-text"><i class="material-icons">
+restaurant</i> 10 </p>
         <a href="/signout"><button type="button" class="btn btn-danger btn-md ml-2 mr-2">Logout</button></a>
   </nav>
   {{/if}}
@@ -32,7 +33,7 @@
   </div>
 
   {{#if userInfo}}
-  <nav class="navbar fixed-bottom navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar fixed-bottom navbar-expand-lg navbar-light bg-light pt-0 pb-0 mt-0 mb-0">
     <div class="container">
       <a class="nav-item nav-link active" href="/meal-events">
         <i class="material-icons">restaurant_menu</i><span class="sr-only">(current)</span>
@@ -41,7 +42,7 @@
         <i class="material-icons">calendar_today</i><span class="sr-only">(current)</span>
       </a>
       <a class="navbar-brand" href="/meal-events/create">
-        <i class="material-icons">add_circle</i>
+        <i id="plus-icon" class="material-icons">add_circle</i>
       </a>
       <a class="nav-item nav-link active" href="#">
         <i class="material-icons">mail_outline</i><span class="sr-only">(current)</span>

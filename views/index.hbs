@@ -1,7 +1,7 @@
-<nav class="navbar fixed-top navbar-light bg-light justify-content-end">
-    <form class="form-inline d-flex align-items-center">
-        <p class="lead"><a class="btn btn-primary btn-md mr-2 " href="/signup">Signup</a></p>
-        <p class="lead"><a class="btn btn-primary btn-md mr-2" href="/login">Login</a></p>
+<nav class="navbar fixed-top navbar-light bg-light justify-content-end pt-2 pb-0 mb-0">
+    <form class="form-inline">
+        <p class="lead"><a class="btn btn-primary btn-sm mr-2" href="/signup">Signup</a></p>
+        <p class="lead"><a class="btn btn-primary btn-sm mr-2" href="/login">Login</a></p>
     </form>
 </nav>
 
@@ -12,10 +12,14 @@
         <hr class="my-2">
     </div>
 
-    <form class="form-inline" action="/search" method="GET">
-        <input class="form-control mr-sm-2" type="text" name="zipcode" placeholder="Enter your zipcode">
-        <button class="btn btn-primary btn-md my-2 my-sm-0" type="submit">Search</button>
+<div class="input-group">
+    <form class="input-group-prepend" action="/search" method="GET">
+        <input class="form-control ml-4" type="text" name="zipcode" placeholder="Enter your zipcode">
+        <button class="btn btn-primary btn-sm" type="submit">Search</button>
     </form>
+</div>
+
+<br>
 
     {{#if eventsNearZipcode}}
     <div>
