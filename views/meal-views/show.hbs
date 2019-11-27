@@ -49,23 +49,27 @@
 
     {{else}}
       {{!-- if current user is not the host but is a guest of this event --}}
-       {{#if type.accepted}}
+      {{#if type.accepted}}
       <div class="card-body">
         <p class="card-text">You attend this event</p>
         <p class="card-text">This is the address:</p>
-        <ul>
-          <li class="card-text" id="host-address">{{ hostAddress }}</li>
-        </ul>
+        <p class="card-text" id="host-address">{{ hostAddress }}</p>
+        <div id="map">
+          <iframe class="mapsframe" width="100%" height="300" frameborder="0" src="https://www.google.com/maps/embed/v1/directions?origin={{userAddress}}&destination={{hostAddress}}&mode=walking&zoom=14&key=AIzaSyAxqCJvneP9HPtNi0X9zICYfLyeuND5Nxw"></iframe>
+        </div>
+        {{!-- <p>COORDINATES</p> --}}
+        {{!-- <div style="display: none" id="coordinates"></div> --}}
+        <div id="coordinates"></div>
         </div>
           <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
             <button type="submit">Cancel attendance</button>
           </form>
-     
+
       {{!-- if current user is not a guest of this event either --}}
       {{else if type.pending}}
         <button>Pending</button>
       
-       {{!-- if current user is not a guest and not a host --}}
+      {{!-- if current user is not a guest and not a host --}}
       {{else}}
         <form action="/meal-events/{{mealEvent._id}}/attend" method="POST">
           <button class="btn btn-primary my-2" type="submit">Attend</button>
@@ -81,11 +85,6 @@
   </div>
 </div>
 
-<h2>GOOGLE MAPS</h2>
-<div id="coordinates"></div>
-<div id="map"></div>
+  
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxqCJvneP9HPtNi0X9zICYfLyeuND5Nxw&callback=initMap"
-    async defer></script>
-<script src="/scripts/script.js"></script>
+

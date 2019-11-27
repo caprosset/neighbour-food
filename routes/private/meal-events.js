@@ -92,31 +92,35 @@ router.get('/:id', (req, res, next) => {
     .populate('host pendingGuests acceptedGuests')
     .then((theMealEvent) => {
       // console.log('MEAL EVENT', theMealEvent);
-      const currentUserId = req.session.currentUser._id;
+      const userInfo = req.session.currentUser;
       let type = {};
 
       theMealEvent.acceptedGuests.forEach(guest => {
         console.log('ACCEPTED GUEST IDSSS', guest._id);
-        if(guest._id.equals(currentUserId)) {
+        if(guest._id.equals(userInfo._id)) {
           type.accepted = true;
         }
       })
 
       theMealEvent.pendingGuests.forEach(guest => {
         console.log('PENDING GUEST IDSSS', guest._id);
-        if(guest._id.equals(currentUserId)) {
+        if(guest._id.equals(userInfo._id)) {
           type.pending = true;
         } 
       })
     
       let hostAddress = theMealEvent.host.address.street + ' ' + theMealEvent.host.address.houseNumber + ', ' + theMealEvent.host.address.zipcode + ' ' + theMealEvent.host.address.city;
-      console.log('HOST ADDRESSS', hostAddress);
+      // console.log('HOST ADDRESSS', hostAddress);
+
+      let userAddress = userInfo.address.street + ' ' + userInfo.address.houseNumber + ', ' + userInfo.address.zipcode + ' ' + userInfo.address.city;
+      // console.log('USER ADDRESSS', userAddress);
 
       res.render('meal-views/show', {
+        mealEvent: theMealEvent,
         type,
         hostAddress,
-        mealEvent: theMealEvent,
-        userInfo: req.session.currentUser
+        userAddress,
+        userInfo
       });
     })
     .catch((err) => console.log(err));
