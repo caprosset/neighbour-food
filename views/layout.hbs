@@ -22,8 +22,7 @@
   {{#if userInfo}}
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
         <p class="navbar-brand">Hello <a href="/profile/{{userInfo._id}}">{{userInfo.name}}</a></p>
-        <p class="navbar-text"><i class="material-icons">
-restaurant</i> 10 </p>
+        <p class="navbar-text"><i class="material-icons">restaurant</i> {{userInfo.score}} </p>
         <a href="/signout"><button type="button" class="btn btn-danger btn-md ml-2 mr-2">Logout</button></a>
   </nav>
   {{/if}}

@@ -161,21 +161,26 @@ router.post('/:id', parser.single('eventImg'), (req, res, next) => {
 // POST /meal-events/:id/attend --> Adds the current user in the meal-event pendingGuests array && in the user pendingEvents array in the DB
 router.post('/:id/attend', function (req, res, next) {
   const mealeventId = req.params.id;
-  const currentUserId = req.session.currentUser._id;
+  const currentUser = req.session.currentUser;
 
-  const pr1 = MealEvent.update(
-    { _id: mealeventId }, 
-    { $addToSet: { pendingGuests: currentUserId }}
-  );
-
-  const pr2 = User.update(
-    { _id: currentUserId }, 
-    { $addToSet: { pendingEvents: mealeventId }
-  })
-
-  Promise.all([pr1, pr2])
-    .then(() => res.redirect(`/profile/${currentUserId}/events`))
-    .catch((err) => console.log(err));
+  if(currentUser.score >= 10) {
+    const pr1 = MealEvent.update(
+      { _id: mealeventId }, 
+      { $addToSet: { pendingGuests: currentUser._id }}
+    );
+  
+    const pr2 = User.update(
+      { _id: currentUser._id }, 
+      { $addToSet: { pendingEvents: mealeventId } }
+    );
+  
+    Promise.all([pr1, pr2])
+      .then(() => res.redirect(`/profile/${currentUser._id}/events`))
+      .catch((err) => console.log(err));
+  } else {
+    res.render('user-views/myevents', {errorMessage: 'You don\'t have enough forks to attend this event!'})
+  }
+  
 });
 
 
@@ -194,11 +199,22 @@ router.post('/:mealId/accept/:guestId',  (req, res, next) => {
     const pr2 = User.update({_id: guestId}, 
       { 
         $addToSet: {attendedEvents: mealeventId},
-        $pull: {pendingEvents: mealeventId}
+        $pull: {pendingEvents: mealeventId},
+        $inc: { score: -10 }
+      })
+    
+    const pr3 = User.update({_id: currentUserId}, 
+      { 
+        $inc: { score: 10 }
       })
 
-    Promise.all([pr1, pr2])
-      .then( () => res.redirect(`/profile/${currentUserId}/events`))
+    Promise.all([pr1, pr2, pr3])
+    .then(() => User.findById(currentUserId))
+    .then(updatedUser => {
+      // console.log('UPDATED USER', updatedUser);
+      req.session.currentUser = updatedUser;
+      res.redirect(`/profile/${currentUserId}/events`)
+      })
       .catch( (err) => console.log(err));
 })
 
@@ -233,6 +249,17 @@ router.post('/:id/cancel', function (req, res, next) {
   const mealeventId = req.params.id;
   const currentUserId = req.session.currentUser._id;
 
+  MealEvent.findById({_id: mealeventId})
+  .then( event => {
+    console.log('HOST ID', event.host);
+    User.update(
+      { _id: event.host},
+      { $inc: { score: -10 } })
+      .then( (data) => console.log('UPDATED HOST SCOREEE', data))
+      .catch( (err) => console.log(err));
+  })
+  .catch( (err) => console.log(err));
+
   const pr1 = MealEvent.update( 
     { _id: mealeventId },
     { $pull: { acceptedGuests: currentUserId} }
@@ -240,11 +267,17 @@ router.post('/:id/cancel', function (req, res, next) {
 
   const pr2 = User.update( 
     { _id: currentUserId},
-    { $pull: { attendedEvents: mealeventId} }
+    { $pull: { attendedEvents: mealeventId},
+      $inc: { score: 10} }
   )
-
+    
   Promise.all([pr1, pr2])
-  .then( () => res.redirect(`/profile/${currentUserId}/events`))
+  .then(() => User.findById(currentUserId))
+  .then(updatedUser => {
+    // console.log('UPDATED USER', updatedUser);
+    req.session.currentUser = updatedUser;
+    res.redirect(`/profile/${currentUserId}/events`)
+    })
   .catch( (err) => console.log(err));
 });
 

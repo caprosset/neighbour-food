@@ -16,7 +16,9 @@ router.get("/:id", (req, res, next) => {
   User.findById(req.params.id)
   .populate('hostedEvents pendingEvents attendedEvents')
   .then(oneUser => {
-    console.log(oneUser);
+    // console.log(oneUser);
+    // console.log(req.session.currentUser);
+    
 
     let arrayOfGuests;
     oneUser.hostedEvents.forEach(event => {
