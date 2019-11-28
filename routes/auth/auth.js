@@ -15,8 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // POST '/auth/signup'
 router.post('/signup', parser.single('profileImg'),(req, res, next) => {
   // Destructure the password and email
-  console.log('Bodyyyyyyy', req.file.secure_url);
-  const { name, email, password, street, houseNumber, zipcode, city, description } = req.body;
+  // console.log('Bodyyyyyyy', req.file.secure_url);
+  console.log('Bodyyyyyyy', req.body);
+
+  const { name, email, password, street, houseNumber, zipcode, city, description, score } = req.body;
   const profileImg = req.file.secure_url;
 
   // Check if the email and password are empty strings
@@ -43,7 +45,7 @@ router.post('/signup', parser.single('profileImg'),(req, res, next) => {
     const hashedPassword = bcrypt.hashSync(password, salt);
 
     // > Create the user in the DB
-    User.create({ name, email, password: hashedPassword, address: {street, houseNumber, zipcode, city}, description, profileImg })
+    User.create({ name, email, password: hashedPassword, address: {street, houseNumber, zipcode, city}, description, profileImg, score: 10 })
       .then(newUserObj => {
         req.session.currentUser = newUserObj; // triggers the cookie setting and allows us to be directly logged in
 
