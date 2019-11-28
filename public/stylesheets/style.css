@@ -63,6 +63,11 @@ form.form-inline {
   border: 1px solid rgb(28, 184, 163);
 }
 
+.btn-primary:hover {
+border: whitesmoke;
+  background-color: whitesmoke;
+}
+
 #title-main-page {
   text-shadow: 0 0 5px whitesmoke;
 }
