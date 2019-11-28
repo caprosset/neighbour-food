@@ -6,6 +6,8 @@ const User = require('../../models/User');
 
 const parser = require('../../config/cloudinary');
 
+require('dotenv').config();
+
 
 // GET /meal-events --> renders all the events
 router.get('/', (req, res, next) => {
@@ -66,6 +68,8 @@ router.post('/create', parser.single('eventImg'), (req, res, next) => {
 
   theMealEvent.save()
     .then(mealevent => {
+
+      
       // console.log('dateeee: ', req.body.date);
 
       User.updateOne({ _id: req.session.currentUser._id }, 
@@ -115,12 +119,15 @@ router.get('/:id', (req, res, next) => {
       let userAddress = userInfo.address.street + ' ' + userInfo.address.houseNumber + ', ' + userInfo.address.zipcode + ' ' + userInfo.address.city;
       // console.log('USER ADDRESSS', userAddress);
 
+      let api_key = process.env.MAPS_API_KEY;
+
       res.render('meal-views/show', {
         mealEvent: theMealEvent,
         type,
         hostAddress,
         userAddress,
-        userInfo
+        userInfo,
+        api_key
       });
     })
     .catch((err) => console.log(err));
