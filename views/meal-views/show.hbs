@@ -45,26 +45,26 @@
 
     {{else}}
       {{!-- if current user is not the host but is a guest of this event --}}
-       {{#if type.accepted}}
+      {{#if type.accepted}}
       <div class="card-body">
         <p class="card-text font-weight-bold">You attend this event</p>
         <p class="card-text font-weight-bold">This is the address:</p>
         <ul>
-          <li class="card-text">{{ mealEvent.host.address.street }}</li>
-          <li class="card-text">{{ mealEvent.host.address.houseNumber }}</li>
-          <li class="card-text">{{ mealEvent.host.address.zipcode }}</li>
-          <li class="card-text">{{ mealEvent.host.address.city }}</li>
+          <li class="card-text" id="host-address">{{ hostAddress }}</li>
         </ul>
+        <div id="map">
+          <iframe class="mapsframe" width="100%" height="300" frameborder="0" src="https://www.google.com/maps/embed/v1/directions?origin={{userAddress}}&destination={{hostAddress}}&mode=walking&zoom=14&key=AIzaSyAxqCJvneP9HPtNi0X9zICYfLyeuND5Nxw"></iframe>
+        </div>
         </div>
           <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
             <button class="btn btn-primary btn-sm ml-4 mb-4" type="submit">Cancel attendance</button>
           </form>
-     
+
       {{!-- if current user is not a guest of this event either --}}
       {{else if type.pending}}
         <button class="btn btn-warning">Pending</button>
       
-       {{!-- if current user is not a guest and not a host --}}
+      {{!-- if current user is not a guest and not a host --}}
       {{else}}
         <form action="/meal-events/{{mealEvent._id}}/attend" method="POST">
           <button class="btn btn-primary btn-block" type="submit">Attend</button>
@@ -75,5 +75,7 @@
 </div>
 
 
+
+  
 
 
