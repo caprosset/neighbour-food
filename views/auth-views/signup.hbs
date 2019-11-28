@@ -3,6 +3,11 @@
 
     <h1>Signup</h1>
 
+    {{!-- error message display --}}
+    {{#if errorMessage}}
+      <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+    {{/if}}
+
     <form action='/auth/signup' method='POST' enctype="multipart/form-data">
 
       <div class="form-group">
@@ -47,11 +52,6 @@
         Already have an account? <a href="/login">Login</a>
       </p>
     </form>
-
-    {{!-- error message display --}}
-    {{#if errorMessage}}
-    <div class="error-message">{{ errorMessage }}</div>
-    {{/if}}
 
   </div>
 </div>

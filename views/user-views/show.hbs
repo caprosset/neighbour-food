@@ -14,7 +14,7 @@
     <div class="card-body">
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><span class="font-weight-bold">Address:</span>  <br>
-          {{#ifeqId oneUser._id userInfo._id}}
+        {{#ifeqId oneUser._id userInfo._id}}
           {{oneUser.address.street}} {{oneUser.address.houseNumber}}<br>
           {{oneUser.address.zipcode}} <br>
           {{oneUser.address.city}}</li>

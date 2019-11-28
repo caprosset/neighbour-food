@@ -90,6 +90,10 @@ router.post('/create', parser.single('eventImg'), (req, res, next) => {
 
 // GET	/meal-events/:id --> Renders the meal event details page
 router.get('/:id', (req, res, next) => {
+  // pass an error message if user has not enough forks
+  const { error } = req.query;
+  const errorMessage = error ? "You don't have enough forks to attend this event! Create one and earn 10 forks per guest" : undefined;
+
   MealEvent.findOne({
       _id: req.params.id
     })
@@ -121,13 +125,18 @@ router.get('/:id', (req, res, next) => {
 
       let api_key = process.env.MAPS_API_KEY;
 
+      const userIsHost = theMealEvent.host._id === userInfo._id;
+      console.log('user is host ',userIsHost);
+
       res.render('meal-views/show', {
+        userIsHost,
         mealEvent: theMealEvent,
         type,
         hostAddress,
         userAddress,
         userInfo,
-        api_key
+        api_key,
+        errorMessage
       });
     })
     .catch((err) => console.log(err));
@@ -193,9 +202,8 @@ router.post('/:id/attend', function (req, res, next) {
       .then(() => res.redirect(`/profile/${currentUser._id}/events`))
       .catch((err) => console.log(err));
   } else {
-    res.render('user-views/myevents', {errorMessage: 'You don\'t have enough forks to attend this event!'})
+    res.redirect(`/meal-events/${mealeventId}?error=noforks`);
   }
-  
 });
 
 
