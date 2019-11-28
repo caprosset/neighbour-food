@@ -64,11 +64,11 @@
         <div id="map">
           <iframe class="mapsframe" width="100%" height="300" frameborder="0" src="https://www.google.com/maps/embed/v1/directions?origin={{userAddress}}&destination={{hostAddress}}&mode=walking&zoom=14&key={{api_key}}"></iframe>
         </div>
-        </div>
+        {{!-- </div> --}}
           <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
-            <button class="btn btn-primary btn-sm ml-4 mb-4" type="submit">Cancel attendance</button>
+            <button class="btn btn-primary btn-sm ml-4 mb-2" type="submit">Cancel attendance</button>
           </form>
-
+{{!-- </div> --}}
       {{!-- if current user is not a guest of this event either --}}
       {{else if type.pending}}
         <button class="btn btn-warning">Pending</button>
@@ -84,7 +84,7 @@
   {{!-- {{/if}} --}}
 
 </div>
-
+</div>
 
 
 

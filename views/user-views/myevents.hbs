@@ -3,7 +3,8 @@
     <h1 class="display-6 font-weight-bold p-0">MY EVENTS</h1>
   </div>
   
-  <div class="jumbotron mb-0">
+  <div id="box-myevents" class="jumbotron mb-0">
+
     <h2 class="display-6 font-weight-bold">EVENTS I HOST</h2>
 
     {{#if mealEventHost}}
@@ -28,7 +29,7 @@
             {{/each}}
           </p>
           <form action="/meal-events/{{../this._id}}/accept/{{this}}" method="POST">
-            <button class="btn btn-success btn-block" type="submit">Accept</button>
+            <button class="btn btn-success btn-block mb-1" type="submit">Accept</button>
           </form>
           <form action="/meal-events/{{../this._id}}/decline/{{this}}" method="POST">
             <button class="btn btn-danger btn-block mb-2" type="submit">Decline</button>
@@ -47,16 +48,18 @@
     </div>
   </div>
 
+<hr>
 
-  <div class="jumbotron">
+  <div id="box-myevents" class="jumbotron">
     <h2 class="display-6 font-weight-bold">EVENTS I ATTEND</h2>
     <div>
       {{#if mealEventGuest}}
       {{#each mealEventGuest}}
-      <h3>{{incremented @index}}.
+      <p class="card-text font-weight-bold">
         {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}}
         <br>
-        <a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h3>
+        <h4 class="card-label font-weight-bold"><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h4>
+        </p>
       {{/each}}
       {{else}}
       <p class="card-text">You don't attend any event yet</p>
