@@ -36,20 +36,25 @@
         <input class="custom-file-input" type='file' name='eventImg' id="eventImg" required>
       </div>
     </div>
+
     <div style="display: none">
       <label for="host"> Host </label>
       <input type="text" name="host" id="host">
     </div>
     <div style="display: none">
-      <label for="guest">Guest </label>
-      <input type="text" name="guest" id="guest">
+      <label for="acceptedGuests">Accepted Guests </label>
+      <input type="text" name="acceptedGuests" id="acceptedGuests">
+    </div>
+        <div style="display: none">
+      <label for="pendingGuests">Pending Guests </label>
+      <input type="text" name="pendingGuests" id="pendingGuests">
     </div>
     <div style="display: none">
       <label for="costScore"> Score </label>
       <input type="number" name="costScore" id="costScore">
     </div>
 
-    <button type="button" class="btn btn-primary text-center"> Publish event </button>
+    <button type="submit" class="btn btn-primary text-center"> Publish event </button>
   </form>
 
 </div>
