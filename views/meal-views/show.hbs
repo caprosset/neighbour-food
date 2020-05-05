@@ -1,47 +1,55 @@
 <div class="container-fluid">
-    <div class="card">
+  <div class="card">
     <div class="card-body">
-  <h2 class="card-title text-center font-weight-bold">{{ mealEvent.eventName }}</h2>
-</div>
-  <div class="event-container">
+      <h2 class="card-title text-center font-weight-bold">{{ mealEvent.eventName }}</h2>
+    </div>
+    <div class="event-container">
 
-    {{!-- error message display --}}
-    {{#if errorMessage}}
+      {{!-- error message display --}}
+      {{#if errorMessage}}
       <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
-    {{/if}}
-
-    <img class="card-img-top" src="{{ mealEvent.eventImg }}" alt="Event image">
-    
-    <div class="card-body">
-      <p class="card-text"> <span class="font-weight-bold">EventName: </span>{{ mealEvent.eventName }}</p>
-      <p class="card-text"> <span class="font-weight-bold">Date:</span>  {{ dateFormat mealEvent.date "dddd, MMMM Do YYYY, h:mm"}}</p>
-  
-      {{#ifeqId mealEvent.host._id userInfo._id }}
-      {{!-- {{#if userIsHost }} --}}
-        <p class="card-text"><span class="font-weight-bold">Host: </span>It's your event!</p>
-      {{else}}
-        <p class="card-text"> <span class="font-weight-bold">Host: </span><a href="/profile/{{ mealEvent.host._id }}">{{mealEvent.host.name}}</a></p>
-      {{/ifeqId}}
-      {{!-- {{/if}} --}}
-
-
-      {{#if mealEvent.acceptedGuests}}
-        <p class="card-title"><span class="font-weight-bold">Guests attending this event:</span></p>
-        <ul class="list-group">
-        {{#each mealEvent.acceptedGuests}}
-          <li class="list-group-item mb-2"><a href="/profile/{{this._id}}">{{this.name}}</a></li>
-        {{/each}}
-        </ul>
       {{/if}}
 
+      <img class="card-img-top" src="{{ mealEvent.eventImg }}" alt="Event image">
 
-      <p class="card-text"> <span class="font-weight-bold">Cuisine: </span>{{ mealEvent.cuisine }} </p>
-      <p class="card-text"> <span class="font-weight-bold">Number of guests: </span>{{ mealEvent.numberAttend }}</p>
-      <p class="card-text"> <span class="font-weight-bold">Dish: </span>{{ mealEvent.dish }}</p>
-      <p class="card-text"> <span class="font-weight-bold">Neighbourhood:</span> {{ mealEvent.host.address.zipcode }}</p>
-      <p class="card-text"> <span class="font-weight-bold">Description:</span> {{ mealEvent.eventDescription }}</p>
+      <div class="card-body">
+        <p class="card-text"> <span class="font-weight-bold">EventName: </span>{{ mealEvent.eventName }}</p>
+        <p class="card-text"> <span class="font-weight-bold">Date:</span>
+          {{ dateFormat mealEvent.date "dddd, MMMM Do YYYY, h:mm"}}</p>
+
+        {{#ifeqId mealEvent.host._id userInfo._id }}
+        {{!-- {{#if userIsHost }} --}}
+        <p class="card-text"><span class="font-weight-bold">Host: </span>It's your event!</p>
+        {{else}}
+        <p class="card-text"> <span class="font-weight-bold">Host: </span><a
+            href="/profile/{{ mealEvent.host._id }}">{{mealEvent.host.name}}</a></p>
+        {{/ifeqId}}
+        {{!-- {{/if}} --}}
+
+
+        {{#if mealEvent.acceptedGuests}}
+        <p class="card-title"><span class="font-weight-bold">Guests attending this event:</span></p>
+        <ul class="list-group">
+          {{#if type.accepted}}
+          <li class="list-group-item mb-2">You are going!</li>
+          {{/if}}
+          {{#each mealEvent.acceptedGuests}}
+          {{#ifneqId this._id ../userInfo._id}}
+          <li class="list-group-item mb-2"><a href="/profile/{{this._id}}">{{this.name}}</a></li>
+          {{/ifneqId}}
+          {{/each}}
+        </ul>
+        {{/if}}
+
+
+        <p class="card-text"> <span class="font-weight-bold">Cuisine: </span>{{ mealEvent.cuisine }} </p>
+        <p class="card-text"> <span class="font-weight-bold">Number of guests: </span>{{ mealEvent.numberAttend }}</p>
+        <p class="card-text"> <span class="font-weight-bold">Dish: </span>{{ mealEvent.dish }}</p>
+        <p class="card-text"> <span class="font-weight-bold">Neighbourhood:</span> {{ mealEvent.host.address.zipcode }}
+        </p>
+        <p class="card-text"> <span class="font-weight-bold">Description:</span> {{ mealEvent.eventDescription }}</p>
+      </div>
     </div>
-  </div>
 
     {{!-- if current user is the host of this event --}}
     {{#ifeqId mealEvent.host._id userInfo._id }}
@@ -50,42 +58,39 @@
       <a class="btn btn-primary ml-4 mb-3" href="/meal-events/{{mealEvent._id}}/edit">Edit this event</a>
       <a class="btn btn-primary ml-3 mb-3" href="/meal-events/{{mealEvent._id}}/delete">Delete this event</a>
     </div>
-    
+
 
     {{else}}
-      {{!-- if current user is not the host but is a guest of this event --}}
-      {{#if type.accepted}}
-      <div class="card-body">
-        <p class="card-text font-weight-bold">You attend this event</p>
-        <p class="card-text font-weight-bold">This is the address:</p>
-        <ul>
-          <li class="card-text" id="host-address">{{ hostAddress }}</li>
-        </ul>
-        <div id="map">
-          <iframe class="mapsframe" width="100%" height="300" frameborder="0" src="https://www.google.com/maps/embed/v1/directions?origin={{userAddress}}&destination={{hostAddress}}&mode=walking&zoom=14&key={{api_key}}"></iframe>
-        </div>
-        {{!-- </div> --}}
-          <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
-            <button class="btn btn-primary btn-sm ml-4 mb-2" type="submit">Cancel attendance</button>
-          </form>
-{{!-- </div> --}}
+    {{!-- if current user is not the host but is a guest of this event --}}
+    {{#if type.accepted}}
+    <div class="card-body">
+      <p class="card-text font-weight-bold">You attend this event</p>
+      <p class="card-text font-weight-bold">This is the address:</p>
+      <ul>
+        <li class="card-text" id="host-address">{{ hostAddress }}</li>
+      </ul>
+      <div id="map">
+        <iframe class="mapsframe" width="100%" height="300" frameborder="0"
+          src="https://www.google.com/maps/embed/v1/directions?origin={{userAddress}}&destination={{hostAddress}}&mode=walking&zoom=14&key={{api_key}}"></iframe>
+      </div>
+      {{!-- </div> --}}
+      <form action="/meal-events/{{mealEvent._id}}/cancel" method="POST">
+        <button class="btn btn-primary btn-sm ml-4 mb-2" type="submit">Cancel attendance</button>
+      </form>
+      {{!-- </div> --}}
       {{!-- if current user is not a guest of this event either --}}
       {{else if type.pending}}
-        <button class="btn btn-warning">Pending</button>
-      
+      <button class="btn btn-warning">Pending</button>
+
       {{!-- if current user is not a guest and not a host --}}
       {{else}}
-        <form action="/meal-events/{{mealEvent._id}}/attend" method="POST">
-          <button class="btn btn-primary btn-block pl-0 pr-0" type="submit">Attend</button>
-        </form>
+      <form action="/meal-events/{{mealEvent._id}}/attend" method="POST">
+        <button class="btn btn-primary btn-block pl-0 pr-0" type="submit">Attend</button>
+      </form>
       {{/if}}
-  
-  {{/ifeqId}}
-  {{!-- {{/if}} --}}
 
-</div>
-</div>
+      {{/ifeqId}}
+      {{!-- {{/if}} --}}
 
-
-
-
+    </div>
+  </div>

@@ -9,24 +9,31 @@ const parser = require('../../config/cloudinary');
 require('dotenv').config();
 
 
+// Set Current User
+let currentUser;
+router.use((req, res, next) => {
+  if (req.session.currentUser) { // If there is a session
+    currentUser = req.session.currentUser;
+    next();
+  } 
+})
+
+
 // GET /meal-events --> renders all the events
 router.get('/', (req, res, next) => {
   MealEvent.find()
     .populate('host')
     .then((allMealEventsFromDB) => {
-      // console.log('ALL EVENTS', allMealEventsFromDB)
 
       // for each meal event, push userinfo zipcode in the object
       allMealEventsFromDB.forEach(meal => {
-        meal["userZipcode"] = req.session.currentUser.address.zipcode;
-        meal["userId"] = req.session.currentUser._id;
+        meal["userZipcode"] = currentUser.address.zipcode;
+        meal["userId"] = currentUser._id;
       })
-      // console.log('USERS ZIPCODE', allMealEventsFromDB[0].userZipcode)
-      // console.log('USERS ID', allMealEventsFromDB[0].userId)
 
       res.render('meal-views/show-all', {
         allMealEventsFromDB,
-        userInfo: req.session.currentUser
+        userInfo: currentUser
       });
     })
     .catch((err) => console.log('ERRROOOORRR', err));
@@ -36,7 +43,7 @@ router.get('/', (req, res, next) => {
 //  GET /meal-events/create	--> Renders the form view to add a new event
 router.get('/create', (req, res, next) => {
   res.render('meal-views/create', {
-    userInfo: req.session.currentUser
+    userInfo: currentUser
   });
 });
 
@@ -51,28 +58,26 @@ router.post('/create', parser.single('eventImg'), (req, res, next) => {
   //   return [date.getFullYear(), mnth, day].join("-");
   // }
   
+  const { eventName, cuisine, dish, date, eventDescription, numberAttend } = req.body
+
   const theMealEvent = new MealEvent({
-    eventName: req.body.eventName,
-    cuisine: req.body.cuisine,
-    dish: req.body.dish,
-    date: req.body.date,
+    eventName,
+    cuisine,
+    dish,
+    date,
     // date: convertDate(req.body.date),
     eventImg: req.file.secure_url,
-    host: req.session.currentUser._id,
+    host: currentUser._id,
     pendingGuests: [],
     acceptedGuests: [],
-    eventDescription: req.body.eventDescription,
-    numberAttend: req.body.numberAttend,
+    eventDescription,
+    numberAttend,
     costScore: 10
   });
 
   theMealEvent.save()
     .then(mealevent => {
-
-      
-      // console.log('dateeee: ', req.body.date);
-
-      User.updateOne({ _id: req.session.currentUser._id }, 
+      User.updateOne({ _id: currentUser._id }, 
         { $addToSet: { hostedEvents: mealevent._id }
         }, { new: true })
         .then((data) => console.log('USER UPDATEDDDDD', data))
@@ -99,8 +104,7 @@ router.get('/:id', (req, res, next) => {
     })
     .populate('host pendingGuests acceptedGuests')
     .then((theMealEvent) => {
-      // console.log('MEAL EVENT', theMealEvent);
-      const userInfo = req.session.currentUser;
+      const userInfo = currentUser;
       let type = {};
 
       theMealEvent.acceptedGuests.forEach(guest => {
@@ -139,45 +143,37 @@ router.get('/:id', (req, res, next) => {
         errorMessage
       });
     })
-    .catch((err) => console.log(err));
+    .catch( (err) => next(err) );
 });
 
 
 // GET /meal-events/:id/edit --> Renders the form to edit a specific meal event
 router.get('/:id/edit', (req, res, next) => {
-  MealEvent.findOne({
-      _id: req.params.id
-    })
+  MealEvent.findOne({ _id: req.params.id})
     .then(theMealEvent => {
       res.render('meal-views/edit', {
         mealEvent: theMealEvent,
-        userInfo: req.session.currentUser
+        userInfo: currentUser
       });
     })
-    .catch((err) => console.log(err));
+    .catch( (err) => next(err) );
 });
 
 // PUT	/meal-events/:id/edit --> Updates the meal event in the DB
 router.post('/:id', parser.single('eventImg'), (req, res, next) => {
+  const id = req.params.id;
   let previousImg;
-  MealEvent.findById(req.params.id).then(theMealEvent => {
-    previousImg = theMealEvent.eventImg;
 
+  MealEvent.findById(id).then(theMealEvent => {
+    previousImg = theMealEvent.eventImg;
     const imgUrl = req.file ? req.file.secure_url : previousImg;
 
-    const updatedEvent = {
-      eventName: req.body.eventName,
-      cuisine: req.body.cuisine,
-      dish: req.body.dish,
-      date: req.body.date,
-      eventImg: imgUrl,
-      eventDescription: req.body.eventDescription,
-      numberAttend: req.body.numberAttend,
-    };
+    const { eventName, cuisine, dish, date, eventDescription, numberAttend } = req.body;
+    const updatedEvent = { eventName, cuisine, dish, date, eventImg: imgUrl, eventDescription, numberAttend };
   
-    MealEvent.update({ _id: req.params.id}, updatedEvent)
-      .then(() => res.redirect(`/meal-events/${req.params.id}`))
-      .catch((err) => console.log(err));
+    MealEvent.update({ _id: id }, updatedEvent)
+      .then(() => res.redirect(`/meal-events/${id}`))
+      .catch( (err) => next(err) );
   });
 });
 
@@ -185,7 +181,6 @@ router.post('/:id', parser.single('eventImg'), (req, res, next) => {
 // POST /meal-events/:id/attend --> Adds the current user in the meal-event pendingGuests array && in the user pendingEvents array in the DB
 router.post('/:id/attend', function (req, res, next) {
   const mealeventId = req.params.id;
-  const currentUser = req.session.currentUser;
 
   if(currentUser.score >= 10) {
     const pr1 = MealEvent.update(
@@ -200,7 +195,7 @@ router.post('/:id/attend', function (req, res, next) {
   
     Promise.all([pr1, pr2])
       .then(() => res.redirect(`/profile/${currentUser._id}/events`))
-      .catch((err) => console.log(err));
+      .catch( (err) => next(err) );
   } else {
     res.redirect(`/meal-events/${mealeventId}?error=noforks`);
   }
@@ -211,7 +206,6 @@ router.post('/:id/attend', function (req, res, next) {
 router.post('/:mealId/accept/:guestId',  (req, res, next) => {
     const mealeventId = req.params.mealId;
     const guestId = req.params.guestId;
-    const currentUserId = req.session.currentUser._id;
 
     const pr1 = MealEvent.update({_id: mealeventId}, 
       { 
@@ -226,19 +220,19 @@ router.post('/:mealId/accept/:guestId',  (req, res, next) => {
         $inc: { score: -10 }
       })
     
-    const pr3 = User.update({_id: currentUserId}, 
+    const pr3 = User.update({_id: currentUser._id }, 
       { 
         $inc: { score: 10 }
       })
 
     Promise.all([pr1, pr2, pr3])
-    .then(() => User.findById(currentUserId))
+    .then(() => User.findById(currentUser._id))
     .then(updatedUser => {
       // console.log('UPDATED USER', updatedUser);
       req.session.currentUser = updatedUser;
-      res.redirect(`/profile/${currentUserId}/events`)
+      res.redirect(`/profile/${currentUser._id}/events`)
       })
-      .catch( (err) => console.log(err));
+      .catch( (err) => next(err) );
 })
 
 
@@ -246,7 +240,6 @@ router.post('/:mealId/accept/:guestId',  (req, res, next) => {
 router.post('/:mealId/decline/:guestId', (req, res, next) => {
   const mealeventId = req.params.mealId;
   const guestId = req.params.guestId;
-  const currentUserId = req.session.currentUser._id;
 
   console.log('here1');
   const pr1 = MealEvent.update(
@@ -261,16 +254,15 @@ router.post('/:mealId/decline/:guestId', (req, res, next) => {
   Promise.all([pr1, pr2])
     .then( () => {
       console.log('here3');
-      res.redirect(`/profile/${currentUserId}/events`)
+      res.redirect(`/profile/${currentUser._id}/events`)
     })
-    .catch( (err) => console.log(err));
+    .catch( (err) => next(err));
 })
 
 
 // POST /meal-events/:id/cancel --> Removes the current user from the meal event guests array in the DB
 router.post('/:id/cancel', function (req, res, next) {
   const mealeventId = req.params.id;
-  const currentUserId = req.session.currentUser._id;
 
   MealEvent.findById({_id: mealeventId})
   .then( event => {
@@ -285,23 +277,23 @@ router.post('/:id/cancel', function (req, res, next) {
 
   const pr1 = MealEvent.update( 
     { _id: mealeventId },
-    { $pull: { acceptedGuests: currentUserId} }
+    { $pull: { acceptedGuests: currentUser._id} }
   );
 
   const pr2 = User.update( 
-    { _id: currentUserId},
+    { _id: currentUser._id },
     { $pull: { attendedEvents: mealeventId},
       $inc: { score: 10} }
   )
     
   Promise.all([pr1, pr2])
-  .then(() => User.findById(currentUserId))
+  .then(() => User.findById(currentUser._id))
   .then(updatedUser => {
     // console.log('UPDATED USER', updatedUser);
     req.session.currentUser = updatedUser;
-    res.redirect(`/profile/${currentUserId}/events`)
+    res.redirect(`/profile/${currentUser._id}/events`)
     })
-  .catch( (err) => console.log(err));
+  .catch( (err) => next(err));
 });
 
 
@@ -314,7 +306,7 @@ router.get('/:id/delete', (req, res, next) => {
     })
     .then((theMealEvent) => theMealEvent.remove())
     .then(() => res.redirect('/meal-events'))
-    .catch((err) => console.log(err));
+    .catch((err) => next(err));
 });
 
 
