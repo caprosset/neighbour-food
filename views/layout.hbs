@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -13,7 +14,7 @@
 
   <!-- google icon material -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
+
   <!-- Custom CSS -->
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap" rel="stylesheet">
   <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -22,8 +23,9 @@
 <body>
   {{#if userInfo}}
   <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-    <p class="navbar-brand pl-2 pr-3"><img id="logo-img" src="/images/logo.png" alt="logo" class="img-responsive"><a
-        href="/profile/{{userInfo._id}}"></a></p>
+    <p class="navbar-brand pl-2 pr-3">
+      <a href="/meal-events"><img id="logo-img" src="/images/logo.png" alt="logo" class="img-responsive"></a>
+    </p>
     <p class="navbar-text"><i class="material-icons">restaurant</i> {{userInfo.score}} </p>
     <p class="navbar-text pl-5 pr-0">Hello <a href="/profile/{{userInfo._id}}">{{userInfo.name}}</a></p>
   </nav>
@@ -68,4 +70,5 @@
     crossorigin="anonymous"></script>
   <script src="/scripts/script.js"></script>
 </body>
+
 </html>
