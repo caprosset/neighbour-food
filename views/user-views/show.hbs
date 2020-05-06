@@ -8,26 +8,26 @@
       <h3 class="card-title text-center"> {{oneUser.name}}</h3>
     </div>
     <img class="card-img-top" src="{{oneUser.profileImg}}" alt="Profile picture">
-    
+
     <li class="list-group-item pl-5"><span class="font-weight-bold">Forks:</span> {{oneUser.score}}</li>
 
     <div class="card-body">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><span class="font-weight-bold">Address:</span>  <br>
-        {{#ifeqId oneUser._id userInfo._id}}
+        <li class="list-group-item"><span class="font-weight-bold">Address:</span> <br>
+          {{#ifeqId oneUser._id currentUser._id}}
           {{oneUser.address.street}} {{oneUser.address.houseNumber}}<br>
           {{oneUser.address.zipcode}} <br>
           {{oneUser.address.city}}</li>
         {{/ifeqId}}
 
-        {{#ifneqId oneUser._id userInfo._id}}
+        {{#ifneqId oneUser._id currentUser._id}}
         <li class="list-group-item"> {{oneUser.address.zipcode}}
           {{/ifneqId}}</li>
         <li class="list-group-item"><span class="font-weight-bold">Description:</span> {{oneUser.description}}</li>
 
         <li class="list-group-item font-weight-bold">Reviews:</li>
         {{!-- if user is on his profile --}}
-        {{#ifeqId oneUser._id userInfo._id}}
+        {{#ifeqId oneUser._id currentUser._id}}
         <h5 class="card-text text-center">You have {{oneUser.reviews.length}} review(s)</h5>
         {{else}}
         {{!-- if current user is on another user profile --}}
@@ -36,7 +36,7 @@
         {{!-- if current user is or has been a guest to this other user --}}
         {{#if arrayOfGuests}}
         {{#each arrayOfGuests}}
-        {{#ifeqId this ../userInfo._id}}
+        {{#ifeqId this ../currentUser._id}}
         <form action="/profile/{{../oneUser._id}}/review" method="POST">
           <div class="form-group">
             <label for="review">Write a review for this user: </label>
@@ -50,7 +50,7 @@
 
         {{!-- if current user is or has been a host to this other user --}}
         {{#if host}}
-        {{#ifeqId host userInfo._id}}
+        {{#ifeqId host currentUser._id}}
         <form action="/profile/{{oneUser._id}}/review" method="POST">
           <div class="form-group">
             <label for="review">Write a review for this user: </label>
@@ -74,24 +74,24 @@
       <li>{{this}}</li>
       {{/each}}
     </ul> --}}
-<div class="card mt-2">
-        <ul class="list-group">
-          {{#each oneUser.reviews}}
-          <li class="list-group-item">{{this}}</li>
-          {{/each}}
-        </ul>
+        <div class="card mt-2">
+          <ul class="list-group">
+            {{#each oneUser.reviews}}
+            <li class="list-group-item">{{this}}</li>
+            {{/each}}
+          </ul>
       </ul>
-      </div>
     </div>
+  </div>
 
 
 
-    {{#ifeqId oneUser._id userInfo._id}}
-    <div class="user-actions">
-      <a class="btn btn-primary ml-5 mb-3" href="/profile/{{oneUser._id}}/edit">Edit profile</a>
-      <a class="btn btn-primary ml-4 mb-3" href="/profile/{{oneUser._id}}/delete">Delete profile</a>
-    </div>
+  {{#ifeqId oneUser._id currentUser._id}}
+  <div class="user-actions">
+    <a class="btn btn-primary ml-5 mb-3" href="/profile/{{oneUser._id}}/edit">Edit profile</a>
+    <a class="btn btn-primary ml-4 mb-3" href="/profile/{{oneUser._id}}/delete">Delete profile</a>
+  </div>
 
-{{/ifeqId}}
+  {{/ifeqId}}
 
 </div>

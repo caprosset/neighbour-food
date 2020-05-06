@@ -56,10 +56,10 @@ app.use(
 );
 app.use(cookieParser());
 
-// app.use((req, res, next) => {
-//   req.locals.currentUser = req.session.currentUser;
-//   next();
-// });
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.session.currentUser;
+  next();
+})
 
 // ROUTES
 app.use('/', indexRouter);

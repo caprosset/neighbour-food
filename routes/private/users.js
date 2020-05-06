@@ -44,8 +44,7 @@ router.get("/:id", (req, res, next) => {
       res.render("user-views/show", {
         oneUser,
         host,
-        arrayOfGuests,
-        userInfo: currentUser
+        arrayOfGuests
       });
     })
     .catch(err => next(err));

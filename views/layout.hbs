@@ -21,13 +21,13 @@
 </head>
 
 <body>
-  {{#if userInfo}}
+  {{#if currentUser}}
   <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
     <p class="navbar-brand pl-2 pr-3">
       <a href="/meal-events"><img id="logo-img" src="/images/logo.png" alt="logo" class="img-responsive"></a>
     </p>
-    <p class="navbar-text"><i class="material-icons">restaurant</i> {{userInfo.score}} </p>
-    <p class="navbar-text pl-5 pr-0">Hello <a href="/profile/{{userInfo._id}}">{{userInfo.name}}</a></p>
+    <p class="navbar-text"><i class="material-icons">restaurant</i> {{currentUser.score}} </p>
+    <p class="navbar-text pl-5 pr-0">Hello <a href="/profile/{{currentUser._id}}">{{currentUser.name}}</a></p>
   </nav>
   {{/if}}
 
@@ -35,19 +35,19 @@
     {{{body}}}
   </div>
 
-  {{#if userInfo}}
+  {{#if currentUser}}
   <nav class="navbar fixed-bottom navbar-expand-lg navbar-light bg-light pt-0 pb-0 mt-0 mb-0">
     <div class="container">
       <a class="nav-item nav-link active" href="/meal-events">
         <i class="material-icons">restaurant_menu</i><span class="sr-only">(current)</span>
       </a>
-      <a class="nav-item nav-link active" href="/profile/{{userInfo._id}}/events">
+      <a class="nav-item nav-link active" href="/profile/{{currentUser._id}}/events">
         <i class="material-icons">calendar_today</i><span class="sr-only">(current)</span>
       </a>
       <a class="navbar-brand" href="/meal-events/create">
         <i id="plus-icon" class="material-icons">add_circle</i>
       </a>
-      <a class="nav-item nav-link active" href="/profile/{{userInfo._id}}">
+      <a class="nav-item nav-link active" href="/profile/{{currentUser._id}}">
         <i class="material-icons">person</i><span class="sr-only">(current)</span>
       </a>
       <a class="nav-item nav-link active" href="/signout">
