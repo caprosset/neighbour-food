@@ -17,35 +17,25 @@ router.use((req, res, next) => {
 
 // GET	/profile --> Redirects to the profile page
 router.get("/", (req, res, next) => {
-  res.redirect(`/profile/${currentUser._id}`);
+  res.redirect(`/profile/${req.session.currentUser._id}`);
 });
 
 // GET	/profile/:id --> Renders the profile page
 router.get("/:id", (req, res, next) => {
   User.findById(req.params.id)
     .populate('hostedEvents pendingEvents attendedEvents')
-    .then(oneUser => {
-      // console.log(oneUser);
-      // console.log(currentUser);
-
-
+    .then(user => {
       let arrayOfGuests;
-      oneUser.hostedEvents.forEach(event => {
+      user.hostedEvents.forEach(event => {
         arrayOfGuests = event.acceptedGuests;
       })
-      // console.log('GUESTS ARRAY', arrayOfGuests);
 
       let host;
-      oneUser.attendedEvents.forEach(event => {
+      user.attendedEvents.forEach(event => {
         host = event.host;
       })
-      // console.log('HOST ID', host);
 
-      res.render("user-views/show", {
-        oneUser,
-        host,
-        arrayOfGuests
-      });
+      res.render("user-views/show", { user, host, arrayOfGuests });
     })
     .catch(err => next(err));
 });
