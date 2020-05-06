@@ -54,37 +54,34 @@ router.get("/:id", (req, res, next) => {
 // GET /profile/:id/events --> Renders the 'my events' page
 router.get("/:id/events", (req, res, next) => {
   User.findById(req.params.id)
-  .populate([
-    "pendingEvents", 
-    "attendedEvents",
-    { 
-      path: 'hostedEvents', 
-      model: 'MealEvent', 
-      populate: [ 
-        { path: 'pendingGuests', model: 'User' },
-        { path: 'acceptedGuests', model: 'User'}
-      ]
-    }
-  ])
-  .then( user => {
-    res.render("user-views/myevents", {
-      mealEventHost: user.hostedEvents,
-      mealEventPendingGuests: user.hostedEvents.pendingGuests,
-      mealEventPending: user.pendingEvents,
-      mealEventGuest: user.attendedEvents
-    });
-  })
-  .catch( (err) => console.log(err));
+    .populate([
+      "pendingEvents",
+      "attendedEvents",
+      {
+        path: 'hostedEvents',
+        model: 'MealEvent',
+        populate: [
+          { path: 'pendingGuests', model: 'User' },
+          { path: 'acceptedGuests', model: 'User' }
+        ]
+      }
+    ])
+    .then(user => {
+      res.render("user-views/myevents", {
+        mealEventHost: user.hostedEvents,
+        mealEventPendingGuests: user.hostedEvents.pendingGuests,
+        mealEventPending: user.pendingEvents,
+        mealEventGuest: user.attendedEvents
+      });
+    })
+    .catch((err) => console.log(err));
 });
 
 // GET	/profile/:id/edit --> Renders the edit form to edit user profile
 router.get("/:id/edit", (req, res, next) => {
   User.findById(req.params.id)
-    .then(oneUser => {
-      res.render("user-views/edit", {
-        oneUser,
-        userInfo: currentUser
-      });
+    .then(user => {
+      res.render("user-views/edit", { user });
     })
     .catch(err => next(err));
 });
