@@ -53,56 +53,28 @@ router.get("/:id", (req, res, next) => {
 
 // GET /profile/:id/events --> Renders the 'my events' page
 router.get("/:id/events", (req, res, next) => {
-
   User.findById(req.params.id)
-    .populate("hostedEvents hostedEvents.pendingGuests pendingEvents attendedEvents")
-    .then(oneUser => {
-      // save guests names of the hosted events into an array
-      const myArr = [];
-
-      if (oneUser.hostedEvents.length) {
-        oneUser.hostedEvents.forEach(mealhost => {
-          if (mealhost.pendingGuests.length) {
-            mealhost.pendingGuests.forEach(guestId => {
-              User.findById(guestId)
-                .then(guestObj => {
-                  return myArr.push(guestObj);
-                })
-                .then(() => {
-                  console.log("MY ARRAYYYYoooo", myArr);
-                  return myArr;
-                })
-                .then(() => {
-                  res.render("user-views/myevents", {
-                    guestsInfo: myArr,
-                    mealEventHost: oneUser.hostedEvents,
-                    mealEventPending: oneUser.pendingEvents,
-                    mealEventGuest: oneUser.attendedEvents,
-                    userInfo: currentUser
-                  });
-                })
-                .catch(err => console.log(err));
-            });
-          } else {
-            res.render("user-views/myevents", {
-              mealEventHost: oneUser.hostedEvents,
-              mealEventPending: oneUser.pendingEvents,
-              mealEventGuest: oneUser.attendedEvents,
-              userInfo: currentUser
-            });
-          }
-
-        });
-      } else {
-        res.render("user-views/myevents", {
-          mealEventHost: oneUser.hostedEvents,
-          mealEventPending: oneUser.pendingEvents,
-          mealEventGuest: oneUser.attendedEvents,
-          userInfo: currentUser
-        });
-      }
-    })
-    .catch(err => next(err));
+  .populate([
+    "pendingEvents", 
+    "attendedEvents",
+    { 
+      path: 'hostedEvents', 
+      model: 'MealEvent', 
+      populate: [ 
+        { path: 'pendingGuests', model: 'User' },
+        { path: 'acceptedGuests', model: 'User'}
+      ]
+    }
+  ])
+  .then( user => {
+    res.render("user-views/myevents", {
+      mealEventHost: user.hostedEvents,
+      mealEventPendingGuests: user.hostedEvents.pendingGuests,
+      mealEventPending: user.pendingEvents,
+      mealEventGuest: user.attendedEvents
+    });
+  })
+  .catch( (err) => console.log(err));
 });
 
 // GET	/profile/:id/edit --> Renders the edit form to edit user profile
