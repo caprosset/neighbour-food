@@ -9,8 +9,12 @@
     <form action='/meal-events' method='GET'>
       <label for=''>Cuisine</label>
       <input type='text' name='cuisine'>
-    
+
       <button type='submit'>Filter</button>
+    </form>
+
+    <form action='/meal-events' method='GET'>
+      <button type='submit'>Show all</button>
     </form>
   </div>
 
@@ -23,7 +27,7 @@
       <a href="/meal-events/{{ this._id }}"><img class="card-img-top" src="{{ this.eventImg }}" alt="Event image"></a>
       <div class="card-body">
         <h3 class="card-title text-center"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-        <p class="card-title">Date: {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}}</p>
+        <p class="card-title">Date: {{dateFormat this.date "D/MM/YYYY, HH:mm"}}</p>
 
         {{#ifeqId this.host._id this.userId}}
         <p class="card-text">Host: It's your event!</p>
