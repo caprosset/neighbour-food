@@ -21,21 +21,44 @@ router.use((req, res, next) => {
 
 // GET /meal-events --> renders all the events
 router.get('/', (req, res, next) => {
-  MealEvent.find()
+  if(Object.keys(req.query).length !== 0) {
+    const filterQuery = {...req.query};
+    // if one of the key/value pairs is empty, remove it from the filterQuery obj
+    for (const [key, value] of Object.entries(filterQuery)) {
+      if(value === '') delete filterQuery[key]
+    }
+    MealEvent.find(filterQuery)
     .populate('host')
-    .then((allMealEventsFromDB) => {
-
+    .then((filterResultsFromDB) => {
       // for each meal event, push user id and zipcode into the meal object
-      allMealEventsFromDB.forEach(meal => {
+      filterResultsFromDB.forEach(meal => {
         meal["userZipcode"] = currentUser.address.zipcode;
         meal["userId"] = currentUser._id;
       })
 
       res.render('meal-views/show-all', {
-        allMealEventsFromDB
+        allMealEventsFromDB: filterResultsFromDB
       });
     })
-    .catch((err) => console.log('ERRROOOORRR', err));
+    .catch((err) => next(err));
+
+  } else {
+    MealEvent.find()
+      .populate('host')
+      .then((allMealEventsFromDB) => {
+  
+        // for each meal event, push user id and zipcode into the meal object
+        allMealEventsFromDB.forEach(meal => {
+          meal["userZipcode"] = currentUser.address.zipcode;
+          meal["userId"] = currentUser._id;
+        })
+  
+        res.render('meal-views/show-all', {
+          allMealEventsFromDB
+        });
+      })
+      .catch((err) => next(err));
+  }
 });
 
 

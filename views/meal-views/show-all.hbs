@@ -5,6 +5,16 @@
   </div>
 
   <div>
+    <h4>Filters</h4>
+    <form action='/meal-events' method='GET'>
+      <label for=''>Cuisine</label>
+      <input type='text' name='cuisine'>
+    
+      <button type='submit'>Filter</button>
+    </form>
+  </div>
+
+  <div>
     {{#if allMealEventsFromDB}}
     {{#each allMealEventsFromDB}}
     {{!-- if current user zipcode matches the event host zipcode --}}
