@@ -11,6 +11,7 @@ router.get("/", (req, res, next) => {
   res.redirect(`/profile/${req.session.currentUser._id}`);
 });
 
+
 // GET	/profile/:id --> Renders the profile page
 router.get("/:id", (req, res, next) => {
   User.findById(req.params.id)
@@ -58,6 +59,7 @@ router.get("/:id/events", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
+
 // GET	/profile/:id/edit --> Renders the edit form to edit user profile
 router.get("/:id/edit", (req, res, next) => {
   User.findById(req.params.id)
@@ -66,6 +68,7 @@ router.get("/:id/edit", (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
 
 // POST	/profile/:id/ --> updates the user info in DB. Redirects to the profile page
 router.post("/:id/edit", parser.single("profileImg"), (req, res, next) => {
@@ -119,8 +122,6 @@ router.post("/:id/review", (req, res, next) => {
 
 // DELETE	/profile/:id/delete
 router.get("/:id/delete", function (req, res, next) {
-  // console.log('ID TO DELETE', req.params);
-
   User.findOne({
     _id: req.params.id
   })
@@ -130,15 +131,5 @@ router.get("/:id/delete", function (req, res, next) {
     .catch(err => console.log(err));
 });
 
-// deleteButton.addEventListener('onclick', (e) => {
-// e.preventDefault();
-
-// axios.delete('/:id/delete')
-//     .then( () => {
-//         console.log('DELETED');
-
-//     })
-//     .catch( (err) => console.log(err));
-// });
 
 module.exports = router;

@@ -17,7 +17,7 @@
         <p class="card-text"> <span class="font-weight-bold">Date:</span>
           {{ dateFormat mealEvent.date "dddd, MMMM Do YYYY, h:mm"}}</p>
 
-        {{#ifeqId mealEvent.host._id userInfo._id }}
+        {{#ifeqId mealEvent.host._id currentUser._id }}
         {{!-- {{#if userIsHost }} --}}
         <p class="card-text"><span class="font-weight-bold">Host: </span>It's your event!</p>
         {{else}}
@@ -34,7 +34,7 @@
           <li class="list-group-item mb-2">You are going!</li>
           {{/if}}
           {{#each mealEvent.acceptedGuests}}
-          {{#ifneqId this._id ../userInfo._id}}
+          {{#ifneqId this._id ../currentUser._id}}
           <li class="list-group-item mb-2"><a href="/profile/{{this._id}}">{{this.name}}</a></li>
           {{/ifneqId}}
           {{/each}}
@@ -52,7 +52,7 @@
     </div>
 
     {{!-- if current user is the host of this event --}}
-    {{#ifeqId mealEvent.host._id userInfo._id }}
+    {{#ifeqId mealEvent.host._id currentUser._id }}
     {{!-- {{#if userIsHost }} --}}
     <div class="user-actions">
       <a class="btn btn-primary ml-4 mb-3" href="/meal-events/{{mealEvent._id}}/edit">Edit this event</a>
