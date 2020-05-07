@@ -5,15 +5,6 @@ const MealEvent = require("./../../models/MealEvent");
 const parser = require("../../config/cloudinary");
 
 
-// Set Current User
-let currentUser;
-router.use((req, res, next) => {
-  if (req.session.currentUser) { // If there is a session
-    currentUser = req.session.currentUser;
-    next();
-  }
-})
-
 
 // GET	/profile --> Redirects to the profile page
 router.get("/", (req, res, next) => {

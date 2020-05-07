@@ -1,43 +1,44 @@
 <div class="container-fluid">
   <div class="jumbotron">
-  <h3 class="text-center font-weight-bold">See all the events in your neighbourhood: {{userInfo.address.zipcode}}</h3>
-</div>
+    <h3 class="text-center font-weight-bold">See all the events in your neighbourhood: {{currentUser.address.zipcode}}
+    </h3>
+  </div>
 
   <div>
     {{#if allMealEventsFromDB}}
-      {{#each allMealEventsFromDB}}
-      {{!-- if current user zipcode matches the event host zipcode --}}
-      {{#ifeq this.host.address.zipcode this.userZipcode}}
-      {{!-- <p>ZIPCODDDEEE: {{../userInfo.address.zipcode}} </p> --}}
-      <div class="card event-preview">
-        <a href="/meal-events/{{ this._id }}"><img class="card-img-top" src="{{ this.eventImg }}" alt="Event image"></a>
-        <div class="card-body">
-          <h3 class="card-title text-center"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
-          <p class="card-title">Date: {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}}</p>
-          
-          {{#ifeqId this.host._id this.userId}}
-              <p class="card-text">Host: It's your event!</p>
-          {{else}}
-              <p class="card-text">Host: <a href="/profile/{{ this.host._id }}">{{ this.host.name }}</a></p>
-          {{/ifeqId}}
+    {{#each allMealEventsFromDB}}
+    {{!-- if current user zipcode matches the event host zipcode --}}
+    {{#ifeq this.host.address.zipcode this.userZipcode}}
+    <div class="card event-preview">
+      <a href="/meal-events/{{ this._id }}"><img class="card-img-top" src="{{ this.eventImg }}" alt="Event image"></a>
+      <div class="card-body">
+        <h3 class="card-title text-center"><a href="/meal-events/{{ this._id }}">{{ this.eventName }}</a></h3>
+        <p class="card-title">Date: {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}}</p>
 
-          <p class="card-text">Cuisine: {{ this.cuisine }}</p>
-          <p class="card-text">Neighbourhood: {{ this.host.address.zipcode }}</p>
-          <a class="btn btn-primary btn-block btn-sm pl-0 pr-0 ml-0 mr-0" href="/meal-events/{{ this._id }}">Check out this event</a>
-        </div>
+        {{#ifeqId this.host._id this.userId}}
+        <p class="card-text">Host: It's your event!</p>
+        {{else}}
+        <p class="card-text">Host: <a href="/profile/{{ this.host._id }}">{{ this.host.name }}</a></p>
+        {{/ifeqId}}
+
+        <p class="card-text">Cuisine: {{ this.cuisine }}</p>
+        <p class="card-text">Neighbourhood: {{ this.host.address.zipcode }}</p>
+        <a class="btn btn-primary btn-block btn-sm pl-0 pr-0 ml-0 mr-0" href="/meal-events/{{ this._id }}">Check out
+          this event</a>
       </div>
-      
-        <br>
-        {{/ifeq}}
-      {{/each}}
+    </div>
+
+    <br>
+    {{/ifeq}}
+    {{/each}}
 
     {{else}}
-<div class="jumbotron pb-2">
-    <p class="display-6 text-center">Ooops! No meal events has been found in your neighbourhood! </p>
-    <p class="lead text-center">Will you be the first one? </p>
-</div>
+
+    <div class="jumbotron pb-2">
+      <p class="display-6 text-center">Ooops! No meal events has been found in your neighbourhood! </p>
+      <p class="lead text-center">Will you be the first one? </p>
+    </div>
+
     {{/if}}
   </div>
-
 </div>
-
