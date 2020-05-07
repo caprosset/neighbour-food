@@ -77,9 +77,45 @@
 
   {{#ifeqId user._id currentUser._id}}
   <div class="user-actions">
-    <a class="btn btn-primary ml-5 mb-3" href="/profile/{{user._id}}/edit">Edit profile</a>
-    <a class="btn btn-primary ml-4 mb-3" href="/profile/{{user._id}}/delete">Delete profile</a>
+    <a href="/profile/{{user._id}}/edit">
+      <button type="button" class="btn btn-primary ml-5 mb-3">Edit profile</button>
+    </a>
+
+    {{!-- <a class="btn btn-primary ml-4 mb-3" href="/profile/{{user._id}}/delete">Delete profile</a> --}}
+
+    <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      Delete profile
+    </button>
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Attention!</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <p>Are you sure you want to delete your profile?</p>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-dismiss="modal">No, cancel</button>
+            <form action='/profile/{{user._id}}/delete' method='GET'>
+              <button class="btn btn-danger" type='submit'>Yes, delete</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </div>
   {{/ifeqId}}
-
 </div>

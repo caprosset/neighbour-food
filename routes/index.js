@@ -9,11 +9,6 @@ const signupRouter = require('./auth/signup');
 
 // Models
 const MealEvent = require('./../models/MealEvent');
-// const User = require('../../models/User');
-
-// HTML elements
-
-// const result = document.querySelector('#search-results');
 
 
 // * '/auth'
