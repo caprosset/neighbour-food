@@ -12,7 +12,7 @@
 
       {{#each mealEventHost}}
         <p class="card-text font-weight-bold">
-          {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}} <br>
+          {{dateFormat this.date "D/MM/YYYY, HH:mm"}} <br>
           <h4 class="card-label font-weight-bold" ><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h4>
         </p>
 
@@ -66,7 +66,7 @@
       {{#if mealEventGuest}}
         {{#each mealEventGuest}}
         <p class="card-text font-weight-bold">
-          {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}}
+          {{dateFormat this.date "D/MM/YYYY, HH:mm"}}
           <br>
           <h4 class="card-label font-weight-bold"><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h4>
           </p>
@@ -82,7 +82,7 @@
         <p class="lead font-weight-bold">Events pending:</p>
         <ul class="list-group">
           {{#each mealEventPending}}
-            <li class="list-group-item">{{dateFormat this.date "dddd, MMM Do YYYY, h:mm a"}} 
+            <li class="list-group-item">{{dateFormat this.date "D/MM/YYYY, HH:mm"}} 
               <a href="/meal-events/{{this._id}}">{{this.eventName}}</a>
             </li>
           {{/each}}
