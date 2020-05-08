@@ -33,6 +33,9 @@ router.get("/:id", (req, res, next) => {
 });
 
 
+
+
+
 // GET /profile/:id/events --> Renders the 'my events' page
 router.get("/:id/events", (req, res, next) => {
   User.findById(req.params.id)

@@ -27,7 +27,10 @@
       <a href="/meal-events"><img id="logo-img" src="/images/logo.png" alt="logo" class="img-responsive"></a>
     </p>
     <p class="navbar-text"><i class="material-icons">restaurant</i> {{currentUser.score}} </p>
-    <p class="navbar-text pl-5 pr-0">Hello <a href="/profile/{{currentUser._id}}">{{currentUser.name}}</a></p>
+    <div class="profile-info">
+      <img class="rounded-circle" src={{currentUser.profileImg}} alt="Profile picture" width="40" height="40">
+      <p class="navbar-text pl-5 pr-0">Hello <a href="/profile/{{currentUser._id}}">{{currentUser.name}}</a></p>
+    </div>
   </nav>
   {{/if}}
 
