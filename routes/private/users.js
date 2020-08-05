@@ -12,6 +12,7 @@ router.get("/", (req, res, next) => {
 });
 
 
+
 // GET	/profile/:id --> Renders the profile page
 router.get("/:id", (req, res, next) => {
   User.findById(req.params.id)
@@ -31,8 +32,6 @@ router.get("/:id", (req, res, next) => {
     })
     .catch(err => next(err));
 });
-
-
 
 
 
