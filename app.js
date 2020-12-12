@@ -1,14 +1,15 @@
+require('dotenv').config();
+
 const express = require('express');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const logger = require('morgan');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
-const registerHelpers = require('./loaders/hbs')
+const registerHelpers = require('./loaders/hbs');
+const connectDb = require("./config/db.config");
+const connectSession = require("./config/session.config");
 
 const app = express();
 
@@ -16,22 +17,13 @@ const app = express();
 const indexRouter = require('./routes/index');
 const siteRouter = require('./routes/site-routes');
 
-require('dotenv').config();
-
-// Mongoose configuration
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then( x => console.log('Connected to Mongo DB', x.connections[0].name))
-.catch( (err) => console.log(err));
-
+// Mongoose connection
+connectDb();
 
 // Middleware configuration
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,31 +33,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 // HBS helpers
 registerHelpers(hbs);
 
-
 // Authentication
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    saveUninitialized: true,
-    resave: true,
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      ttl: 24 * 60 * 60, // 1 day
-    }),
-  }),
-);
+connectSession(app);
 app.use(cookieParser());
 
-// app.use((req, res, next) => {
-//   req.locals.currentUser = req.session.currentUser;
-//   next();
-// });
+// locals
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.currentUser;
+  next();
+});
+
 
 // ROUTES
 app.use('/', indexRouter);
 app.use('/', siteRouter);
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
