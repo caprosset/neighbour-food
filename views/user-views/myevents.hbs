@@ -11,40 +11,50 @@
     <div class="hosted-event">
 
       {{#each mealEventHost}}
-      <p class="card-text font-weight-bold">
-        {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}} <br>
-        <h4 class="card-label font-weight-bold" ><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h4>
-      </p>
+        <p class="card-text font-weight-bold">
+          {{dateFormat this.date "D/MM/YYYY, HH:mm"}} <br>
+          <h4 class="card-label font-weight-bold" ><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h4>
+        </p>
 
-      {{#if this.pendingGuests}}
-      <div>
-        <h6 class="lead font-weight-bold">Pending guests:</h6>
-        {{#each this.pendingGuests}}
-        <div class="pending-guest">
-          <p class="card-text">
-            {{#each ../../guestsInfo}}
-            {{#ifeqId this._id ../this}}
-            <span class="font-weight-bold"> Name: </span><a href="/profile/{{../this}}"> {{this.name}}</a>
-            {{/ifeqId}}
-            {{/each}}
-          </p>
-          <form action="/meal-events/{{../this._id}}/accept/{{this}}" method="POST">
-            <button class="btn btn-success btn-block mb-1" type="submit">Accept</button>
-          </form>
-          <form action="/meal-events/{{../this._id}}/decline/{{this}}" method="POST">
-            <button class="btn btn-danger btn-block mb-2" type="submit">Decline</button>
-          </form>
-        </div>
-        {{/each}}
-      </div>
-      {{/if}}
-      {{/each}}
+        {{#if this.pendingGuests}}
+          <div>
+            <h6 class="lead font-weight-bold">Pending guests:</h6>
+            {{#each this.pendingGuests}}
+              <div class="pending-guest">
+                <p class="card-text">
+                  <span class="font-weight-bold"> Name: </span><a href="/profile/{{this._id}}"> {{this.name}}</a>
+                </p>
+                <form action="/meal-events/{{../this._id}}/accept/{{this._id}}" method="POST">
+                  <button class="btn btn-success btn-block mb-1" type="submit">Accept</button>
+                </form>
+                <form action="/meal-events/{{../this._id}}/decline/{{this._id}}" method="POST">
+                  <button class="btn btn-danger btn-block mb-2" type="submit">Decline</button>
+                </form>
+              </div>
+            {{/each}} {{!-- /each this.pendingGuests --}}
+          </div>
+        {{/if}} 
+        {{#if this.acceptedGuests}}
+          <div>
+            <h6 class="lead font-weight-bold">Accepted guests:</h6>
+            {{#each this.acceptedGuests}}
+              <div class="pending-guest">
+                <p class="card-text">
+                  <span class="font-weight-bold"> Name: </span><a href="/profile/{{this._id}}"> {{this.name}}</a>
+                </p>
+              </div>
+            {{/each}} {{!-- /each this.acceptedGuests --}}
+          </div>
+        {{/if}} 
 
-      {{else}}
-      <p class="card-text">You don't host any event yet</p>
-      <p><a class="btn btn-primary btn-sm" href="/meal-events/create">Create a new event</a></p>
+      {{/each}} 
+      
+    {{else}}
 
-      {{/if}}
+    <p class="card-text">You don't host any event yet</p>
+    <p><a class="btn btn-primary btn-sm" href="/meal-events/create">Create a new event</a></p>
+
+    {{/if}} 
     </div>
   </div>
 
@@ -54,28 +64,29 @@
     <h2 class="display-6 font-weight-bold">EVENTS I ATTEND</h2>
     <div>
       {{#if mealEventGuest}}
-      {{#each mealEventGuest}}
-      <p class="card-text font-weight-bold">
-        {{dateFormat this.date "dddd, MMMM Do YYYY, h:mm"}}
-        <br>
-        <h4 class="card-label font-weight-bold"><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h4>
-        </p>
-      {{/each}}
+        {{#each mealEventGuest}}
+        <p class="card-text font-weight-bold">
+          {{dateFormat this.date "D/MM/YYYY, HH:mm"}}
+          <br>
+          <h4 class="card-label font-weight-bold"><a href="/meal-events/{{this._id}}">{{this.eventName}}</a></h4>
+          </p>
+        {{/each}}
       {{else}}
-      <p class="card-text">You don't attend any event yet</p>
-      <p><a href="/meal-events">See the list of events</a></p>
+        <p class="card-text">You don't attend any event yet</p>
+        <p><a href="/meal-events">See the list of events</a></p>
       {{/if}}
     </div>
 
     <div>
       {{#if mealEventPending}}
-      <p class="lead font-weight-bold">Events pending:</p>
-      <ul class="list-group">
-        {{#each mealEventPending}}
-        <li class="list-group-item">{{dateFormat this.date "dddd, MMM Do YYYY, h:mm a"}} <a
-            href="/meal-events/{{this._id}}">{{this.eventName}}</a></li>
-        {{/each}}
-      </ul>
+        <p class="lead font-weight-bold">Events pending:</p>
+        <ul class="list-group">
+          {{#each mealEventPending}}
+            <li class="list-group-item">{{dateFormat this.date "D/MM/YYYY, HH:mm"}} 
+              <a href="/meal-events/{{this._id}}">{{this.eventName}}</a>
+            </li>
+          {{/each}}
+        </ul>
       {{/if}}
     </div>
   </div>

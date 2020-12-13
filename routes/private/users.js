@@ -5,118 +5,72 @@ const MealEvent = require("./../../models/MealEvent");
 const parser = require("../../config/cloudinary");
 
 
-// Set Current User
-let currentUser;
-router.use((req, res, next) => {
-  if (req.session.currentUser) { // If there is a session
-    currentUser = req.session.currentUser;
-    next();
-  }
-})
-
 
 // GET	/profile --> Redirects to the profile page
 router.get("/", (req, res, next) => {
-  res.redirect(`/profile/${currentUser._id}`);
+  res.redirect(`/profile/${req.session.currentUser._id}`);
 });
+
+
 
 // GET	/profile/:id --> Renders the profile page
 router.get("/:id", (req, res, next) => {
   User.findById(req.params.id)
     .populate('hostedEvents pendingEvents attendedEvents')
-    .then(oneUser => {
-      // console.log(oneUser);
-      // console.log(currentUser);
-
-
+    .then(user => {
       let arrayOfGuests;
-      oneUser.hostedEvents.forEach(event => {
+      user.hostedEvents.forEach(event => {
         arrayOfGuests = event.acceptedGuests;
       })
-      // console.log('GUESTS ARRAY', arrayOfGuests);
 
       let host;
-      oneUser.attendedEvents.forEach(event => {
+      user.attendedEvents.forEach(event => {
         host = event.host;
       })
-      // console.log('HOST ID', host);
 
-      res.render("user-views/show", {
-        oneUser,
-        host,
-        arrayOfGuests,
-        userInfo: currentUser
-      });
+      res.render("user-views/show", { user, host, arrayOfGuests });
     })
     .catch(err => next(err));
 });
+
 
 
 // GET /profile/:id/events --> Renders the 'my events' page
 router.get("/:id/events", (req, res, next) => {
-
   User.findById(req.params.id)
-    .populate("hostedEvents hostedEvents.pendingGuests pendingEvents attendedEvents")
-    .then(oneUser => {
-      // save guests names of the hosted events into an array
-      const myArr = [];
-
-      if (oneUser.hostedEvents.length) {
-        oneUser.hostedEvents.forEach(mealhost => {
-          if (mealhost.pendingGuests.length) {
-            mealhost.pendingGuests.forEach(guestId => {
-              User.findById(guestId)
-                .then(guestObj => {
-                  return myArr.push(guestObj);
-                })
-                .then(() => {
-                  console.log("MY ARRAYYYYoooo", myArr);
-                  return myArr;
-                })
-                .then(() => {
-                  res.render("user-views/myevents", {
-                    guestsInfo: myArr,
-                    mealEventHost: oneUser.hostedEvents,
-                    mealEventPending: oneUser.pendingEvents,
-                    mealEventGuest: oneUser.attendedEvents,
-                    userInfo: currentUser
-                  });
-                })
-                .catch(err => console.log(err));
-            });
-          } else {
-            res.render("user-views/myevents", {
-              mealEventHost: oneUser.hostedEvents,
-              mealEventPending: oneUser.pendingEvents,
-              mealEventGuest: oneUser.attendedEvents,
-              userInfo: currentUser
-            });
-          }
-
-        });
-      } else {
-        res.render("user-views/myevents", {
-          mealEventHost: oneUser.hostedEvents,
-          mealEventPending: oneUser.pendingEvents,
-          mealEventGuest: oneUser.attendedEvents,
-          userInfo: currentUser
-        });
+    .populate([
+      "pendingEvents",
+      "attendedEvents",
+      {
+        path: 'hostedEvents',
+        model: 'MealEvent',
+        populate: [
+          { path: 'pendingGuests', model: 'User' },
+          { path: 'acceptedGuests', model: 'User' }
+        ]
       }
+    ])
+    .then(user => {
+      res.render("user-views/myevents", {
+        mealEventHost: user.hostedEvents,
+        mealEventPendingGuests: user.hostedEvents.pendingGuests,
+        mealEventPending: user.pendingEvents,
+        mealEventGuest: user.attendedEvents
+      });
     })
-    .catch(err => next(err));
+    .catch((err) => console.log(err));
 });
+
 
 // GET	/profile/:id/edit --> Renders the edit form to edit user profile
 router.get("/:id/edit", (req, res, next) => {
   User.findById(req.params.id)
-    .then(oneUser => {
-      res.render("user-views/edit", {
-        oneUser,
-        userInfo: currentUser
-      });
+    .then(user => {
+      res.render("user-views/edit", { user });
     })
     .catch(err => next(err));
 });
+
 
 // POST	/profile/:id/ --> updates the user info in DB. Redirects to the profile page
 router.post("/:id/edit", parser.single("profileImg"), (req, res, next) => {
@@ -170,8 +124,6 @@ router.post("/:id/review", (req, res, next) => {
 
 // DELETE	/profile/:id/delete
 router.get("/:id/delete", function (req, res, next) {
-  // console.log('ID TO DELETE', req.params);
-
   User.findOne({
     _id: req.params.id
   })
@@ -181,15 +133,5 @@ router.get("/:id/delete", function (req, res, next) {
     .catch(err => console.log(err));
 });
 
-// deleteButton.addEventListener('onclick', (e) => {
-// e.preventDefault();
-
-// axios.delete('/:id/delete')
-//     .then( () => {
-//         console.log('DELETED');
-
-//     })
-//     .catch( (err) => console.log(err));
-// });
 
 module.exports = router;

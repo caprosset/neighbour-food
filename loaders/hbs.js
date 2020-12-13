@@ -5,6 +5,7 @@ function registerHelpers(hbsModule) {
   }
     return options.inverse(this);
   });
+
   hbsModule.registerHelper('ifneq', function(a, b, options){
     if (a !== b) {
       return options.fn(this);
