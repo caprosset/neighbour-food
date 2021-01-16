@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/barbara-carnieri/NeighbourFood#readme",
   "dependencies": {
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.17.0",
     "connect-mongo": "^3.1.2",
@@ -33,7 +33,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "handlebars-dateformat": "^1.1.1",
-    "hbs": "^4.0.6",
+    "hbs": "^4.1.1",
     "http-errors": "^1.7.3",
     "mongoose": "^5.7.12",
     "morgan": "^1.9.1",
